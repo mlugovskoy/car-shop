@@ -1,12 +1,13 @@
 <script setup>
-import { ref } from 'vue';
-import ApplicationLogo from '@/Components/ApplicationLogo.vue';
+import {ref} from 'vue';
+import HeaderLogo from '@/Components/Header/HeaderLogo.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
-import NavLink from '@/Components/NavLink.vue';
-import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-import { Link } from '@inertiajs/vue3';
-import HeaderIcon from "@/Components/HeaderIcon.vue";
+import HeaderResponsiveNavLink from '@/Components/Header/HeaderResponsiveNavLink.vue';
+import {Link} from '@inertiajs/vue3';
+import HeaderIcon from "@/Components/Header/HeaderIcon.vue";
+import HeaderSearch from "@/Components/Header/HeaderSearch.vue";
+import NavLink from "@/Components/NavLink.vue";
 
 const showingNavigationDropdown = ref(false);
 </script>
@@ -14,21 +15,25 @@ const showingNavigationDropdown = ref(false);
 <template>
     <div>
         <div class="min-h-screen bg-gray-100">
-            <nav
+            <header
                 class="border-b border-gray-100 bg-white"
             >
                 <!-- Primary Navigation Menu -->
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div class="flex h-16 justify-between">
+                    <div class="flex h-16 gap-4 justify-between">
                         <div class="flex">
                             <!-- Logo -->
                             <div class="flex shrink-0 items-center">
                                 <Link :href="route('home')">
-                                    <ApplicationLogo
+                                    <HeaderLogo
                                         class="block h-9 w-auto fill-emerald-400 text-gray-800"
                                     />
                                 </Link>
                             </div>
+                        </div>
+
+                        <div class="hidden sm:flex sm:items-center w-1/2">
+                            <HeaderSearch/>
                         </div>
 
                         <div class="hidden sm:ms-6 sm:flex sm:items-center">
@@ -84,14 +89,14 @@ const showingNavigationDropdown = ref(false);
                                         <DropdownLink
                                             :href="route('profile.edit')"
                                         >
-                                            Profile
+                                            Профиль
                                         </DropdownLink>
                                         <DropdownLink
                                             :href="route('logout')"
                                             method="post"
                                             as="button"
                                         >
-                                            Log Out
+                                            Выйти
                                         </DropdownLink>
                                     </template>
                                 </Dropdown>
@@ -150,12 +155,12 @@ const showingNavigationDropdown = ref(false);
                     class="sm:hidden"
                 >
                     <div class="space-y-1 pb-3 pt-2">
-                        <ResponsiveNavLink
+                        <HeaderResponsiveNavLink
                             :href="route('home')"
                             :active="route().current('home')"
                         >
-                            Dashboard
-                        </ResponsiveNavLink>
+                            Главная
+                        </HeaderResponsiveNavLink>
                     </div>
 
                     <!-- Responsive Settings Options -->
@@ -175,33 +180,37 @@ const showingNavigationDropdown = ref(false);
 
                         <div class="mt-3 space-y-1">
                             <ResponsiveNavLink :href="route('profile.edit')">
-                                Profile
+                                Профиль
                             </ResponsiveNavLink>
                             <ResponsiveNavLink
                                 :href="route('logout')"
                                 method="post"
                                 as="button"
                             >
-                                Log Out
+                                Выйти
                             </ResponsiveNavLink>
                         </div>
                     </div>
                 </div>
-            </nav>
-
-            <!-- Page Heading -->
-            <header
-                class="bg-white shadow"
-                v-if="$slots.header"
-            >
-                <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                    <slot name="header" />
-                </div>
             </header>
+
+            <nav
+                class="bg-white shadow"
+            >
+                <div class="mx-auto flex gap-2 max-w-7xl px-4 py-2 sm:px-6 lg:px-8">
+                    <NavLink :active="route().current('home')">
+                        Каталог
+                    </NavLink>
+                    <NavLink
+                    >
+                        Каталог
+                    </NavLink>
+                </div>
+            </nav>
 
             <!-- Page Content -->
             <main>
-                <slot />
+                <slot/>
             </main>
         </div>
     </div>
