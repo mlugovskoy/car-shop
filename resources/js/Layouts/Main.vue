@@ -197,13 +197,21 @@ const showingNavigationDropdown = ref(false);
             <nav
                 class="bg-white shadow"
             >
-                <div class="mx-auto flex gap-2 max-w-7xl px-4 py-2 sm:px-6 lg:px-8">
+                <div class="mx-auto flex gap-6 max-w-7xl px-4 py-2 sm:px-6 lg:px-8">
                     <NavLink :active="route().current('home')">
                         Каталог
                     </NavLink>
-                    <NavLink
-                    >
-                        Каталог
+                    <NavLink>
+                        Легковые автомобили
+                    </NavLink>
+                    <NavLink>
+                        Седаны
+                    </NavLink>
+                    <NavLink>
+                        Джипы
+                    </NavLink>
+                    <NavLink>
+                        Мотоциклы
                     </NavLink>
                 </div>
             </nav>
