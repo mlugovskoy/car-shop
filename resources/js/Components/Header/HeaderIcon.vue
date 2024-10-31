@@ -10,7 +10,7 @@ defineProps({
 </script>
 
 <template>
-    <Link class="fill-emerald-400 mx-2 p-2 rounded transition-all hover:bg-zinc-100"
+    <Link class="fill-emerald-400 mx-2 p-2 rounded transition-all hover:bg-emerald-50"
           :href="href">
         <slot/>
     </Link>
