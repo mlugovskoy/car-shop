@@ -1,7 +1,8 @@
 <script setup>
 import Main from '@/Layouts/Main.vue';
 import {Head} from '@inertiajs/vue3';
-import Slider from "@/Components/Slider/Slider.vue";
+import MainSlider from "@/Components/MainSlider/MainSlider.vue";
+import MainFilter from "@/Components/MainFilter/MainFilter.vue";
 </script>
 
 <template>
@@ -10,14 +11,20 @@ import Slider from "@/Components/Slider/Slider.vue";
     <Main>
         <div class="py-12">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                <h1 class="text-emerald-400 text-4xl">Продажа авто в России</h1>
+                <h2 class="text-emerald-400 text-4xl mb-8">Продажа авто в России</h2>
             </div>
             <div
-                class="overflow-hidden bg-white shadow-sm sm:rounded-lg my-6"
+                class="overflow-hidden bg-white shadow-sm sm:rounded-lg"
             >
-                <Slider/>
+                <MainSlider/>
             </div>
-            <div>
+            <div class="mx-auto max-w-7xl overflow-hidden bg-white shadow-sm mt-10 mb-14 sm:p-6 lg:p-8 sm:rounded-lg">
+                <h2 class="text-emerald-400 text-4xl mb-8">Поиск объявлений</h2>
+                <MainFilter class="mb-20"/>
+
+                <h2 class="text-emerald-400 text-4xl mb-8">Отзывы автовладельцев</h2>
+
+                <MainReviews/>
             </div>
         </div>
     </Main>
