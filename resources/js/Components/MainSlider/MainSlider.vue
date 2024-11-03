@@ -18,7 +18,7 @@ const modules = ref([Navigation]);
         :modules="modules"
     >
         <swiper-slide>
-            <a href="#" class="transition-all hover:opacity-95">
+            <a href="#" class="transition-all hover:opacity-85">
                 <div class="h-3/4 relative">
                     <img class="h-full w-full object-cover" src="/images/car.jpg" alt="car">
                     <span
@@ -31,7 +31,7 @@ const modules = ref([Navigation]);
             </a>
         </swiper-slide>
         <swiper-slide>
-            <a href="#" class="transition-all hover:opacity-95">
+            <a href="#" class="transition-all hover:opacity-85">
                 <div class="h-3/4 relative">
                     <img class="h-full w-full object-cover" src="/images/car.jpg" alt="car">
                     <span
@@ -44,7 +44,7 @@ const modules = ref([Navigation]);
             </a>
         </swiper-slide>
         <swiper-slide>
-            <a href="#" class="transition-all hover:opacity-95">
+            <a href="#" class="transition-all hover:opacity-85">
                 <div class="h-3/4 relative">
                     <img class="h-full w-full object-cover" src="/images/car.jpg" alt="car">
                     <span
@@ -57,7 +57,7 @@ const modules = ref([Navigation]);
             </a>
         </swiper-slide>
         <swiper-slide>
-            <a href="#" class="transition-all hover:opacity-95">
+            <a href="#" class="transition-all hover:opacity-85">
                 <div class="h-3/4 relative">
                     <img class="h-full w-full object-cover" src="/images/car.jpg" alt="car">
                     <span
@@ -70,7 +70,7 @@ const modules = ref([Navigation]);
             </a>
         </swiper-slide>
         <swiper-slide>
-            <a href="#" class="transition-all hover:opacity-95">
+            <a href="#" class="transition-all hover:opacity-85">
                 <div class="h-3/4 relative">
                     <img class="h-full w-full object-cover" src="/images/car.jpg" alt="car">
                     <span
@@ -83,7 +83,7 @@ const modules = ref([Navigation]);
             </a>
         </swiper-slide>
         <swiper-slide>
-            <a href="#" class="transition-all hover:opacity-95">
+            <a href="#" class="transition-all hover:opacity-85">
                 <div class="h-3/4 relative">
                     <img class="h-full w-full object-cover" src="/images/car.jpg" alt="car">
                     <span
@@ -96,7 +96,7 @@ const modules = ref([Navigation]);
             </a>
         </swiper-slide>
         <swiper-slide>
-            <a href="#" class="transition-all hover:opacity-95">
+            <a href="#" class="transition-all hover:opacity-85">
                 <div class="h-3/4 relative">
                     <img class="h-full w-full object-cover" src="/images/car.jpg" alt="car">
                     <span
@@ -109,7 +109,7 @@ const modules = ref([Navigation]);
             </a>
         </swiper-slide>
         <swiper-slide>
-            <a href="#" class="transition-all hover:opacity-95">
+            <a href="#" class="transition-all hover:opacity-85">
                 <div class="h-3/4 relative">
                     <img class="h-full w-full object-cover" src="/images/car.jpg" alt="car">
                     <span
