@@ -4,6 +4,7 @@ import {Head} from '@inertiajs/vue3';
 import MainSlider from "@/Components/MainSlider/MainSlider.vue";
 import MainFilter from "@/Components/MainFilter/MainFilter.vue";
 import MainReviews from "@/Components/MainReviews/MainReviews.vue";
+import MainNews from "@/Components/MainNews/MainNews.vue";
 import MainTitle from "@/Components/UI/MainTitle.vue";
 </script>
 
@@ -25,7 +26,10 @@ import MainTitle from "@/Components/UI/MainTitle.vue";
                 <MainFilter class="mb-20"/>
 
                 <MainTitle href="#">Отзывы автовладельцев</MainTitle>
-                <MainReviews/>
+                <MainReviews class="mb-20"/>
+
+                <MainTitle href="#">Новости</MainTitle>
+                <MainNews/>
             </div>
         </div>
     </Main>
