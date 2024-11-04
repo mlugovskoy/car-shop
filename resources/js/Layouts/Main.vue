@@ -162,11 +162,20 @@ const showingNavigationDropdown = ref(false);
                     class="sm:hidden"
                 >
                     <div class="space-y-1 pb-3 pt-2">
-                        <HeaderResponsiveNavLink
-                            :href="route('home')"
-                            :active="route().current('home')"
-                        >
-                            Главная
+                        <HeaderResponsiveNavLink :active="route().current('home')">
+                            Каталог
+                        </HeaderResponsiveNavLink>
+                        <HeaderResponsiveNavLink>
+                            Легковые автомобили
+                        </HeaderResponsiveNavLink>
+                        <HeaderResponsiveNavLink>
+                            Седаны
+                        </HeaderResponsiveNavLink>
+                        <HeaderResponsiveNavLink>
+                            Джипы
+                        </HeaderResponsiveNavLink>
+                        <HeaderResponsiveNavLink>
+                            Мотоциклы
                         </HeaderResponsiveNavLink>
                     </div>
 
@@ -202,9 +211,9 @@ const showingNavigationDropdown = ref(false);
             </header>
 
             <nav
-                class="bg-white shadow"
+                class="bg-white shadow overflow-x-auto"
             >
-                <div class="mx-auto flex gap-6 max-w-7xl px-4 py-2 sm:px-6 lg:px-8">
+                <div class="mx-auto gap-6 max-w-7xl px-4 py-2 hidden sm:flex sm:px-6 lg:px-8">
                     <NavLink :active="route().current('home')">
                         Каталог
                     </NavLink>

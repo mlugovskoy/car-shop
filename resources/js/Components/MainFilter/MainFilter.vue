@@ -3,7 +3,7 @@
 </script>
 
 <template>
-    <div class="grid grid-cols-4 gap-4">
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
         <a href="#" class="flex items-center gap-2 group">
             <img class="w-10 h-10 object-contain" src="/images/icons/BMW.png" alt="BMW">
             <span class="text-xl transition-all group-hover:text-emerald-400">BMW</span>

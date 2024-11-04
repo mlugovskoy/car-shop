@@ -11,124 +11,113 @@ const modules = ref([Navigation]);
 
 <template>
     <swiper
-        :slides-per-view="6"
+        :breakpoints="{1400:{slidesPerView: 6},1000:{slidesPerView:4},600:{slidesPerView:2},0:{slidesPerView: 1}}"
         :space-between="5"
         :navigation="true"
         :loop="true"
         :modules="modules"
+        class="h-[300px]"
     >
-        <swiper-slide>
-            <a href="#" class="transition-all hover:opacity-85">
-                <div class="h-3/4 relative">
-                    <img class="h-full w-full object-cover" src="/images/car.jpg" alt="car">
-                    <span
-                        class="absolute bottom-4 left-4 bg-emerald-400 px-2 rounded-xl text-white text-sm">4 500 000 Р</span>
-                </div>
-                <div class="h-1/4 px-2 flex flex-col justify-center">
-                    <h4 class="text-xl mb-0.5">BMW X8</h4>
-                    <span class="text-md">Благовещенск</span>
-                </div>
-            </a>
+        <swiper-slide tag="a" class="group" href="#">
+            <div class="h-3/4 relative">
+                <img class="h-full w-full object-cover transition-all group-hover:opacity-85" src="/images/car.jpg"
+                     alt="car">
+                <span
+                    class="absolute bottom-4 left-4 bg-emerald-400 px-2 rounded-xl text-white text-sm">4 500 000 Р</span>
+            </div>
+            <div class="h-1/4 px-2 flex flex-col justify-center">
+                <h4 class="text-xl mb-0.5">BMW X8</h4>
+                <span class="text-md">Благовещенск</span>
+            </div>
         </swiper-slide>
-        <swiper-slide>
-            <a href="#" class="transition-all hover:opacity-85">
-                <div class="h-3/4 relative">
-                    <img class="h-full w-full object-cover" src="/images/car.jpg" alt="car">
-                    <span
-                        class="absolute bottom-4 left-4 bg-emerald-400 px-2 rounded-xl text-white text-sm">4 500 000 Р</span>
-                </div>
-                <div class="h-1/4 px-2 flex flex-col justify-center">
-                    <h4 class="text-xl mb-0.5">BMW X8</h4>
-                    <span class="text-md">Благовещенск</span>
-                </div>
-            </a>
+        <swiper-slide tag="a" class="group" href="#">
+            <div class="h-3/4 relative">
+                <img class="h-full w-full object-cover transition-all group-hover:opacity-85" src="/images/car.jpg"
+                     alt="car">
+                <span
+                    class="absolute bottom-4 left-4 bg-emerald-400 px-2 rounded-xl text-white text-sm">4 500 000 Р</span>
+            </div>
+            <div class="h-1/4 px-2 flex flex-col justify-center">
+                <h4 class="text-xl mb-0.5">BMW X8</h4>
+                <span class="text-md">Благовещенск</span>
+            </div>
         </swiper-slide>
-        <swiper-slide>
-            <a href="#" class="transition-all hover:opacity-85">
-                <div class="h-3/4 relative">
-                    <img class="h-full w-full object-cover" src="/images/car.jpg" alt="car">
-                    <span
-                        class="absolute bottom-4 left-4 bg-emerald-400 px-2 rounded-xl text-white text-sm">4 500 000 Р</span>
-                </div>
-                <div class="h-1/4 px-2 flex flex-col justify-center">
-                    <h4 class="text-xl mb-0.5">BMW X8</h4>
-                    <span class="text-md">Благовещенск</span>
-                </div>
-            </a>
+        <swiper-slide tag="a" class="group" href="#">
+            <div class="h-3/4 relative">
+                <img class="h-full w-full object-cover transition-all group-hover:opacity-85" src="/images/car.jpg"
+                     alt="car">
+                <span
+                    class="absolute bottom-4 left-4 bg-emerald-400 px-2 rounded-xl text-white text-sm">4 500 000 Р</span>
+            </div>
+            <div class="h-1/4 px-2 flex flex-col justify-center">
+                <h4 class="text-xl mb-0.5">BMW X8</h4>
+                <span class="text-md">Благовещенск</span>
+            </div>
         </swiper-slide>
-        <swiper-slide>
-            <a href="#" class="transition-all hover:opacity-85">
-                <div class="h-3/4 relative">
-                    <img class="h-full w-full object-cover" src="/images/car.jpg" alt="car">
-                    <span
-                        class="absolute bottom-4 left-4 bg-emerald-400 px-2 rounded-xl text-white text-sm">4 500 000 Р</span>
-                </div>
-                <div class="h-1/4 px-2 flex flex-col justify-center">
-                    <h4 class="text-xl mb-0.5">BMW X8</h4>
-                    <span class="text-md">Благовещенск</span>
-                </div>
-            </a>
+        <swiper-slide tag="a" class="group" href="#">
+            <div class="h-3/4 relative">
+                <img class="h-full w-full object-cover transition-all group-hover:opacity-85" src="/images/car.jpg"
+                     alt="car">
+                <span
+                    class="absolute bottom-4 left-4 bg-emerald-400 px-2 rounded-xl text-white text-sm">4 500 000 Р</span>
+            </div>
+            <div class="h-1/4 px-2 flex flex-col justify-center">
+                <h4 class="text-xl mb-0.5">BMW X8</h4>
+                <span class="text-md">Благовещенск</span>
+            </div>
         </swiper-slide>
-        <swiper-slide>
-            <a href="#" class="transition-all hover:opacity-85">
-                <div class="h-3/4 relative">
-                    <img class="h-full w-full object-cover" src="/images/car.jpg" alt="car">
-                    <span
-                        class="absolute bottom-4 left-4 bg-emerald-400 px-2 rounded-xl text-white text-sm">4 500 000 Р</span>
-                </div>
-                <div class="h-1/4 px-2 flex flex-col justify-center">
-                    <h4 class="text-xl mb-0.5">BMW X8</h4>
-                    <span class="text-md">Благовещенск</span>
-                </div>
-            </a>
+        <swiper-slide tag="a" class="group" href="#">
+            <div class="h-3/4 relative">
+                <img class="h-full w-full object-cover transition-all group-hover:opacity-85" src="/images/car.jpg"
+                     alt="car">
+                <span
+                    class="absolute bottom-4 left-4 bg-emerald-400 px-2 rounded-xl text-white text-sm">4 500 000 Р</span>
+            </div>
+            <div class="h-1/4 px-2 flex flex-col justify-center">
+                <h4 class="text-xl mb-0.5">BMW X8</h4>
+                <span class="text-md">Благовещенск</span>
+            </div>
         </swiper-slide>
-        <swiper-slide>
-            <a href="#" class="transition-all hover:opacity-85">
-                <div class="h-3/4 relative">
-                    <img class="h-full w-full object-cover" src="/images/car.jpg" alt="car">
-                    <span
-                        class="absolute bottom-4 left-4 bg-emerald-400 px-2 rounded-xl text-white text-sm">4 500 000 Р</span>
-                </div>
-                <div class="h-1/4 px-2 flex flex-col justify-center">
-                    <h4 class="text-xl mb-0.5">BMW X8</h4>
-                    <span class="text-md">Благовещенск</span>
-                </div>
-            </a>
+        <swiper-slide tag="a" class="group" href="#">
+            <div class="h-3/4 relative">
+                <img class="h-full w-full object-cover transition-all group-hover:opacity-85" src="/images/car.jpg"
+                     alt="car">
+                <span
+                    class="absolute bottom-4 left-4 bg-emerald-400 px-2 rounded-xl text-white text-sm">4 500 000 Р</span>
+            </div>
+            <div class="h-1/4 px-2 flex flex-col justify-center">
+                <h4 class="text-xl mb-0.5">BMW X8</h4>
+                <span class="text-md">Благовещенск</span>
+            </div>
         </swiper-slide>
-        <swiper-slide>
-            <a href="#" class="transition-all hover:opacity-85">
-                <div class="h-3/4 relative">
-                    <img class="h-full w-full object-cover" src="/images/car.jpg" alt="car">
-                    <span
-                        class="absolute bottom-4 left-4 bg-emerald-400 px-2 rounded-xl text-white text-sm">4 500 000 Р</span>
-                </div>
-                <div class="h-1/4 px-2 flex flex-col justify-center">
-                    <h4 class="text-xl mb-0.5">BMW X8</h4>
-                    <span class="text-md">Благовещенск</span>
-                </div>
-            </a>
+        <swiper-slide tag="a" class="group" href="#">
+            <div class="h-3/4 relative">
+                <img class="h-full w-full object-cover transition-all group-hover:opacity-85" src="/images/car.jpg"
+                     alt="car">
+                <span
+                    class="absolute bottom-4 left-4 bg-emerald-400 px-2 rounded-xl text-white text-sm">4 500 000 Р</span>
+            </div>
+            <div class="h-1/4 px-2 flex flex-col justify-center">
+                <h4 class="text-xl mb-0.5">BMW X8</h4>
+                <span class="text-md">Благовещенск</span>
+            </div>
         </swiper-slide>
-        <swiper-slide>
-            <a href="#" class="transition-all hover:opacity-85">
-                <div class="h-3/4 relative">
-                    <img class="h-full w-full object-cover" src="/images/car.jpg" alt="car">
-                    <span
-                        class="absolute bottom-4 left-4 bg-emerald-400 px-2 rounded-xl text-white text-sm">4 500 000 Р</span>
-                </div>
-                <div class="h-1/4 px-2 flex flex-col justify-center">
-                    <h4 class="text-xl mb-0.5">BMW X8</h4>
-                    <span class="text-md">Благовещенск</span>
-                </div>
-            </a>
+        <swiper-slide tag="a" class="group" href="#">
+            <div class="h-3/4 relative">
+                <img class="h-full w-full object-cover transition-all group-hover:opacity-85" src="/images/car.jpg"
+                     alt="car">
+                <span
+                    class="absolute bottom-4 left-4 bg-emerald-400 px-2 rounded-xl text-white text-sm">4 500 000 Р</span>
+            </div>
+            <div class="h-1/4 px-2 flex flex-col justify-center">
+                <h4 class="text-xl mb-0.5">BMW X8</h4>
+                <span class="text-md">Благовещенск</span>
+            </div>
         </swiper-slide>
     </swiper>
 </template>
 
 <style>
-.swiper-wrapper {
-    height: 300px;
-}
-
 .swiper-button-prev,
 .swiper-button-next {
     color: rgba(52 211 153);
