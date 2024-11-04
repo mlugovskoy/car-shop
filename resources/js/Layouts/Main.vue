@@ -1,6 +1,6 @@
 <script setup>
 import {ref} from 'vue';
-import HeaderLogo from '@/Components/Header/HeaderLogo.vue';
+import Logo from '@/Components/Header/Logo.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import HeaderResponsiveNavLink from '@/Components/Header/HeaderResponsiveNavLink.vue';
@@ -25,7 +25,7 @@ const showingNavigationDropdown = ref(false);
                             <!-- Logo -->
                             <div class="flex shrink-0 items-center">
                                 <Link :href="route('home')">
-                                    <HeaderLogo
+                                    <Logo
                                         class="block h-9 w-auto fill-emerald-400 text-gray-800"
                                     />
                                 </Link>
@@ -162,20 +162,23 @@ const showingNavigationDropdown = ref(false);
                     class="sm:hidden"
                 >
                     <div class="space-y-1 pb-3 pt-2">
+                        <HeaderResponsiveNavLink>
+                            Автомобили
+                        </HeaderResponsiveNavLink>
                         <HeaderResponsiveNavLink :active="route().current('home')">
-                            Каталог
-                        </HeaderResponsiveNavLink>
-                        <HeaderResponsiveNavLink>
-                            Легковые автомобили
-                        </HeaderResponsiveNavLink>
-                        <HeaderResponsiveNavLink>
-                            Седаны
-                        </HeaderResponsiveNavLink>
-                        <HeaderResponsiveNavLink>
-                            Джипы
+                            Грузовые автомобили и спецтехника
                         </HeaderResponsiveNavLink>
                         <HeaderResponsiveNavLink>
                             Мотоциклы
+                        </HeaderResponsiveNavLink>
+                        <HeaderResponsiveNavLink>
+                            Запчасти
+                        </HeaderResponsiveNavLink>
+                        <HeaderResponsiveNavLink>
+                            Отзывы
+                        </HeaderResponsiveNavLink>
+                        <HeaderResponsiveNavLink>
+                            Новости
                         </HeaderResponsiveNavLink>
                     </div>
 
@@ -214,20 +217,23 @@ const showingNavigationDropdown = ref(false);
                 class="bg-white shadow overflow-x-auto"
             >
                 <div class="mx-auto gap-6 max-w-7xl px-4 py-2 hidden sm:flex sm:px-6 lg:px-8">
+                    <NavLink>
+                        Автомобили
+                    </NavLink>
                     <NavLink :active="route().current('home')">
-                        Каталог
-                    </NavLink>
-                    <NavLink>
-                        Легковые автомобили
-                    </NavLink>
-                    <NavLink>
-                        Седаны
-                    </NavLink>
-                    <NavLink>
-                        Джипы
+                        Грузовые автомобили и спецтехника
                     </NavLink>
                     <NavLink>
                         Мотоциклы
+                    </NavLink>
+                    <NavLink>
+                        Запчасти
+                    </NavLink>
+                    <NavLink>
+                        Отзывы
+                    </NavLink>
+                    <NavLink>
+                        Новости
                     </NavLink>
                 </div>
             </nav>
@@ -236,6 +242,45 @@ const showingNavigationDropdown = ref(false);
             <main>
                 <slot/>
             </main>
+
+            <footer class="bg-white">
+                <div
+                    class="mx-auto max-w-7xl px-4 py-6 flex flex-wrap flex-col gap-4 lg:gap-0 sm:flex-row justify-between items-center">
+                    <div class="flex">
+                        <div class="flex shrink-0 items-center">
+                            <Link :href="route('home')">
+                                <Logo
+                                    class="block h-9 w-auto fill-emerald-400 text-gray-800"
+                                />
+                            </Link>
+                        </div>
+                    </div>
+                    <nav>
+                        <div
+                            class="flex flex-wrap flex-col mx-auto gap-6 max-w-7xl px-4 py-2 sm:flex-row sm:px-6 lg:px-8">
+                            <NavLink>
+                                Автомобили
+                            </NavLink>
+                            <NavLink :active="route().current('home')">
+                                Грузовые автомобили и спецтехника
+                            </NavLink>
+                            <NavLink>
+                                Мотоциклы
+                            </NavLink>
+                            <NavLink>
+                                Запчасти
+                            </NavLink>
+                            <NavLink>
+                                Отзывы
+                            </NavLink>
+                            <NavLink>
+                                Новости
+                            </NavLink>
+                        </div>
+                    </nav>
+                    <div class="text-sm">© 2024 CarShop</div>
+                </div>
+            </footer>
         </div>
     </div>
 </template>
