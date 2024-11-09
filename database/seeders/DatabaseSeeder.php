@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             ImageSeeder::class,
             MakerSeeder::class,
             ModelSeeder::class,
+            FuelTypeSeeder::class,
         ]);
     }
 }
