@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             MakerSeeder::class,
             ModelSeeder::class,
             FuelTypeSeeder::class,
+            TransportTypeSeeder::class,
         ]);
     }
 }
