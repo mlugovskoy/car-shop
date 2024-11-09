@@ -43,6 +43,12 @@ class MakerSeeder extends Seeder
                     'name' => $maker,
                     'image_id' => $imageMaker->id
                 ]);
+            } else {
+                $imageStub = Image::query()->where('image_title', 'car_stub')->first();
+                Maker::factory()->create([
+                    'name' => $maker,
+                    'image_id' => $imageStub->id
+                ]);
             }
         }
     }

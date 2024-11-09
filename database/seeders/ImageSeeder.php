@@ -14,7 +14,7 @@ class ImageSeeder extends Seeder
      */
     public function run(): void
     {
-        $folders = ['images/icons', 'images/reviews', 'images/cars'];
+        $folders = ['images/icons', 'images/reviews', 'images/cars', 'images/stub'];
 
         foreach ($folders as $folder) {
             $sourcePath = public_path($folder);
