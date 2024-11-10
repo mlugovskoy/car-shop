@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Transport extends Model
@@ -46,9 +45,9 @@ class Transport extends Model
         'deleted_at',
     ];
 
-    public function images(): HasMany
+    public function images(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->hasMany(Images::class);
+        return $this->belongsToMany(Image::class, 'image_transport');
     }
 
     public function transportType(): BelongsTo

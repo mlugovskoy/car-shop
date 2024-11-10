@@ -12,4 +12,9 @@ class Image extends Model
     public $timestamps = false;
 
     protected $fillable = ['image_title', 'image_path', 'image_size', 'image_ext'];
+
+    public function transport(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Transport::class, 'image_transport');
+    }
 }

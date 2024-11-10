@@ -12,7 +12,6 @@ return new class extends Migration {
     {
         Schema::create('transports', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 144);
             $table->string('city', 100);
             $table->string('vin', 255);
             $table->string('phone', 45);
@@ -35,7 +34,6 @@ return new class extends Migration {
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('model_id')->constrained('models');
             $table->foreignId('maker_id')->constrained('makers');
-            $table->foreignId('image_ids')->constrained('images');
             $table->foreignId('fuel_type_id')->constrained('fuel_types');
             $table->foreignId('transport_type_id')->constrained('transport_types');
 

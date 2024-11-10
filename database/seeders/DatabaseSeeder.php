@@ -20,6 +20,8 @@ class DatabaseSeeder extends Seeder
             ModelSeeder::class,
             FuelTypeSeeder::class,
             TransportTypeSeeder::class,
+            TransportSeeder::class,
+            ImageTransportSeeder::class,
         ]);
     }
 }
