@@ -6,7 +6,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <a href="#" class="rounded shadow group lg:col-span-2">
             <img class="w-full h-[300px] object-cover rounded-t transition-all group-hover:opacity-85"
-                 src="/images/reviews/reviews-1.jpg" alt="X90 Plus">
+                 src="/images/news/news_1.jpg" alt="X90 Plus">
             <div class="rounded-b p-4">
                 <h4 class="text-xl mb-2">X90 Plus, 2024</h4>
                 <div class="mb-4">
@@ -30,7 +30,7 @@
         </a>
         <a href="#" class="rounded shadow group lg:col-span-2">
             <img class="w-full h-[300px] object-cover rounded-t transition-all group-hover:opacity-85"
-                 src="/images/reviews/reviews-1.jpg" alt="X90 Plus">
+                 src="/images/news/news_2.jpg" alt="X90 Plus">
             <div class="rounded-b p-4">
                 <h4 class="text-xl mb-2">X90 Plus, 2024</h4>
                 <div class="mb-4">
@@ -54,7 +54,7 @@
         </a>
         <a href="#" class="rounded shadow group">
             <img class="w-full h-[220px] object-cover rounded-t transition-all group-hover:opacity-85"
-                 src="/images/reviews/reviews-1.jpg" alt="X90 Plus">
+                 src="/images/news/news_3.jpg" alt="X90 Plus">
             <div class="rounded-b p-4">
                 <h4 class="text-xl mb-2">X90 Plus, 2024</h4>
                 <div class="mb-4">
