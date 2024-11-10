@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->string('image_path', 255);
             $table->string('image_size', 255);
             $table->string('image_ext', 255);
+            $table->string('image_source', 255);
         });
     }
 

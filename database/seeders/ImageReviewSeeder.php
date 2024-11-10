@@ -14,7 +14,7 @@ class ImageReviewSeeder extends Seeder
     public function run(): void
     {
         $reviews = Review::all();
-        $images = Image::all();
+        $images = Image::query()->where('image_source', 'reviews')->get();
 
         foreach ($reviews as $review) {
             $randomImages = $images->random(rand(1, 5));

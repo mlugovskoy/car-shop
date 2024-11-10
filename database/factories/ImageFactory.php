@@ -24,6 +24,7 @@ class ImageFactory extends Factory
             'image_path' => $this->faker->imageUrl(),
             'image_size' => $this->faker->numberBetween(100, 2000),
             'image_ext' => $this->faker->randomElement(['jpg', 'jpeg', 'png']),
+            'image_source' => $this->faker->text(5),
         ];
     }
 }

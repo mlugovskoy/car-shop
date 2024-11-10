@@ -14,11 +14,12 @@ class ImageSeeder extends Seeder
      */
     public function run(): void
     {
-        $folders = ['images/icons', 'images/reviews', 'images/cars', 'images/stub'];
+        $folders = ['images/icons', 'images/reviews', 'images/transports', 'images/news', 'images/stub'];
 
         foreach ($folders as $folder) {
             $sourcePath = public_path($folder);
             $images = scandir($sourcePath);
+            $source = explode('/', $folder);
 
             foreach ($images as $image) {
                 if ($image !== '.' && $image !== '..') {
@@ -34,6 +35,7 @@ class ImageSeeder extends Seeder
                         'image_path' => $filePath,
                         'image_size' => $fileSize,
                         'image_ext' => $fileExtension,
+                        'image_source' => $source[1]
                     ]);
                 }
             }

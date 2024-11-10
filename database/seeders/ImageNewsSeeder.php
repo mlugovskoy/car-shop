@@ -14,7 +14,7 @@ class ImageNewsSeeder extends Seeder
     public function run(): void
     {
         $news = News::all();
-        $images = Image::all();
+        $images = Image::query()->where('image_source', 'news')->get();
 
         foreach ($news as $newsItem) {
             $randomImages = $images->random(rand(1, 5));

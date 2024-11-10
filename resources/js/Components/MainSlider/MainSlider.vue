@@ -20,7 +20,7 @@ const modules = ref([Navigation]);
     >
         <swiper-slide tag="a" class="group" href="#">
             <div class="h-3/4 relative">
-                <img class="h-full w-full object-cover transition-all group-hover:opacity-85" src="/images/cars/car.jpg"
+                <img class="h-full w-full object-cover transition-all group-hover:opacity-85" src="/images/transports/car.jpg"
                      alt="car">
                 <span
                     class="absolute bottom-4 left-4 bg-emerald-400 px-2 rounded-xl text-white text-sm">4 500 000 Р</span>
@@ -32,7 +32,7 @@ const modules = ref([Navigation]);
         </swiper-slide>
         <swiper-slide tag="a" class="group" href="#">
             <div class="h-3/4 relative">
-                <img class="h-full w-full object-cover transition-all group-hover:opacity-85" src="/images/cars/car.jpg"
+                <img class="h-full w-full object-cover transition-all group-hover:opacity-85" src="/images/transports/car.jpg"
                      alt="car">
                 <span
                     class="absolute bottom-4 left-4 bg-emerald-400 px-2 rounded-xl text-white text-sm">4 500 000 Р</span>
@@ -44,7 +44,7 @@ const modules = ref([Navigation]);
         </swiper-slide>
         <swiper-slide tag="a" class="group" href="#">
             <div class="h-3/4 relative">
-                <img class="h-full w-full object-cover transition-all group-hover:opacity-85" src="/images/cars/car.jpg"
+                <img class="h-full w-full object-cover transition-all group-hover:opacity-85" src="/images/transports/car.jpg"
                      alt="car">
                 <span
                     class="absolute bottom-4 left-4 bg-emerald-400 px-2 rounded-xl text-white text-sm">4 500 000 Р</span>
@@ -56,7 +56,7 @@ const modules = ref([Navigation]);
         </swiper-slide>
         <swiper-slide tag="a" class="group" href="#">
             <div class="h-3/4 relative">
-                <img class="h-full w-full object-cover transition-all group-hover:opacity-85" src="/images/cars/car.jpg"
+                <img class="h-full w-full object-cover transition-all group-hover:opacity-85" src="/images/transports/car.jpg"
                      alt="car">
                 <span
                     class="absolute bottom-4 left-4 bg-emerald-400 px-2 rounded-xl text-white text-sm">4 500 000 Р</span>
@@ -68,7 +68,7 @@ const modules = ref([Navigation]);
         </swiper-slide>
         <swiper-slide tag="a" class="group" href="#">
             <div class="h-3/4 relative">
-                <img class="h-full w-full object-cover transition-all group-hover:opacity-85" src="/images/cars/car.jpg"
+                <img class="h-full w-full object-cover transition-all group-hover:opacity-85" src="/images/transports/car.jpg"
                      alt="car">
                 <span
                     class="absolute bottom-4 left-4 bg-emerald-400 px-2 rounded-xl text-white text-sm">4 500 000 Р</span>
@@ -80,7 +80,7 @@ const modules = ref([Navigation]);
         </swiper-slide>
         <swiper-slide tag="a" class="group" href="#">
             <div class="h-3/4 relative">
-                <img class="h-full w-full object-cover transition-all group-hover:opacity-85" src="/images/cars/car.jpg"
+                <img class="h-full w-full object-cover transition-all group-hover:opacity-85" src="/images/transports/car.jpg"
                      alt="car">
                 <span
                     class="absolute bottom-4 left-4 bg-emerald-400 px-2 rounded-xl text-white text-sm">4 500 000 Р</span>
@@ -92,7 +92,7 @@ const modules = ref([Navigation]);
         </swiper-slide>
         <swiper-slide tag="a" class="group" href="#">
             <div class="h-3/4 relative">
-                <img class="h-full w-full object-cover transition-all group-hover:opacity-85" src="/images/cars/car.jpg"
+                <img class="h-full w-full object-cover transition-all group-hover:opacity-85" src="/images/transports/car.jpg"
                      alt="car">
                 <span
                     class="absolute bottom-4 left-4 bg-emerald-400 px-2 rounded-xl text-white text-sm">4 500 000 Р</span>
@@ -104,7 +104,7 @@ const modules = ref([Navigation]);
         </swiper-slide>
         <swiper-slide tag="a" class="group" href="#">
             <div class="h-3/4 relative">
-                <img class="h-full w-full object-cover transition-all group-hover:opacity-85" src="/images/cars/car.jpg"
+                <img class="h-full w-full object-cover transition-all group-hover:opacity-85" src="/images/transports/car.jpg"
                      alt="car">
                 <span
                     class="absolute bottom-4 left-4 bg-emerald-400 px-2 rounded-xl text-white text-sm">4 500 000 Р</span>

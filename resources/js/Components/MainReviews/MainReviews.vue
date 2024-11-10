@@ -4,7 +4,7 @@
     <div class="flex flex-wrap gap-4 justify-center sm:gap-y-4 sm:justify-between">
         <a href="#" class="rounded shadow group w-[220px]">
             <img class="w-full h-[220px] object-cover rounded-t transition-all group-hover:opacity-85"
-                 src="/images/reviews/reviews-1.jpg" alt="X90 Plus">
+                 src="/images/reviews/reviews_1.jpg" alt="X90 Plus">
             <div class="rounded-b p-4">
                 <h4 class="text-xl mb-2">X90 Plus, 2024</h4>
                 <div class="flex justify-between">
@@ -24,7 +24,7 @@
         </a>
         <a href="#" class="rounded shadow group w-[220px]">
             <img class="w-full h-[220px] object-cover rounded-t transition-all group-hover:opacity-85"
-                 src="/images/reviews/reviews-1.jpg" alt="X90 Plus">
+                 src="/images/reviews/reviews_1.jpg" alt="X90 Plus">
             <div class="rounded-b p-4">
                 <h4 class="text-xl mb-2">X90 Plus, 2024</h4>
                 <div class="flex justify-between">
@@ -44,7 +44,7 @@
         </a>
         <a href="#" class="rounded shadow group w-[220px]">
             <img class="w-full h-[220px] object-cover rounded-t transition-all group-hover:opacity-85"
-                 src="/images/reviews/reviews-1.jpg" alt="X90 Plus">
+                 src="/images/reviews/reviews_1.jpg" alt="X90 Plus">
             <div class="rounded-b p-4">
                 <h4 class="text-xl mb-2">X90 Plus, 2024</h4>
                 <div class="flex justify-between">
@@ -64,7 +64,7 @@
         </a>
         <a href="#" class="rounded shadow group w-[220px]">
             <img class="w-full h-[220px] object-cover rounded-t transition-all group-hover:opacity-85"
-                 src="/images/reviews/reviews-1.jpg" alt="X90 Plus">
+                 src="/images/reviews/reviews_2.jpg" alt="X90 Plus">
             <div class="rounded-b p-4">
                 <h4 class="text-xl mb-2">X90 Plus, 2024</h4>
                 <div class="flex justify-between">
@@ -84,7 +84,7 @@
         </a>
         <a href="#" class="rounded shadow group w-[220px]">
             <img class="w-full h-[220px] object-cover rounded-t transition-all group-hover:opacity-85"
-                 src="/images/reviews/reviews-1.jpg" alt="X90 Plus">
+                 src="/images/reviews/reviews_3.jpg" alt="X90 Plus">
             <div class="rounded-b p-4">
                 <h4 class="text-xl mb-2">X90 Plus, 2024</h4>
                 <div class="flex justify-between">

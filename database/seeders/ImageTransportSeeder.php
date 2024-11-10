@@ -14,7 +14,7 @@ class ImageTransportSeeder extends Seeder
     public function run(): void
     {
         $transports = Transport::all();
-        $images = Image::all();
+        $images = Image::query()->where('image_source', 'transports')->get();
 
         foreach ($transports as $transport) {
             $randomImages = $images->random(rand(1, 5));
