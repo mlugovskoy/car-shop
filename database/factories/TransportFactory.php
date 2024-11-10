@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use App\Models\FuelType;
-use App\Models\Image;
 use App\Models\Maker;
 use App\Models\Model;
 use App\Models\TransportType;
@@ -26,7 +25,7 @@ class TransportFactory extends Factory
             "city" => $this->faker->city,
             "vin" => $this->faker->numberBetween(10000000, 99999999),
             "phone" => $this->faker->phoneNumber,
-            "description" => $this->faker->text(50),
+            "description" => $this->faker->text(),
             "engine" => $this->faker->sentence(1),
             "power" => $this->faker->numberBetween(1000, 99999),
             "transmission" => $this->faker->randomElement(['Вариантор', 'Автомат', 'Механика']),

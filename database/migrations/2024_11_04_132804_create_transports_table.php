@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->string('city', 100);
             $table->string('vin', 255);
             $table->string('phone', 45);
-            $table->string('description', 500)->nullable();
+            $table->string('description', 1000)->nullable();
             $table->string('engine', 100);
             $table->string('power', 100);
             $table->string('transmission', 100);

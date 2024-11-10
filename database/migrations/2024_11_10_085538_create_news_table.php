@@ -10,10 +10,10 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('comments', function (Blueprint $table) {
+        Schema::create('news', function (Blueprint $table) {
             $table->id();
-            $table->string('city', 100);
-            $table->string('description', 1000)->nullable();
+            $table->string('title', 100);
+            $table->string('description', 1000);
 
             $table->foreignId('user_id')->constrained('users');
 
@@ -28,6 +28,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('comments');
+        Schema::dropIfExists('news');
     }
 };

@@ -22,4 +22,9 @@ class Image extends Model
     {
         return $this->belongsTo(Review::class, 'image_review');
     }
+
+    public function news(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(News::class, 'image_news');
+    }
 }

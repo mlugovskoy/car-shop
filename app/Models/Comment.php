@@ -26,4 +26,9 @@ class Comment extends Model
     {
         return $this->belongsTo(Review::class, 'comment_review');
     }
+
+    public function news(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(News::class, 'comment_news');
+    }
 }

@@ -20,7 +20,7 @@ return new class extends Migration {
             $table->string('drive', 100);
             $table->string('mileage', 100);
             $table->string('tact', 100);
-            $table->string('description', 500)->nullable();
+            $table->string('description', 1000)->nullable();
 
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('model_id')->constrained('models');

@@ -26,6 +26,9 @@ class DatabaseSeeder extends Seeder
             CommentSeeder::class,
             CommentReviewSeeder::class,
             ImageReviewSeeder::class,
+            NewsSeeder::class,
+            CommentNewsSeeder::class,
+            ImageNewsSeeder::class
         ]);
     }
 }

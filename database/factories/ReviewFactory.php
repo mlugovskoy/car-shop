@@ -28,7 +28,7 @@ class ReviewFactory extends Factory
             "drive" => $this->faker->randomElement(['Передний', 'Задний']),
             "mileage" => $this->faker->numberBetween(1000, 99999),
             "tact" => $this->faker->numberBetween(1000, 99999),
-            "description" => $this->faker->text(50),
+            "description" => $this->faker->text(),
             "user_id" => $this->faker->numberBetween(1, User::query()->count()),
             "model_id" => $this->faker->numberBetween(1, Model::query()->count()),
             "maker_id" => $this->faker->numberBetween(1, Maker::query()->count()),
