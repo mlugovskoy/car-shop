@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
             CommentNewsSeeder::class,
             ImageNewsSeeder::class,
             FavoritesSeeder::class,
-            Notifications::class
+            NotificationsSeeder::class
         ]);
     }
 }
