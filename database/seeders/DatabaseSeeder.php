@@ -22,6 +22,10 @@ class DatabaseSeeder extends Seeder
             TransportTypeSeeder::class,
             TransportSeeder::class,
             ImageTransportSeeder::class,
+            ReviewSeeder::class,
+            CommentSeeder::class,
+            CommentReviewSeeder::class,
+            ImageReviewSeeder::class,
         ]);
     }
 }

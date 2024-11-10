@@ -36,7 +36,6 @@ class Transport extends Model
         'user_id',
         'model_id',
         'maker_id',
-        'image_ids',
         'fuel_type_id',
         'transport_type_id',
         'published_at',

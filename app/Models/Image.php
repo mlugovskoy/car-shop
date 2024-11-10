@@ -17,4 +17,9 @@ class Image extends Model
     {
         return $this->belongsTo(Transport::class, 'image_transport');
     }
+
+    public function review(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Review::class, 'image_review');
+    }
 }
