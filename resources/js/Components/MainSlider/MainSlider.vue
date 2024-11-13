@@ -7,6 +7,10 @@ import 'swiper/css/navigation';
 import {Navigation} from "swiper/modules";
 
 const modules = ref([Navigation]);
+
+const props = defineProps({'transports': Array})
+
+console.log(props.transports)
 </script>
 
 <template>
@@ -16,102 +20,19 @@ const modules = ref([Navigation]);
         :navigation="true"
         :loop="true"
         :modules="modules"
-        class="h-[300px]"
-    >
-        <swiper-slide tag="a" class="group" href="#">
+        class="h-[300px]">
+        <swiper-slide v-for="transport in transports" tag="a" class="group" href="#">
             <div class="h-3/4 relative">
-                <img class="h-full w-full object-cover transition-all group-hover:opacity-85" src="/images/transports/car.jpg"
-                     alt="car">
+                <img class="h-full w-full object-cover transition-all group-hover:opacity-85"
+                     :src="transport.images[0].image_path"
+                     :alt="transport.images[0].image_title">
                 <span
-                    class="absolute bottom-4 left-4 bg-emerald-400 px-2 rounded-xl text-white text-sm">4 500 000 Р</span>
+                    class="absolute bottom-4 left-4 bg-emerald-400 px-2 rounded-xl text-white text-sm">
+                    {{ (transport.price).toLocaleString("ru-RU") }} Р</span>
             </div>
             <div class="h-1/4 px-2 flex flex-col justify-center">
                 <h4 class="text-xl mb-0.5">BMW X8</h4>
-                <span class="text-md">Благовещенск</span>
-            </div>
-        </swiper-slide>
-        <swiper-slide tag="a" class="group" href="#">
-            <div class="h-3/4 relative">
-                <img class="h-full w-full object-cover transition-all group-hover:opacity-85" src="/images/transports/car.jpg"
-                     alt="car">
-                <span
-                    class="absolute bottom-4 left-4 bg-emerald-400 px-2 rounded-xl text-white text-sm">4 500 000 Р</span>
-            </div>
-            <div class="h-1/4 px-2 flex flex-col justify-center">
-                <h4 class="text-xl mb-0.5">BMW X8</h4>
-                <span class="text-md">Благовещенск</span>
-            </div>
-        </swiper-slide>
-        <swiper-slide tag="a" class="group" href="#">
-            <div class="h-3/4 relative">
-                <img class="h-full w-full object-cover transition-all group-hover:opacity-85" src="/images/transports/car.jpg"
-                     alt="car">
-                <span
-                    class="absolute bottom-4 left-4 bg-emerald-400 px-2 rounded-xl text-white text-sm">4 500 000 Р</span>
-            </div>
-            <div class="h-1/4 px-2 flex flex-col justify-center">
-                <h4 class="text-xl mb-0.5">BMW X8</h4>
-                <span class="text-md">Благовещенск</span>
-            </div>
-        </swiper-slide>
-        <swiper-slide tag="a" class="group" href="#">
-            <div class="h-3/4 relative">
-                <img class="h-full w-full object-cover transition-all group-hover:opacity-85" src="/images/transports/car.jpg"
-                     alt="car">
-                <span
-                    class="absolute bottom-4 left-4 bg-emerald-400 px-2 rounded-xl text-white text-sm">4 500 000 Р</span>
-            </div>
-            <div class="h-1/4 px-2 flex flex-col justify-center">
-                <h4 class="text-xl mb-0.5">BMW X8</h4>
-                <span class="text-md">Благовещенск</span>
-            </div>
-        </swiper-slide>
-        <swiper-slide tag="a" class="group" href="#">
-            <div class="h-3/4 relative">
-                <img class="h-full w-full object-cover transition-all group-hover:opacity-85" src="/images/transports/car.jpg"
-                     alt="car">
-                <span
-                    class="absolute bottom-4 left-4 bg-emerald-400 px-2 rounded-xl text-white text-sm">4 500 000 Р</span>
-            </div>
-            <div class="h-1/4 px-2 flex flex-col justify-center">
-                <h4 class="text-xl mb-0.5">BMW X8</h4>
-                <span class="text-md">Благовещенск</span>
-            </div>
-        </swiper-slide>
-        <swiper-slide tag="a" class="group" href="#">
-            <div class="h-3/4 relative">
-                <img class="h-full w-full object-cover transition-all group-hover:opacity-85" src="/images/transports/car.jpg"
-                     alt="car">
-                <span
-                    class="absolute bottom-4 left-4 bg-emerald-400 px-2 rounded-xl text-white text-sm">4 500 000 Р</span>
-            </div>
-            <div class="h-1/4 px-2 flex flex-col justify-center">
-                <h4 class="text-xl mb-0.5">BMW X8</h4>
-                <span class="text-md">Благовещенск</span>
-            </div>
-        </swiper-slide>
-        <swiper-slide tag="a" class="group" href="#">
-            <div class="h-3/4 relative">
-                <img class="h-full w-full object-cover transition-all group-hover:opacity-85" src="/images/transports/car.jpg"
-                     alt="car">
-                <span
-                    class="absolute bottom-4 left-4 bg-emerald-400 px-2 rounded-xl text-white text-sm">4 500 000 Р</span>
-            </div>
-            <div class="h-1/4 px-2 flex flex-col justify-center">
-                <h4 class="text-xl mb-0.5">BMW X8</h4>
-                <span class="text-md">Благовещенск</span>
-            </div>
-        </swiper-slide>
-        <swiper-slide tag="a" class="group" href="#">
-            <div class="h-3/4 relative">
-                <img class="h-full w-full object-cover transition-all group-hover:opacity-85" src="/images/transports/car.jpg"
-                     alt="car">
-                <span
-                    class="absolute bottom-4 left-4 bg-emerald-400 px-2 rounded-xl text-white text-sm">4 500 000 Р</span>
-            </div>
-            <div class="h-1/4 px-2 flex flex-col justify-center">
-                <h4 class="text-xl mb-0.5">BMW X8</h4>
-                <span class="text-md">Благовещенск</span>
+                <span class="text-md">{{ transport.city }}</span>
             </div>
         </swiper-slide>
     </swiper>
