@@ -20,7 +20,7 @@ const page = usePage();
                 <MainTitle :href="route('home')">Продажа авто в России</MainTitle>
             </div>
             <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                <MainSlider :transports="page.props.transports"/>
+                <MainSlider :topSliderTransports="page.props.topSliderTransports"/>
             </div>
             <div class="mx-auto max-w-7xl overflow-hidden bg-white shadow-sm mt-10 mb-14 p-6 lg:p-8 sm:rounded-lg">
                 <MainTitle :href="route('home')">Поиск объявлений</MainTitle>

@@ -2,24 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Transport;
+use App\Services\HomeService;
 
 class HomeController extends Controller
 {
+    protected HomeService $homeService;
+
+    public function __construct(HomeService $homeService)
+    {
+        $this->homeService = $homeService;
+    }
+
     public function index()
     {
-        $transports = Transport::query()
-            ->orderBy('published_at', 'desc')
-            ->limit(15)
-            ->get(['id', 'city', 'model_id', 'maker_id', 'price']);
+        $topSliderTransports = $this->homeService->getTransportsInTopSlider();
+        $latestReviews = $this->homeService->getLatestReviews();
 
-
-        foreach ($transports as $transport) {
-            foreach ($transport->images as $image) {
-                $transport->push($image);
-            }
-        }
-
-        return inertia('Home', ['transports' => $transports]);
+        return inertia('Home', ['topSliderTransports' => $topSliderTransports, 'latestReviews' => $latestReviews]);
     }
 }

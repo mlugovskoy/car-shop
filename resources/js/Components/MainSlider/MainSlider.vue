@@ -8,9 +8,8 @@ import {Navigation} from "swiper/modules";
 
 const modules = ref([Navigation]);
 
-const props = defineProps({'transports': Array})
+const props = defineProps({'topSliderTransports': Array})
 
-console.log(props.transports)
 </script>
 
 <template>
@@ -21,7 +20,7 @@ console.log(props.transports)
         :loop="true"
         :modules="modules"
         class="h-[300px]">
-        <swiper-slide v-for="transport in transports" tag="a" class="group" href="#">
+        <swiper-slide v-for="transport in topSliderTransports" tag="a" class="group" href="#">
             <div class="h-3/4 relative">
                 <img class="h-full w-full object-cover transition-all group-hover:opacity-85"
                      :src="transport.images[0].image_path"
