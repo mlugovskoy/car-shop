@@ -8,7 +8,7 @@ import {Navigation} from "swiper/modules";
 
 const modules = ref([Navigation]);
 
-const props = defineProps({'topSliderTransports': Array})
+const props = defineProps({'transports': Array})
 
 </script>
 
@@ -20,7 +20,7 @@ const props = defineProps({'topSliderTransports': Array})
         :loop="true"
         :modules="modules"
         class="h-[300px]">
-        <swiper-slide v-for="transport in topSliderTransports" tag="a" class="group" href="#">
+        <swiper-slide v-for="transport in transports" tag="a" class="group" href="#">
             <div class="h-3/4 relative">
                 <img class="h-full w-full object-cover transition-all group-hover:opacity-85"
                      :src="transport.images[0].image_path"
@@ -30,7 +30,7 @@ const props = defineProps({'topSliderTransports': Array})
                     {{ (transport.price).toLocaleString("ru-RU") }} Р</span>
             </div>
             <div class="h-1/4 px-2 flex flex-col justify-center">
-                <h4 class="text-xl mb-0.5">BMW X8</h4>
+                <h4 class="text-xl mb-0.5">{{ transport.makerName + ' ' + transport.modelName }}</h4>
                 <span class="text-md">{{ transport.city }}</span>
             </div>
         </swiper-slide>

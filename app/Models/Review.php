@@ -3,10 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Review extends Model
+class Review extends EloquentModel
 {
     use HasFactory;
     use SoftDeletes;
@@ -39,5 +39,15 @@ class Review extends Model
     public function comments(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Comment::class, 'comment_review');
+    }
+
+    protected function maker()
+    {
+        return $this->belongsTo(Maker::class);
+    }
+
+    protected function model()
+    {
+        return $this->belongsTo(Model::class);
     }
 }

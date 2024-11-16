@@ -3,11 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Transport extends Model
+class Transport extends EloquentModel
 {
     use HasFactory;
     use SoftDeletes;
@@ -57,5 +57,15 @@ class Transport extends Model
     public function fuelType(): BelongsTo
     {
         return $this->belongsTo(FuelType::class);
+    }
+
+    protected function maker()
+    {
+        return $this->belongsTo(Maker::class);
+    }
+
+    protected function model()
+    {
+        return $this->belongsTo(Model::class);
     }
 }

@@ -17,7 +17,17 @@ class HomeController extends Controller
     {
         $topSliderTransports = $this->homeService->getTransportsInTopSlider();
         $latestReviews = $this->homeService->getLatestReviews();
+        $latestNews = $this->homeService->getLatestNews();
+        $makers = $this->homeService->getMakers();
 
-        return inertia('Home', ['topSliderTransports' => $topSliderTransports, 'latestReviews' => $latestReviews]);
+        return inertia(
+            'Home',
+            [
+                'topSliderTransports' => $topSliderTransports,
+                'makers' => $makers,
+                'latestReviews' => $latestReviews,
+                'latestNews' => $latestNews
+            ]
+        );
     }
 }

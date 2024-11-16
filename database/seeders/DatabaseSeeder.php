@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Notifications;
 use Illuminate\Database\Seeder;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -31,7 +30,8 @@ class DatabaseSeeder extends Seeder
             CommentNewsSeeder::class,
             ImageNewsSeeder::class,
             FavoritesSeeder::class,
-            NotificationsSeeder::class
+            NotificationsSeeder::class,
+            ImageMakersSeeder::class,
         ]);
     }
 }
