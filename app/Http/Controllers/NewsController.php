@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Breadcrumbs;
 use App\Services\NewsService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -18,8 +19,9 @@ class NewsController extends Controller
     public function index()
     {
         $news = $this->newsService->getAllNews();
+        $breadcrumbs = (new Breadcrumbs())->generateBreadcrumbs('news');
 
-        return Inertia::render('News/Index', ['news' => $news]);
+        return Inertia::render('News/Index', ['news' => $news, 'breadcrumbs' => $breadcrumbs]);
     }
 
     public function create()
@@ -40,7 +42,10 @@ class NewsController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $article = $this->newsService->getDetailArticle($id);
+        $breadcrumbs = (new Breadcrumbs())->generateBreadcrumbs('newsDetail', $article);
+
+        return Inertia::render('News/Show', ['article' => $article, 'breadcrumbs' => $breadcrumbs]);
     }
 
     /**

@@ -3,6 +3,7 @@ import Main from '@/Layouts/Main.vue';
 import {Head, usePage} from '@inertiajs/vue3';
 import MainTitle from "@/Components/UI/MainTitle.vue";
 import Pagination from "@/Components/Pagination.vue";
+import Breadcrumbs from "@/Components/Breadcrumbs.vue";
 
 const page = usePage();
 
@@ -14,7 +15,10 @@ const news = page.props.news;
 
     <Main>
         <div class="py-6 sm:py-12">
-            <div class="mx-auto max-w-7xl overflow-hidden bg-white shadow-sm mt-10 mb-14 p-6 lg:p-8 sm:rounded-lg">
+            <div class="mx-auto max-w-7xl mt-10 px-8">
+                <Breadcrumbs :items="page.props.breadcrumbs"/>
+            </div>
+            <div class="mx-auto max-w-7xl overflow-hidden bg-white shadow-sm mt-4 mb-14 p-6 lg:p-8 sm:rounded-lg">
                 <MainTitle :href="route('home')">Новости</MainTitle>
 
                 <div class="grid grid-cols-2 gap-4">

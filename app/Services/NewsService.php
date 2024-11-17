@@ -45,4 +45,15 @@ class NewsService
 
         return $paginatedItems;
     }
+
+    public function getDetailArticle($id)
+    {
+        $cacheKey = 'detail_news_section';
+
+        return Cache::remember($cacheKey, now()->addMinutes(10), function () use ($id) {
+            return News::query()
+                ->where('id', $id)
+                ->get();
+        });
+    }
 }

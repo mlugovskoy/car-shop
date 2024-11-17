@@ -4,7 +4,7 @@ const props = defineProps({'news': Array})
 
 <template>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <a v-for="(article, key) in news" href="#" class="rounded shadow group"
+        <a v-for="(article, key) in news" :href="route('news.show', article.id)" class="rounded shadow group"
            :class="{'lg:col-span-2': key < 2}">
             <img class="w-full h-[300px] object-cover rounded-t transition-all group-hover:opacity-85"
                  :src="article.images[0].image_path"
