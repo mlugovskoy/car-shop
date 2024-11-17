@@ -155,14 +155,9 @@ const showingNavigationDropdown = ref(false);
                     class="sm:hidden"
                 >
                     <div class="space-y-1 pb-3 pt-2">
-                        <HeaderResponsiveNavLink>
+                        <HeaderResponsiveNavLink :active="route().current('home')
+                        || route().current('transports')">
                             Автомобили
-                        </HeaderResponsiveNavLink>
-                        <HeaderResponsiveNavLink :active="route().current('home')">
-                            Грузовые автомобили и спецтехника
-                        </HeaderResponsiveNavLink>
-                        <HeaderResponsiveNavLink>
-                            Мотоциклы
                         </HeaderResponsiveNavLink>
                         <HeaderResponsiveNavLink>
                             Запчасти
@@ -170,7 +165,7 @@ const showingNavigationDropdown = ref(false);
                         <HeaderResponsiveNavLink>
                             Отзывы
                         </HeaderResponsiveNavLink>
-                        <HeaderResponsiveNavLink>
+                        <HeaderResponsiveNavLink :href="route('news.index')" :active="route().current('news.index')">
                             Новости
                         </HeaderResponsiveNavLink>
                     </div>
@@ -210,14 +205,9 @@ const showingNavigationDropdown = ref(false);
                 class="bg-white shadow overflow-x-auto"
             >
                 <div class="mx-auto gap-6 max-w-7xl px-4 py-2 hidden sm:flex sm:px-6 lg:px-8">
-                    <NavLink>
+                    <NavLink :active="route().current('home')
+                    || route().current('transports')">
                         Автомобили
-                    </NavLink>
-                    <NavLink :active="route().current('home')">
-                        Грузовые автомобили и спецтехника
-                    </NavLink>
-                    <NavLink>
-                        Мотоциклы
                     </NavLink>
                     <NavLink>
                         Запчасти
@@ -225,7 +215,7 @@ const showingNavigationDropdown = ref(false);
                     <NavLink>
                         Отзывы
                     </NavLink>
-                    <NavLink>
+                    <NavLink :href="route('news.index')" :active="route().current('news.index')">
                         Новости
                     </NavLink>
                 </div>
@@ -251,14 +241,9 @@ const showingNavigationDropdown = ref(false);
                     <nav>
                         <div
                             class="flex flex-wrap flex-col mx-auto gap-6 max-w-7xl px-4 py-2 sm:flex-row sm:px-6 lg:px-8">
-                            <NavLink>
+                            <NavLink :active="route().current('home')
+                                    || route().current('transports')">
                                 Автомобили
-                            </NavLink>
-                            <NavLink :active="route().current('home')">
-                                Грузовые автомобили и спецтехника
-                            </NavLink>
-                            <NavLink>
-                                Мотоциклы
                             </NavLink>
                             <NavLink>
                                 Запчасти
@@ -266,12 +251,12 @@ const showingNavigationDropdown = ref(false);
                             <NavLink>
                                 Отзывы
                             </NavLink>
-                            <NavLink>
+                            <NavLink :href="route('news.index')" :active="route().current('news.index')">
                                 Новости
                             </NavLink>
                         </div>
                     </nav>
-                    <div class="text-sm">© 2024 CarShop</div>
+                    <div class="text-sm">© {{ (new Date()).getFullYear() }} CarShop</div>
                 </div>
             </footer>
         </div>

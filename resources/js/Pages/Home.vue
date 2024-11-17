@@ -12,7 +12,7 @@ const page = usePage();
 </script>
 
 <template>
-    <Head title="Home"/>
+    <Head title="Главная"/>
 
     <Main>
         <div class="py-6 sm:py-12">

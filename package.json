@@ -19,6 +19,7 @@
         "vue": "^3.4.0"
     },
     "dependencies": {
+        "@heroicons/vue": "^2.1.5",
         "swiper": "^11.1.14"
     }
 }
