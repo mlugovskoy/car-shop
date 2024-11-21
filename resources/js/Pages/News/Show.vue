@@ -87,7 +87,14 @@ const beforeClassesItem = "before:absolute before:text-gray-400 before:content-[
                         , чтобы оставить комментарий
                     </div>
                     <div v-else>
-                        qweqe
+                        <form action="">
+                            <textarea class="block w-full !h-20 rounded p-4 border border-emerald-400 resize-none mb-2"
+                                      placeholder="Введите сообщение"></textarea>
+                            <button
+                                class="ml-auto block bg-emerald-400 py-2 px-4 rounded text-white transition-all hover:bg-emerald-300">
+                                Отправить
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
