@@ -13,9 +13,9 @@ let classes = (items, key) => {
                 class="relative"
                 :class="classes(items, key)">
                 <component :is="items.length > 1 && item.url ? 'a' : 'span'"
-                           class="text-gray-400 text-md"
+                           class="text-gray-400 transition-all text-md"
                            :href="item.url"
-                           :class="{'font-bold': !item.url}">
+                           :class="{'font-bold': !item.url, 'hover:text-gray-300': item.url}">
                     {{ item.title }}
                 </component>
             </li>

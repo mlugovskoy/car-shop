@@ -48,12 +48,24 @@ class NewsService
 
     public function getDetailArticle($id)
     {
-        $cacheKey = 'detail_news_section';
+        $cacheKey = 'detail_news_section_' . $id;
 
         return Cache::remember($cacheKey, now()->addMinutes(10), function () use ($id) {
-            return News::query()
+            $article = News::query()
+                ->with(['comments', 'images'])
                 ->where('id', $id)
-                ->get();
+                ->first();
+
+            foreach ($article->comments as $comment) {
+                $comment->userName = $comment->user->name;
+                $comment->userImage = $comment->user->images;
+                $comment->published_at = Carbon::parse($comment->published_at)->translatedFormat('d.m.Y');
+            }
+
+            $article->userName = $article->user->name;
+            $article->published_at = Carbon::parse($article->published_at)->translatedFormat('d F');
+
+            return $article;
         });
     }
 }

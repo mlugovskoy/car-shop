@@ -31,4 +31,9 @@ class Comment extends Model
     {
         return $this->belongsTo(News::class, 'comment_news');
     }
+
+    protected function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 }
