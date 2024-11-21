@@ -32,6 +32,7 @@ class DatabaseSeeder extends Seeder
             FavoritesSeeder::class,
             NotificationsSeeder::class,
             ImageMakersSeeder::class,
+            ImageUserSeeder::class,
         ]);
     }
 }

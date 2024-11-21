@@ -14,7 +14,7 @@ class ImageSeeder extends Seeder
      */
     public function run(): void
     {
-        $folders = ['images/icons', 'images/reviews', 'images/transports', 'images/news', 'images/stub'];
+        $folders = ['images/icons', 'images/reviews', 'images/transports', 'images/news', 'images/stub', 'images/users'];
 
         foreach ($folders as $folder) {
             $sourcePath = public_path($folder);
@@ -32,7 +32,7 @@ class ImageSeeder extends Seeder
 
                     Image::factory()->create([
                         'image_title' => explode('.', $image)[0],
-                        'image_path' => $filePath,
+                        'image_path' => '/' . $filePath,
                         'image_size' => $fileSize,
                         'image_ext' => $fileExtension,
                         'image_source' => $source[1]
