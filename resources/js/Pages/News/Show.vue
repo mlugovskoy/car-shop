@@ -76,7 +76,7 @@ const submit = () => {
                     <div class="flex flex-col gap-y-8 mb-10">
                         <div v-for="comment in page.props.article.comments"
                              class="flex gap-10">
-                            <div class="flex flex-col items-center">
+                            <div class="flex flex-col items-center max-w-24 w-full text-center">
                                 <span class="block text-xs mb-2">{{ comment.published_at }}</span>
                                 <img class="w-16 h-16 rounded mb-2" :src="comment.userImage[0].image_path"
                                      :alt="comment.user.name">
