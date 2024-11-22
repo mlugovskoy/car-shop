@@ -68,4 +68,13 @@ class NewsService
             return $article;
         });
     }
+
+    public function removeCacheDetailArticle($id)
+    {
+        $cacheKey = 'detail_news_section_' . $id;
+
+        if (Cache::has($cacheKey)) {
+            Cache::forget($cacheKey);
+        }
+    }
 }

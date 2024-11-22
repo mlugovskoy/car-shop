@@ -1,6 +1,6 @@
 <script setup>
 import Main from '@/Layouts/Main.vue';
-import {Head, usePage, Link} from '@inertiajs/vue3';
+import {Head, usePage, Link, useForm} from '@inertiajs/vue3';
 import MainTitle from "@/Components/UI/MainTitle.vue";
 import Breadcrumbs from "@/Components/Breadcrumbs.vue";
 import {Swiper, SwiperSlide} from "swiper/vue";
@@ -8,16 +8,28 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import {Navigation} from "swiper/modules";
 import {ref} from "vue";
+import {Inertia} from "@inertiajs/inertia";
 
+const beforeClassesItem = "before:absolute before:text-gray-400 before:content-[''] before:top-2 before:left-[-20px] before:w-2 before:h-2 before:bg-emerald-400 before:rounded";
 const modules = ref([Navigation]);
 const page = usePage();
-const article = page.props.article;
-console.log(article)
-const beforeClassesItem = "before:absolute before:text-gray-400 before:content-[''] before:top-2 before:left-[-20px] before:w-2 before:h-2 before:bg-emerald-400 before:rounded";
+const form = useForm({
+    comment: null
+})
+
+const submit = () => {
+    form.post(`${page.props.article.id}`, {
+        preserveScroll: true,
+        onSuccess: () => {
+            Inertia.reload({only: ['news']});
+            form.reset('comment')
+        }
+    })
+}
 </script>
 
 <template>
-    <Head :title="'Статья - ' + article.title"/>
+    <Head :title="'Статья - ' + page.props.article.title"/>
 
     <Main>
         <div class="py-6 sm:py-12">
@@ -25,36 +37,36 @@ const beforeClassesItem = "before:absolute before:text-gray-400 before:content-[
                 <Breadcrumbs :items="page.props.breadcrumbs"/>
             </div>
             <div class="mx-auto max-w-7xl overflow-hidden bg-white shadow-sm mt-4 mb-14 p-6 lg:p-8 sm:rounded-lg">
-                <MainTitle :href="route('news.show', article.id)">{{ article.title }}</MainTitle>
+                <MainTitle :href="route('news.show', page.props.article.id)">{{ page.props.article.title }}</MainTitle>
 
                 <div class="flex gap-8 mb-8">
-                    <div class="text-gray-400">{{ article.userName }}</div>
+                    <div class="text-gray-400">{{ page.props.article.userName }}</div>
                     <div
                         class="relative text-gray-400"
                         :class="beforeClassesItem">
-                        {{ article.published_at }}
+                        {{ page.props.article.published_at }}
                     </div>
                 </div>
 
                 <div class="mb-14">
-                    <swiper v-if="article.images.length > 1"
+                    <swiper v-if="page.props.article.images.length > 1"
                             :breakpoints="{1400:{slidesPerView: 1}}"
                             :navigation="true"
                             :modules="modules"
                             class="h-[300px] sm:h-[500px] lg:w-3/4 rounded">
-                        <swiper-slide v-for="image in article.images"
+                        <swiper-slide v-for="image in page.props.article.images"
                                       class="object-cover"
                                       tag="img"
                                       :src="image.image_path"
-                                      :alt="article.title"/>
+                                      :alt="page.props.article.title"/>
                     </swiper>
                     <div v-else>
-                        <img :src="article.images[0].image_path" :alt="article.title">
+                        <img :src="page.props.article.images[0].image_path" :alt="page.props.article.title">
                     </div>
                 </div>
 
                 <div class="mb-14">
-                    {{ article.description }}
+                    {{ page.props.article.description }}
                 </div>
 
                 <div>
@@ -62,7 +74,7 @@ const beforeClassesItem = "before:absolute before:text-gray-400 before:content-[
                         Комментарии
                     </h4>
                     <div class="flex flex-col gap-y-8 mb-10">
-                        <div v-for="comment in article.comments"
+                        <div v-for="comment in page.props.article.comments"
                              class="flex gap-10">
                             <div class="flex flex-col items-center">
                                 <span class="block text-xs mb-2">{{ comment.published_at }}</span>
@@ -87,11 +99,15 @@ const beforeClassesItem = "before:absolute before:text-gray-400 before:content-[
                         , чтобы оставить комментарий
                     </div>
                     <div v-else>
-                        <form action="">
+                        <form @submit.prevent="submit" enctype="multipart/form-data" method="POST">
                             <textarea class="block w-full !h-20 rounded p-4 border border-emerald-400 resize-none mb-2"
-                                      placeholder="Введите сообщение"></textarea>
-                            <button
-                                class="ml-auto block bg-emerald-400 py-2 px-4 rounded text-white transition-all hover:bg-emerald-300">
+                                      placeholder="Введите сообщение"
+                                      v-model="form.comment"
+                                      id="comment"
+                                      name="comment"></textarea>
+                            <button type="submit"
+                                    :disabled="form.processing"
+                                    class="ml-auto block bg-emerald-400 py-2 px-4 rounded text-white transition-all hover:bg-emerald-300">
                                 Отправить
                             </button>
                         </form>
