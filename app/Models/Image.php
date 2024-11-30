@@ -32,4 +32,9 @@ class Image extends Model
     {
         return $this->belongsTo(News::class, 'image_news');
     }
+
+    public function users(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'image_user');
+    }
 }

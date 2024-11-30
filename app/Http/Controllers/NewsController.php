@@ -3,8 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Breadcrumbs;
+use App\Models\Comment;
+use App\Models\News;
 use App\Services\NewsService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class NewsController extends Controller
@@ -35,6 +40,25 @@ class NewsController extends Controller
     public function store(Request $request)
     {
         //
+    }
+
+    public function storeComment(Request $request, $id)
+    {
+        $comment = Comment::query()
+            ->create(
+                [
+                    'description' => $request->comment,
+                    'user_id' => Auth::user()->id,
+                    'city' => Auth::user()->city ?: null,
+                    'published_at' => Carbon::now()->format('Y-m-d H:i:s')
+                ]
+            );
+
+        $article = News::findOrFail($id);
+        $article->comments()->attach($comment->id);
+        $this->newsService->removeCacheDetailArticle($id);
+
+        return Redirect::back();
     }
 
     /**

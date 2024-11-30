@@ -22,7 +22,7 @@ class Breadcrumbs
                 'url' => route('news.index')
             ];
             $breadcrumbs[] = [
-                'title' => $detailPage[0]->title,
+                'title' => $detailPage->title,
                 'url' => null
             ];
         }

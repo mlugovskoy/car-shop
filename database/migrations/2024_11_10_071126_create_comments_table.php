@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->string('city', 100);
+            $table->string('city', 100)->nullable();
             $table->string('description', 1000)->nullable();
 
             $table->foreignId('user_id')->constrained('users');

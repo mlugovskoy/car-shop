@@ -29,7 +29,7 @@ const page = usePage();
                 <MainTitle href="#">Отзывы автовладельцев</MainTitle>
                 <MainReviews :reviews="page.props.latestReviews" class="mb-20"/>
 
-                <MainTitle href="#">Новости</MainTitle>
+                <MainTitle :href="route('news.index')">Новости</MainTitle>
                 <MainNews :news="page.props.latestNews"/>
             </div>
         </div>
