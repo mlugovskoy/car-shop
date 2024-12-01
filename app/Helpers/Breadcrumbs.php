@@ -25,6 +25,11 @@ class Breadcrumbs
                 'title' => $detailPage->title,
                 'url' => null
             ];
+        } elseif($currentPage === 'transport') {
+            $breadcrumbs[] = [
+                'title' => 'Автомобили',
+                'url' => null
+            ];
         }
 
         return $breadcrumbs;

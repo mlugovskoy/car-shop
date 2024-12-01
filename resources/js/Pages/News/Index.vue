@@ -59,7 +59,7 @@ const closeModal = () => {
             </div>
             <div class="mx-auto max-w-7xl overflow-hidden bg-white shadow-sm mt-4 mb-14 p-6 lg:p-8 sm:rounded-lg">
                 <div class="flex justify-between items-center mb-4 sm:mb-8">
-                    <MainTitle class="!mb-0 !sm:mb-0" :href="route('home')">Новости</MainTitle>
+                    <MainTitle class="!mb-0 !sm:mb-0" :href="route('news.index')">Новости</MainTitle>
                     <button @click="showModal" v-if="page.props.auth.user !== null"
                             class="h-12 px-6 bg-emerald-400 rounded text-white transition-all hover:bg-emerald-300">
                         Добавить новость
