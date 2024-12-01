@@ -3,12 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Breadcrumbs;
-use App\Models\Comment;
-use App\Models\News;
+use App\Http\Requests\News\NewsCommentsRequest;
+use App\Http\Requests\News\NewsRequest;
 use App\Services\NewsService;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
@@ -24,38 +22,28 @@ class NewsController extends Controller
     public function index()
     {
         $news = $this->newsService->getAllNews();
+
         $breadcrumbs = (new Breadcrumbs())->generateBreadcrumbs('news');
 
         return Inertia::render('News/Index', ['news' => $news, 'breadcrumbs' => $breadcrumbs]);
     }
 
-    public function create()
-    {
-        //
-    }
-
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(NewsRequest $request)
     {
-        //
+        $this->newsService->storeArticle($request);
+
+        $this->newsService->removeCacheAllNewsSection();
+
+        return Redirect::route('news.index');
     }
 
-    public function storeComment(Request $request, $id)
+    public function storeComment(NewsCommentsRequest $request, $id)
     {
-        $comment = Comment::query()
-            ->create(
-                [
-                    'description' => $request->comment,
-                    'user_id' => Auth::user()->id,
-                    'city' => Auth::user()->city ?: null,
-                    'published_at' => Carbon::now()->format('Y-m-d H:i:s')
-                ]
-            );
+        $this->newsService->storeArticleComment($request, $id);
 
-        $article = News::findOrFail($id);
-        $article->comments()->attach($comment->id);
         $this->newsService->removeCacheDetailArticle($id);
 
         return Redirect::back();
@@ -67,6 +55,7 @@ class NewsController extends Controller
     public function show(string $id)
     {
         $article = $this->newsService->getDetailArticle($id);
+
         $breadcrumbs = (new Breadcrumbs())->generateBreadcrumbs('newsDetail', $article);
 
         return Inertia::render('News/Show', ['article' => $article, 'breadcrumbs' => $breadcrumbs]);

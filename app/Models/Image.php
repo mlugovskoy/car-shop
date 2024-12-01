@@ -11,7 +11,7 @@ class Image extends Model
 
     public $timestamps = false;
 
-    protected $fillable = ['image_title', 'image_path', 'image_size', 'image_ext'];
+    protected $fillable = ['image_title', 'image_path', 'image_size', 'image_ext', 'image_source'];
 
     public function makers(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

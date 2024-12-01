@@ -12,6 +12,7 @@ return new class extends Migration {
     {
         Schema::create('news', function (Blueprint $table) {
             $table->id();
+            $table->boolean('active');
             $table->string('title', 100);
             $table->string('description', 1000);
 

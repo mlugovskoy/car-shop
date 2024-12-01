@@ -11,6 +11,18 @@ class News extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $fillable = [
+        'active',
+        'id',
+        'title',
+        'description',
+        'user_id',
+        'published_at',
+        'created_at',
+        'updated_at',
+        'deleted_at',
+    ];
+
     public function images(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Image::class, 'image_news');

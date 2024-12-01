@@ -12,6 +12,7 @@ Route::resource('/news', NewsController::class)
 
 Route::get('/news', [NewsController::class, 'index'])->name('news.index');
 Route::get('/news/{id}', [NewsController::class, 'show'])->name('news.show');
+Route::post('/news', [NewsController::class, 'store'])->name('news.store');
 Route::post('/news/{id}', [NewsController::class, 'storeComment'])->name('news.store.comment');
 
 Route::middleware('auth')->group(function () {
