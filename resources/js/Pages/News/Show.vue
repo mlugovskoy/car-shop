@@ -1,6 +1,6 @@
 <script setup>
 import Main from '@/Layouts/Main.vue';
-import {Head, usePage, Link, useForm} from '@inertiajs/vue3';
+import {Head, Link, useForm, usePage} from '@inertiajs/vue3';
 import MainTitle from "@/Components/UI/MainTitle.vue";
 import Breadcrumbs from "@/Components/Breadcrumbs.vue";
 import {Swiper, SwiperSlide} from "swiper/vue";
@@ -8,21 +8,19 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import {Navigation} from "swiper/modules";
 import {ref} from "vue";
-import {Inertia} from "@inertiajs/inertia";
 
 const beforeClassesItem = "before:absolute before:text-gray-400 before:content-[''] before:top-2 before:left-[-20px] before:w-2 before:h-2 before:bg-emerald-400 before:rounded";
 const modules = ref([Navigation]);
 const page = usePage();
 const form = useForm({
-    comment: null
+    description: null
 })
 
 const submit = () => {
     form.post(`${page.props.article.id}`, {
         preserveScroll: true,
         onSuccess: () => {
-            Inertia.reload({only: ['news']});
-            form.reset('comment')
+            form.reset('description')
         }
     })
 }
@@ -54,14 +52,16 @@ const submit = () => {
                             :navigation="true"
                             :modules="modules"
                             class="h-[300px] sm:h-[500px] lg:w-3/4 rounded">
-                        <swiper-slide v-for="image in page.props.article.images"
+                        <swiper-slide v-if="page.props.article.images"
+                                      v-for="image in page.props.article.images"
                                       class="object-cover"
                                       tag="img"
                                       :src="image.image_path"
                                       :alt="page.props.article.title"/>
                     </swiper>
                     <div v-else>
-                        <img :src="page.props.article.images[0].image_path" :alt="page.props.article.title">
+                        <img class="mx-auto" v-if="page.props.article.images[0]" :src="page.props.article.images[0].image_path"
+                             :alt="page.props.article.title">
                     </div>
                 </div>
 
@@ -78,7 +78,7 @@ const submit = () => {
                              class="flex gap-10">
                             <div class="flex flex-col items-center max-w-24 w-full text-center">
                                 <span class="block text-xs mb-2">{{ comment.published_at }}</span>
-                                <img class="w-16 h-16 rounded mb-2" :src="comment.userImage[0].image_path"
+                                <img class="w-16 h-16 rounded mb-2 object-cover" :src="comment.userImage[0].image_path"
                                      :alt="comment.user.name">
                                 <h5>{{ comment.user.name }}</h5>
                                 <span class="text-xs">{{ comment.city }}</span>
@@ -102,12 +102,15 @@ const submit = () => {
                         <form @submit.prevent="submit" enctype="multipart/form-data" method="POST">
                             <textarea class="block w-full !h-20 rounded p-4 border border-emerald-400 resize-none mb-2"
                                       placeholder="Введите сообщение"
-                                      v-model="form.comment"
-                                      id="comment"
-                                      name="comment"></textarea>
+                                      v-model="form.description"
+                                      id="description"
+                                      name="description"></textarea>
+                            <div class="text-sm text-red-400 mb-2" v-if="form.errors.description">
+                                {{ form.errors.description }}
+                            </div>
                             <button type="submit"
                                     :disabled="form.processing"
-                                    class="ml-auto block bg-emerald-400 py-2 px-4 rounded text-white transition-all hover:bg-emerald-300">
+                                    class="ml-auto block bg-emerald-400 py-2 px-6 rounded text-white transition-all hover:bg-emerald-300">
                                 Отправить
                             </button>
                         </form>

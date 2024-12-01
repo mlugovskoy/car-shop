@@ -1,29 +1,75 @@
 <script setup>
 import Main from '@/Layouts/Main.vue';
-import {Head, usePage} from '@inertiajs/vue3';
+import {Head, useForm, usePage} from '@inertiajs/vue3';
 import MainTitle from "@/Components/UI/MainTitle.vue";
 import Pagination from "@/Components/Pagination.vue";
 import Breadcrumbs from "@/Components/Breadcrumbs.vue";
+import Modal from "@/Components/Modal/Modal.vue";
+import {ref} from "vue";
 
+const createdModal = ref(null);
+const fileInput = ref(null);
 const page = usePage();
 
 const news = page.props.news;
+
+const showModal = () => {
+    if (createdModal.value) {
+        createdModal.value.showModal();
+    }
+}
+
+const form = useForm({
+    title: null,
+    description: null,
+    images: null,
+})
+
+const submit = () => {
+    form.post(route('news.store'), {
+        preserveScroll: true,
+        onSuccess: () => {
+            resetForm();
+            if (createdModal.value) {
+                createdModal.value.closeModal();
+            }
+        }
+    })
+}
+
+const resetForm = () => {
+    form.reset('title', 'description');
+    form.images = null;
+    if (fileInput.value) {
+        fileInput.value.value = '';
+    }
+};
+
+const closeModal = () => {
+    resetForm();
+};
 </script>
 
 <template>
     <Head title="Новости"/>
-
     <Main>
         <div class="py-6 sm:py-12">
             <div class="mx-auto max-w-7xl mt-10 px-8">
                 <Breadcrumbs :items="page.props.breadcrumbs"/>
             </div>
             <div class="mx-auto max-w-7xl overflow-hidden bg-white shadow-sm mt-4 mb-14 p-6 lg:p-8 sm:rounded-lg">
-                <MainTitle :href="route('home')">Новости</MainTitle>
+                <div class="flex justify-between items-center mb-4 sm:mb-8">
+                    <MainTitle class="!mb-0 !sm:mb-0" :href="route('home')">Новости</MainTitle>
+                    <button @click="showModal" v-if="page.props.auth.user !== null"
+                            class="h-12 px-6 bg-emerald-400 rounded text-white transition-all hover:bg-emerald-300">
+                        Добавить новость
+                    </button>
+                </div>
 
                 <div class="grid grid-cols-2 gap-4">
                     <a v-for="article in news.data" :href="route('news.show', article.id)" class="rounded shadow group">
-                        <img class="w-full h-[300px] object-cover rounded-t transition-all group-hover:opacity-85"
+                        <img v-if="article.images[0]"
+                             class="w-full h-[300px] object-cover rounded-t transition-all group-hover:opacity-85"
                              :src="article.images[0].image_path"
                              :alt="article.images[0].image_title">
                         <div class="rounded-b p-4">
@@ -51,4 +97,49 @@ const news = page.props.news;
             </div>
         </div>
     </Main>
+    <Modal ref="createdModal" @close="closeModal">
+        <template v-slot:header>
+            Добавление новости
+        </template>
+        <template v-slot:body>
+            <form @submit.prevent="submit" enctype="multipart/form-data" method="POST">
+                <input class="block w-full rounded p-4 border border-emerald-400 mb-2"
+                       type="text"
+                       id="title"
+                       name="title"
+                       placeholder="Заголовок"
+                       v-model="form.title">
+                <div class="text-sm text-red-400 mb-2" v-if="form.errors.title">{{ form.errors.title }}</div>
+                <textarea class="block w-full !h-20 rounded p-4 border border-emerald-400 resize-none mb-2"
+                          id="description"
+                          name="description"
+                          placeholder="Описание"
+                          v-model="form.description"></textarea>
+                <div class="text-sm text-red-400 mb-2" v-if="form.errors.description">
+                    {{ form.errors.description }}
+                </div>
+                <label>
+                    <input
+                        ref="fileInput"
+                        class="text-sm text-grey-500
+                                file:transition-all
+                                file:mr-2 file:py-2 file:px-6
+                                file:rounded file:border-0
+                                file:text-sm
+                                file:bg-emerald-400 file:text-white
+                                hover:file:cursor-pointer hover:file:bg-emerald-500"
+                        type="file" id="images" name="images" multiple
+                        @change="form.images = $event.target.files">
+                </label>
+                <progress v-if="form.progress" :value="form.progress.percentage" max="100">
+                    {{ form.progress.percentage }}%
+                </progress>
+                <button type="submit"
+                        :disabled="form.processing"
+                        class="ml-auto mt-6 block bg-emerald-400 py-2 px-6 rounded text-white transition-all hover:bg-emerald-300">
+                    Добавить
+                </button>
+            </form>
+        </template>
+    </Modal>
 </template>

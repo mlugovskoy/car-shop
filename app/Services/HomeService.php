@@ -67,6 +67,7 @@ class HomeService
 
         return Cache::remember($cacheKey, now()->addMinutes(10), function () {
             $news = News::query()->orderBy('published_at', 'desc')
+                ->where('active', true)
                 ->limit(6)
                 ->get(['id', 'title', 'description', 'published_at']);
 

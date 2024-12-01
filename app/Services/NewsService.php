@@ -2,9 +2,12 @@
 
 namespace App\Services;
 
+use App\Models\Comment;
+use App\Models\Image;
 use App\Models\News;
 use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
 class NewsService
@@ -15,6 +18,7 @@ class NewsService
 
         $cachedNews = Cache::remember($cacheKey, now()->addMinutes(10), function () {
             return News::query()
+                ->where('active', true)
                 ->orderBy('published_at', 'desc')
                 ->get(['title', 'id', 'description', 'published_at']);
         });
@@ -69,9 +73,62 @@ class NewsService
         });
     }
 
-    public function removeCacheDetailArticle($id)
+    public function storeArticle($request): void
+    {
+        $article = News::query()
+            ->create(
+                [
+                    'active' => false,
+                    'title' => $request->title,
+                    'description' => $request->description,
+                    'user_id' => Auth::user()->id,
+                    'published_at' => Carbon::now()->format('Y-m-d H:i:s')
+                ]
+            );
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $imageFile) {
+                $image_path = $imageFile->store('images/news', 'public');
+                $image = Image::query()->create([
+                    'image_title' => $imageFile->getClientOriginalName(),
+                    'image_path' => '/storage/' . $image_path,
+                    'image_size' => $imageFile->getSize(),
+                    'image_ext' => $imageFile->getMimeType(),
+                    'image_source' => 'news',
+                ]);
+                $article->images()->attach($image->id);
+            }
+        }
+    }
+
+    public function storeArticleComment($request, $id): void
+    {
+        $comment = Comment::query()
+            ->create(
+                [
+                    'description' => $request->description,
+                    'user_id' => Auth::user()->id,
+                    'city' => Auth::user()->city ?: null,
+                    'published_at' => Carbon::now()->format('Y-m-d H:i:s')
+                ]
+            );
+
+        $article = News::query()->findOrFail($id);
+        $article->comments()->attach($comment->id);
+    }
+
+    public function removeCacheDetailArticle($id): void
     {
         $cacheKey = 'detail_news_section_' . $id;
+
+        if (Cache::has($cacheKey)) {
+            Cache::forget($cacheKey);
+        }
+    }
+
+    public function removeCacheAllNewsSection(): void
+    {
+        $cacheKey = 'all_news_section';
 
         if (Cache::has($cacheKey)) {
             Cache::forget($cacheKey);

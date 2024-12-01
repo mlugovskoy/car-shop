@@ -18,6 +18,7 @@ class NewsFactory extends Factory
     public function definition(): array
     {
         return [
+            "active" => $this->faker->boolean,
             "title" => $this->faker->sentence(),
             "description" => $this->faker->text(),
             "user_id" => $this->faker->numberBetween(1, User::query()->count()),
