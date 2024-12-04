@@ -2,26 +2,24 @@
 
 namespace App\Services;
 
-use App\Models\Comment;
-use App\Models\Image;
-use App\Models\News;
-use Carbon\Carbon;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Filters\TransportsFilter;
+use App\Models\Transport;
 use Illuminate\Support\Facades\Cache;
 
 class TransportService
 {
-    public function getAllTransport()
+    public function getAllTransport($request)
     {
         $cacheKey = 'all_transport_section';
 
-//        $cachedNews = Cache::remember($cacheKey, now()->addMinutes(10), function () {
-//            return News::query()
+        return Cache::remember($cacheKey, now()->addMinutes(10), function () use ($request) {
+            $filter = app()->make(TransportsFilter::class, ['queryParams' => array_filter($request)]);
+            return Transport::query()
 //                ->where('active', true)
-//                ->orderBy('published_at', 'desc')
-//                ->get(['title', 'id', 'description', 'published_at']);
-//        });
+                ->orderBy('published_at', 'desc')
+                ->filter($filter)
+                ->get(['id', 'description', 'published_at']);
+        });
 //
 //        $currentPage = LengthAwarePaginator::resolveCurrentPage();
 //        $countItemsInPage = 10;
@@ -36,16 +34,6 @@ class TransportService
 //                'query' => request()->query()
 //            ]
 //        );
-//
-//        foreach ($paginatedItems as $article) {
-//            foreach ($article->images as $image) {
-//                $article->push($image);
-//            }
-//            foreach ($article->comments as $comment) {
-//                $article->push($comment);
-//            }
-//            $article->published_at = Carbon::parse($article->published_at)->translatedFormat('d F');
-//        }
 //
 //        return $paginatedItems;
     }
