@@ -12,14 +12,14 @@ class TransportService
     {
         $cacheKey = 'all_transport_section';
 
-        return Cache::remember($cacheKey, now()->addMinutes(10), function () use ($request) {
-            $filter = app()->make(TransportsFilter::class, ['queryParams' => array_filter($request)]);
-            return Transport::query()
+//        return Cache::remember($cacheKey, now()->addMinutes(10), function () use ($request) {
+//            $filter = app()->make(TransportsFilter::class, ['queryParams' => array_filter($request)]);
+//            return Transport::query()
 //                ->where('active', true)
-                ->orderBy('published_at', 'desc')
-                ->filter($filter)
-                ->get(['id', 'description', 'published_at']);
-        });
+//                ->orderBy('published_at', 'desc')
+//                ->filter($filter)
+//                ->get(['id', 'description', 'published_at']);
+//        });
 //
 //        $currentPage = LengthAwarePaginator::resolveCurrentPage();
 //        $countItemsInPage = 10;

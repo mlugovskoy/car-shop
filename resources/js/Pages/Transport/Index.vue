@@ -5,13 +5,18 @@ import MainTitle from "@/Components/UI/MainTitle.vue";
 import Breadcrumbs from "@/Components/Breadcrumbs.vue";
 import Select from "@/Components/Select.vue";
 import {ref} from "vue";
+import Radio from "@/Components/Radio.vue";
 
 const page = usePage();
 const form = useForm({});
 
 const selectedMakers = ref('');
 const selectedModels = ref('');
+const selectedTransmission = ref('');
+const selectedDrive = ref('');
+const selectedColor = ref('');
 
+// TEST
 const makers = [
     {value: 'option1', text: 'op1'}
 ]
@@ -19,9 +24,15 @@ const models = [
     {value: 'option2', text: 'op2'}
 ]
 
+const radios = ['Правый', 'Левый'];
+// TEST
+
 const resetFilter = () => {
     selectedMakers.value = '';
     selectedModels.value = '';
+    selectedTransmission.value = '';
+    selectedDrive.value = '';
+    selectedColor.value = '';
 }
 </script>
 
@@ -41,15 +52,28 @@ const resetFilter = () => {
                     </button>
                 </div>
                 <form @submit.prevent="submit" enctype="multipart/form-data" method="POST">
-                    <div class="grid grid-cols-4 gap-6">
-                        <Select v-model="selectedMakers" :options="makers" placeholder="Любая марка" :value="selectedMakers"/>
-                        <Select v-model="selectedModels" :options="models" placeholder="Любая модель" :value="selectedModels"/>
+                    <div class="grid grid-cols-4 gap-6 mb-10">
+                        <Select v-model="selectedMakers" :options="makers" placeholder="Любая марка"
+                                :value="selectedMakers"/>
+                        <Select v-model="selectedModels" :options="models" placeholder="Любая модель"
+                                :value="selectedModels"/>
+                        <Select v-model="selectedTransmission" :options="transmission" placeholder="Любая трансмиссия"
+                                :value="selectedTransmission"/>
+                        <Select v-model="selectedDrive" :options="drive" placeholder="Любой привод"
+                                :value="selectedDrive"/>
+                        <Select v-model="selectedColor" :options="color" placeholder="Любой цвет"
+                                :value="selectedColor"/>
                     </div>
+                    <Radio label="Руль" :radios="radios"/>
+
                     <div class="mt-6 flex justify-end items-center gap-10">
-                        <button v-if="selectedMakers || selectedModels" @click="resetFilter"
-                                class="flex gap-2 text-gray-500 transition-all hover:text-emerald-400 group">
+                        <button
+                            v-if="selectedMakers || selectedModels || selectedTransmission || selectedDrive || selectedColor"
+                            @click="resetFilter"
+                            class="flex gap-2 text-gray-500 transition-all hover:text-emerald-400 group">
                             <svg class="transition-all group-hover:fill-emerald-400 fill-gray-500"
-                                 xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
+                                 xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
+                                 width="24px">
                                 <path
                                     d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
                             </svg>
