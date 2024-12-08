@@ -12,6 +12,7 @@ return new class extends Migration {
     {
         Schema::create('transports', function (Blueprint $table) {
             $table->id();
+            $table->boolean('active');
             $table->string('city', 100);
             $table->string('vin', 255);
             $table->string('phone', 45);
