@@ -22,8 +22,18 @@ class TransportsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'makers' => ['nullable', 'array'],
-            'models' => ['nullable', 'array'],
+            'makers' => ['nullable', 'string'],
+            'models' => ['nullable', 'string'],
+            'transmission' => ['nullable', 'string'],
+            'drive' => ['nullable', 'string'],
+            'color' => ['nullable', 'string'],
+            'fuelType' => ['nullable', 'string'],
+            'transportType' => ['nullable', 'string'],
+            'yearFrom' => ['nullable', 'string'],
+            'yearTo' => ['nullable', 'string'],
+            'priceFrom' => ['nullable', 'string'],
+            'priceTo' => ['nullable', 'string'],
+            'steeringWheel' => ['nullable', 'string']
         ];
     }
 }

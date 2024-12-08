@@ -8,12 +8,14 @@ class TransportsFilter extends QueryFilter
 {
     protected const MAKERS = 'makers';
     protected const MODELS = 'models';
+    protected const COLORS = 'colors';
 
     protected function getCallbacks(): array
     {
         return [
             self::MAKERS => [$this, 'makers'],
             self::MODELS => [$this, 'models'],
+            self::COLORS => [$this, 'colors'],
         ];
     }
 
@@ -28,6 +30,13 @@ class TransportsFilter extends QueryFilter
     {
         $builder->whereHas('models_id', function ($b) use ($value) {
             $b->whereIn('models_id', $value);
+        });
+    }
+
+    protected function colors(Builder $builder, $value): Builder
+    {
+        $builder->whereHas('colors', function ($b) use ($value) {
+            $b->whereIn('colors', $value);
         });
     }
 }

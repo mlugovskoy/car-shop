@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Breadcrumbs;
-use App\Http\Filters\TransportsFilter;
 use App\Http\Requests\Transports\TransportsRequest;
-use App\Models\Transport;
 use App\Services\TransportService;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class TransportController extends Controller
@@ -22,9 +21,14 @@ class TransportController extends Controller
     {
         $transports = $this->transportService->getAllTransport($request->validated());
 
+        $fieldsFilters = $this->transportService->getFieldsToFilters();
+
         $breadcrumbs = (new Breadcrumbs())->generateBreadcrumbs('transport');
 
-        return Inertia::render('Transport/Index', ['transports' => $transports, 'breadcrumbs' => $breadcrumbs]);
+        return Inertia::render(
+            'Transport/Index',
+            ['transports' => $transports, 'fieldsFilters' => $fieldsFilters, 'breadcrumbs' => $breadcrumbs]
+        );
     }
 
     /**

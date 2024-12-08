@@ -4,35 +4,59 @@ import {Head, useForm, usePage} from '@inertiajs/vue3';
 import MainTitle from "@/Components/UI/MainTitle.vue";
 import Breadcrumbs from "@/Components/Breadcrumbs.vue";
 import Select from "@/Components/Select.vue";
-import {ref} from "vue";
 import Radio from "@/Components/Radio.vue";
+import RangeInput from "@/Components/RangeInput.vue";
 
 const page = usePage();
-const form = useForm({});
 
-const selectedMakers = ref('');
-const selectedModels = ref('');
-const selectedTransmission = ref('');
-const selectedDrive = ref('');
-const selectedColor = ref('');
+const transports = page.props.transports;
+const radios = page.props.fieldsFilters.steeringWheel;
+const makers = page.props.fieldsFilters.makers;
+const models = page.props.fieldsFilters.models;
+const transmission = page.props.fieldsFilters.transmission;
+const drive = page.props.fieldsFilters.drive;
+const color = page.props.fieldsFilters.color;
+const fuelType = page.props.fieldsFilters.fuelType;
+const transportType = page.props.fieldsFilters.transportType;
 
-// TEST
-const makers = [
-    {value: 'option1', text: 'op1'}
-]
-const models = [
-    {value: 'option2', text: 'op2'}
-]
+const form = useForm({
+    makers: '',
+    models: '',
+    transmission: '',
+    drive: '',
+    color: '',
+    fuelType: '',
+    transportType: '',
+    yearFrom: '',
+    yearTo: '',
+    priceFrom: '',
+    priceTo: '',
+    steeringWheel: ''
+});
 
-const radios = ['Правый', 'Левый'];
-// TEST
+const submit = () => {
+    form.post(route('transport.index'), {
+        preserveScroll: true,
+    })
+}
+
+const resetForm = () => {
+    form.reset()
+};
 
 const resetFilter = () => {
-    selectedMakers.value = '';
-    selectedModels.value = '';
-    selectedTransmission.value = '';
-    selectedDrive.value = '';
-    selectedColor.value = '';
+    form.makers = '';
+    form.models = '';
+    form.transmission = '';
+    form.drive = '';
+    form.color = '';
+    form.fuelType = '';
+    form.transportType = '';
+    form.yearFrom = '';
+    form.yearTo = '';
+    form.priceFrom = '';
+    form.priceTo = '';
+    form.steeringWheel = '';
 }
 </script>
 
@@ -52,23 +76,48 @@ const resetFilter = () => {
                     </button>
                 </div>
                 <form @submit.prevent="submit" enctype="multipart/form-data" method="POST">
-                    <div class="grid grid-cols-4 gap-6 mb-10">
-                        <Select v-model="selectedMakers" :options="makers" placeholder="Любая марка"
-                                :value="selectedMakers"/>
-                        <Select v-model="selectedModels" :options="models" placeholder="Любая модель"
-                                :value="selectedModels"/>
-                        <Select v-model="selectedTransmission" :options="transmission" placeholder="Любая трансмиссия"
-                                :value="selectedTransmission"/>
-                        <Select v-model="selectedDrive" :options="drive" placeholder="Любой привод"
-                                :value="selectedDrive"/>
-                        <Select v-model="selectedColor" :options="color" placeholder="Любой цвет"
-                                :value="selectedColor"/>
+                    <div class="grid grid-cols-4 gap-6 mb-6">
+                        <Select v-model="form.makers" :options="makers" name="makers" placeholder="Любая марка"/>
+                        <Select v-model="form.models" :options="models" name="models" placeholder="Любая модель"/>
+                        <Select v-model="form.transmission" :options="transmission" name="transmission"
+                                placeholder="Любая трансмиссия"/>
+                        <Select v-model="form.drive" :options="drive" name="drive" placeholder="Любой привод"/>
+                        <Select v-model="form.color" :options="color" name="color" placeholder="Любой цвет"/>
+                        <Select v-model="form.fuelType" :options="fuelType" name="fuelType"
+                                placeholder="Любой бензин"/>
+                        <Select v-model="form.transportType" :options="transportType" name="transportType"
+                                placeholder="Любой тип транспорта"/>
                     </div>
-                    <Radio label="Руль" :radios="radios"/>
+
+                    <div class="flex gap-6  my-10">
+                        <RangeInput v-model:modelValueOne="form.yearTo"
+                                    v-model:modelValueTwo="form.yearFrom"
+                                    inputType="date"
+                                    nameTo="yearTo"
+                                    nameFrom="yearFrom"
+                                    label="Год"/>
+                        <RangeInput v-model:modelValueOne="form.priceTo"
+                                    v-model:modelValueTwo="form.priceFrom"
+                                    nameTo="priceTo"
+                                    nameFrom="priceFrom"
+                                    label="Цена"/>
+                    </div>
+                    <Radio v-model="form.steeringWheel" name="steeringWheel" label="Руль" :radios="radios"/>
 
                     <div class="mt-6 flex justify-end items-center gap-10">
                         <button
-                            v-if="selectedMakers || selectedModels || selectedTransmission || selectedDrive || selectedColor"
+                            v-if="form.makers
+                            || form.models
+                            || form.transmission
+                            || form.drive
+                            || form.color
+                            || form.fuelType
+                            || form.transportType
+                            || form.yearFrom
+                            || form.yearTo
+                            || form.priceFrom
+                            || form.priceTo
+                            || form.steeringWheel"
                             @click="resetFilter"
                             class="flex gap-2 text-gray-500 transition-all hover:text-emerald-400 group">
                             <svg class="transition-all group-hover:fill-emerald-400 fill-gray-500"
@@ -86,6 +135,12 @@ const resetFilter = () => {
                         </button>
                     </div>
                 </form>
+
+                <div v-if="transports.length > 0" class="border-t-2 rounded border-t-emerald-400 mt-10">
+                    <div v-for="transport in transports">
+                        {{ transport.maker_id }}
+                    </div>
+                </div>
             </div>
         </div>
     </Main>
