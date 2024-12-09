@@ -9,7 +9,6 @@ import RangeInput from "@/Components/RangeInput.vue";
 
 const page = usePage();
 
-const transports = page.props.transports;
 const radios = page.props.fieldsFilters.steeringWheel;
 const makers = page.props.fieldsFilters.makers;
 const models = page.props.fieldsFilters.models;
@@ -57,6 +56,8 @@ const resetFilter = () => {
     form.priceFrom = '';
     form.priceTo = '';
     form.steeringWheel = '';
+
+    submit();
 }
 </script>
 
@@ -119,8 +120,11 @@ const resetFilter = () => {
                             || form.priceTo
                             || form.steeringWheel"
                             @click="resetFilter"
-                            class="flex gap-2 text-gray-500 transition-all hover:text-emerald-400 group">
+                            :disabled="form.processing"
+                            class="flex gap-2 text-gray-500 transition-all hover:text-emerald-400 group"
+                            :class="{'opacity-50 hover:text-gray-500': form.processing}">
                             <svg class="transition-all group-hover:fill-emerald-400 fill-gray-500"
+                                 :class="{'opacity-50 group-hover:fill-gray-500': form.processing}"
                                  xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
                                  width="24px">
                                 <path
@@ -130,16 +134,21 @@ const resetFilter = () => {
                         </button>
                         <button type="submit"
                                 :disabled="form.processing"
-                                class="block bg-emerald-400 py-2 px-6 rounded text-white transition-all hover:bg-emerald-300">
+                                class="block bg-emerald-400 py-2 px-6 rounded text-white transition-all hover:bg-emerald-300"
+                                :class="{'bg-gray-500 hover:bg-gray-500': form.processing}">
                             Показать
                         </button>
                     </div>
                 </form>
 
-                <div v-if="transports.length > 0" class="border-t-2 rounded border-t-emerald-400 mt-10">
-                    <div v-for="transport in transports">
+                <div class="border-t-2 rounded border-t-emerald-400 my-10"></div>
+                <div v-if="page.props.transports.length > 0">
+                    <div v-for="transport in page.props.transports">
                         {{ transport.maker_id }}
                     </div>
+                </div>
+                <div v-else class="text-center text-xl text-gray-500">
+                    Список элементов пуст
                 </div>
             </div>
         </div>

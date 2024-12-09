@@ -2,22 +2,22 @@
 
 namespace App\Services;
 
-use App\Http\Filters\TransportsFilter;
 use App\Models\Transport;
 use Illuminate\Support\Facades\Cache;
 
 class TransportService
 {
-    public function getAllTransport($request)
+    public function getAllTransport($request, $filters)
     {
+        $this->removeCacheAllTransportSection();
+
         $cacheKey = 'all_transport_section';
 
-//        return Cache::remember($cacheKey, now()->addMinutes(10), function () use ($request) {
-            $filter = app()->make(TransportsFilter::class, ['queryParams' => array_filter($request)]);
-            $test = Transport::query()
+        return Cache::remember($cacheKey, now()->addMinutes(10), function () use ($request, $filters) {
+            return Transport::query()
                 ->where('active', true)
                 ->orderBy('published_at', 'desc')
-                ->filter($filter)
+                ->filter($filters)
                 ->get(
                     [
                         'maker_id',
@@ -28,13 +28,13 @@ class TransportService
                         'fuel_type_id',
                         'mileage',
                         'price',
+                        'color',
                         'user_id',
                         'transport_type_id',
                         'published_at'
                     ]
                 );
-            return $test;
-//        });
+        });
 //
 //        $currentPage = LengthAwarePaginator::resolveCurrentPage();
 //        $countItemsInPage = 10;

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Breadcrumbs;
+use App\Http\Filters\TransportsFilters;
 use App\Http\Requests\Transports\TransportsRequest;
 use App\Services\TransportService;
 use Illuminate\Http\Request;
@@ -17,9 +18,9 @@ class TransportController extends Controller
         $this->transportService = $transportService;
     }
 
-    public function index(TransportsRequest $request)
+    public function index(TransportsRequest $request, TransportsFilters $filters)
     {
-        $transports = $this->transportService->getAllTransport($request->validated());
+        $transports = $this->transportService->getAllTransport($request, $filters);
 
         $fieldsFilters = $this->transportService->getFieldsToFilters();
 
