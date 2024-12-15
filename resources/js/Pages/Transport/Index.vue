@@ -6,6 +6,7 @@ import Breadcrumbs from "@/Components/Breadcrumbs.vue";
 import Select from "@/Components/Select.vue";
 import Radio from "@/Components/Radio.vue";
 import RangeInput from "@/Components/RangeInput.vue";
+import RangeInputSelect from "@/Components/RangeInputSelect.vue";
 
 const page = usePage();
 
@@ -17,6 +18,7 @@ const drive = page.props.fieldsFilters.drive;
 const color = page.props.fieldsFilters.color;
 const fuelType = page.props.fieldsFilters.fuelType;
 const transportType = page.props.fieldsFilters.transportType;
+const year = page.props.fieldsFilters.year;
 
 const form = useForm({
     makers: '',
@@ -26,11 +28,9 @@ const form = useForm({
     color: '',
     fuelType: '',
     transportType: '',
-    yearFrom: '',
-    yearTo: '',
-    priceFrom: '',
-    priceTo: '',
-    steeringWheel: ''
+    steeringWheel: '',
+    year: [],
+    price: []
 });
 
 const submit = () => {
@@ -51,10 +51,10 @@ const resetFilter = () => {
     form.color = '';
     form.fuelType = '';
     form.transportType = '';
-    form.yearFrom = '';
-    form.yearTo = '';
-    form.priceFrom = '';
-    form.priceTo = '';
+    form.year[0] = '';
+    form.year[1] = '';
+    form.price[0] = '';
+    form.price[1] = '';
     form.steeringWheel = '';
 
     submit();
@@ -91,16 +91,15 @@ const resetFilter = () => {
                     </div>
 
                     <div class="flex gap-6  my-10">
-                        <RangeInput v-model:modelValueOne="form.yearTo"
-                                    v-model:modelValueTwo="form.yearFrom"
-                                    inputType="date"
-                                    nameTo="yearTo"
-                                    nameFrom="yearFrom"
-                                    label="Год"/>
-                        <RangeInput v-model:modelValueOne="form.priceTo"
-                                    v-model:modelValueTwo="form.priceFrom"
-                                    nameTo="priceTo"
-                                    nameFrom="priceFrom"
+                        <RangeInputSelect v-model="form.year"
+                                          :options="year"
+                                          label="Год"
+                                          placeholder="qwe"
+                                          nameFrom="year.max"
+                                          nameTo="year.min"/>
+                        <RangeInput v-model:value="form.price"
+                                    nameTo="price.min"
+                                    nameFrom="price.max"
                                     label="Цена"/>
                     </div>
                     <Radio v-model="form.steeringWheel" name="steeringWheel" label="Руль" :radios="radios"/>
@@ -114,10 +113,10 @@ const resetFilter = () => {
                             || form.color
                             || form.fuelType
                             || form.transportType
-                            || form.yearFrom
-                            || form.yearTo
-                            || form.priceFrom
-                            || form.priceTo
+                            || form.year[0]
+                            || form.year[1]
+                            || form.price[0]
+                            || form.price[1]
                             || form.steeringWheel"
                             @click="resetFilter"
                             :disabled="form.processing"
@@ -144,7 +143,7 @@ const resetFilter = () => {
                 <div class="border-t-2 rounded border-t-emerald-400 my-10"></div>
                 <div v-if="page.props.transports.length > 0">
                     <div v-for="transport in page.props.transports">
-                        {{ transport.maker_id }}
+                        {{ transport.id }}
                     </div>
                 </div>
                 <div v-else class="text-center text-xl text-gray-500">

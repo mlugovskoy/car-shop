@@ -23,9 +23,9 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 let selectedValue = ref(props.modelValue);
 
-const updateValue = () => {
+watch(selectedValue, (newValue) => {
     emit('update:modelValue', selectedValue.value)
-}
+});
 
 watch(() => props.modelValue, (newValue) => {
     selectedValue.value = newValue;
@@ -35,7 +35,7 @@ watch(() => props.modelValue, (newValue) => {
 <template>
     <select
         class="border-2 border-emerald-400 rounded text-gray-500 focus:border-emerald-400 w-full text-sm focus:ring-blue-500 placeholder-emerald-400 block p-2.5"
-        :name="name" :id="name" v-model="selectedValue" @change="updateValue">
+        :name="name" :id="name" v-model="selectedValue">
         <option value="" selected>{{ placeholder }}</option>
         <option v-for="option in options" :key="option.value" :value="option.value">
             {{ option.value }}

@@ -29,10 +29,10 @@ class TransportsRequest extends FormRequest
             'color' => ['nullable', 'string'],
             'fuelType' => ['nullable', 'string'],
             'transportType' => ['nullable', 'string'],
-            'yearFrom' => ['nullable', 'string'],
-            'yearTo' => ['nullable', 'string'],
-            'priceFrom' => ['nullable', 'string'],
-            'priceTo' => ['nullable', 'string'],
+            'year.min' => ['nullable', 'string'],
+            'year.max' => ['nullable', 'string'],
+            'price.min' => ['nullable', 'numeric'],
+            'price.max' => ['nullable', 'numeric'],
             'steeringWheel' => ['nullable', 'string']
         ];
     }

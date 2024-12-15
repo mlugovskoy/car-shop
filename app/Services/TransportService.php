@@ -20,6 +20,7 @@ class TransportService
                 ->filter($filters)
                 ->get(
                     [
+                        'id',
                         'maker_id',
                         'model_id',
                         'city',
@@ -57,7 +58,6 @@ class TransportService
     {
         $cacheKey = 'fields_to_filters_section';
 
-        return Cache::remember($cacheKey, now()->addMinutes(10), function () {
             $transports = Transport::query()
                 ->where('active', true)
                 ->get();
@@ -94,6 +94,10 @@ class TransportService
                 return ['value' => $transportType['name']];
             })->values()->all();
 
+            $year = $transports->pluck('year')->unique()->sort()->map(function ($year) {
+                return ['value' => $year];
+            })->values()->all();
+
             return [
                 'makers' => $makers,
                 'models' => $models,
@@ -103,8 +107,8 @@ class TransportService
                 'color' => $color,
                 'fuelType' => $fuelType,
                 'transportType' => $transportType,
+                'year' => $year,
             ];
-        });
     }
 
     public function removeCacheAllTransportSection(): void

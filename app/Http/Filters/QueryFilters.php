@@ -3,11 +3,14 @@
 namespace App\Http\Filters;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 abstract class QueryFilters
 {
     protected $builder;
     protected $request;
+
+    protected const KEYS_ARRAY = ['price', 'year'];
 
     public function __construct(Request $request)
     {
@@ -16,11 +19,20 @@ abstract class QueryFilters
 
     public function apply($builder)
     {
-        $this->builder = $builder;
+        foreach ($this->filters() as $method => $value) {
+            $methodName = Str::camel($method);
+            $this->builder = $builder;
 
-        foreach ($this->filters() as $filter => $value) {
-            if (method_exists($this, $filter)) {
-                $this->$filter($value);
+            if ($value === null) {
+                continue;
+            }
+
+            if (method_exists($this, $methodName)) {
+                if (in_array($method, static::KEYS_ARRAY, true)) {
+                    $value = is_array($value) ? $value : [$value];
+                }
+
+                $this->builder = $this->{$methodName}($value);
             }
         }
 

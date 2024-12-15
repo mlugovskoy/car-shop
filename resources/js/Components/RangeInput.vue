@@ -14,13 +14,9 @@ const props = defineProps({
         type: String,
         required: true
     },
-    modelValueOne: {
-        type: Number || String,
-        default: 0
-    },
-    modelValueTwo: {
-        type: Number || String,
-        default: 0
+    value: {
+        type: Array,
+        default: []
     },
     inputType: {
         type: String,
@@ -28,25 +24,17 @@ const props = defineProps({
     }
 });
 
-const emit = defineEmits(['update:modelValueOne', 'update:modelValueTwo']);
+const emit = defineEmits(['update:value']);
 
-const valueInputOne = ref(props.modelValueOne);
-const valueInputTwo = ref(props.modelValueTwo);
+const inputValue = ref(props.value);
 
-watch(valueInputOne, (newValue) => {
-    emit('update:modelValueOne', newValue);
+watch(inputValue, (value_min, value_max) => {
+    emit('update:value', value_min, value_max);
 });
 
-watch(valueInputTwo, (newValue) => {
-    emit('update:modelValueTwo', newValue);
-});
-
-watch(() => props.modelValueOne, (newValue) => {
-    valueInputOne.value = newValue;
-});
-
-watch(() => props.modelValueTwo, (newValue) => {
-    valueInputTwo.value = newValue;
+watch(() => props.value, (value_min, value_max) => {
+    inputValue[0].value = value_min;
+    inputValue[1].value = value_max;
 });
 </script>
 
@@ -55,13 +43,13 @@ watch(() => props.modelValueTwo, (newValue) => {
         <label class="absolute -top-6 text-sm text-gray-500">{{ label }}</label>
         <div class="flex gap-4">
             <input
-                v-model="valueInputOne"
+                v-model="inputValue[0]"
                 :name="nameTo"
                 :id="nameTo"
                 class="border-2 border-emerald-400 rounded text-gray-500 focus:border-emerald-400 w-1/2 text-sm focus:ring-blue-500 placeholder-emerald-400 block p-2.5"
                 :type="inputType" placeholder="От">
             <input
-                v-model="valueInputTwo"
+                v-model="inputValue[1]"
                 :name="nameFrom"
                 :id="nameFrom"
                 class="border-2 border-emerald-400 rounded text-gray-500 focus:border-emerald-400 w-1/2 text-sm focus:ring-blue-500 placeholder-emerald-400 block p-2.5"
