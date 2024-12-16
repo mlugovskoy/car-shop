@@ -49,4 +49,32 @@ class TransportsFilters extends QueryFilters
 
         $this->builder->where('year', '>=', $value[0])->where('year', '<=', $value[1]);
     }
+
+    protected function makers($value)
+    {
+        $this->builder->whereHas('maker', function ($query) use ($value) {
+            $query->where('name', $value);
+        });
+    }
+
+    protected function models($value)
+    {
+        $this->builder->whereHas('model', function ($query) use ($value) {
+            $query->where('name', $value);
+        });
+    }
+
+    protected function fuelType($value)
+    {
+        $this->builder->whereHas('fuelType', function ($query) use ($value) {
+            $query->where('name', $value);
+        });
+    }
+
+    protected function transportType($value)
+    {
+        $this->builder->whereHas('transportType', function ($query) use ($value) {
+            $query->where('name', $value);
+        });
+    }
 }

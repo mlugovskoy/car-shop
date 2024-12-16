@@ -1,5 +1,5 @@
 <script setup>
-import {ref, watch} from "vue";
+import {reactive, ref, watch} from "vue";
 
 const props = defineProps({
     label: {
@@ -26,15 +26,14 @@ const props = defineProps({
 
 const emit = defineEmits(['update:value']);
 
-const inputValue = ref(props.value);
+const inputValue = reactive([...props.value]);
 
-watch(inputValue, (value_min, value_max) => {
-    emit('update:value', value_min, value_max);
+watch(inputValue, (newValue) => {
+    emit('update:value', newValue);
 });
 
-watch(() => props.value, (value_min, value_max) => {
-    inputValue[0].value = value_min;
-    inputValue[1].value = value_max;
+watch(() => props.value, (newValue) => {
+    inputValue.value = [...newValue];
 });
 </script>
 

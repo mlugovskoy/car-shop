@@ -1,5 +1,5 @@
 <script setup>
-import {ref, watch} from "vue";
+import {reactive, ref, watch} from "vue";
 import Select from "@/Components/Select.vue";
 
 const props = defineProps({
@@ -27,15 +27,14 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['update:modelValue'])
-let selectedValue = ref(props.modelValue);
+let selectedValue = reactive(['', '']);
 
-watch(selectedValue, (value_min, value_max) => {
-    emit('update:modelValue', value_min, value_max);
+watch(selectedValue, (newValue) => {
+    emit('update:modelValue', newValue);
 });
 
-watch(() => props.modelValue, (value_min, value_max) => {
-    selectedValue[0].value = value_min;
-    selectedValue[1].value = value_max;
+watch(() => props.modelValue, (newValue) => {
+    selectedValue.value = [...newValue];
 });
 </script>
 
@@ -47,7 +46,7 @@ watch(() => props.modelValue, (value_min, value_max) => {
                 class="border-2 border-emerald-400 rounded text-gray-500 focus:border-emerald-400 w-full text-sm focus:ring-blue-500 placeholder-emerald-400 block p-2.5"
                 :name="nameTo" :id="nameTo" v-model="selectedValue[0]">
                 <option value="" selected>От</option>
-                <option v-for="(option, key) in options" :key :value="option.value">
+                <option v-for="(option, index) in options" :key="index" :value="option.value">
                     {{ option.value }}
                 </option>
             </select>
@@ -55,7 +54,7 @@ watch(() => props.modelValue, (value_min, value_max) => {
                 class="border-2 border-emerald-400 rounded text-gray-500 focus:border-emerald-400 w-full text-sm focus:ring-blue-500 placeholder-emerald-400 block p-2.5"
                 :name="nameFrom" :id="nameFrom" v-model="selectedValue[1]">
                 <option value="" selected>До</option>
-                <option v-for="(option, key) in options" :key :value="option.value">
+                <option v-for="(option, index) in options" :key="index" :value="option.value">
                     {{ option.value }}
                 </option>
             </select>

@@ -78,8 +78,8 @@ const resetFilter = () => {
                 </div>
                 <form @submit.prevent="submit" enctype="multipart/form-data" method="POST">
                     <div class="grid grid-cols-4 gap-6 mb-6">
-                        <Select v-model="form.makers" :options="makers" name="makers" placeholder="Любая марка"/>
-                        <Select v-model="form.models" :options="models" name="models" placeholder="Любая модель"/>
+                        <Select v-model="form.makers" :options="makers" name="maker" placeholder="Любая марка"/>
+                        <Select v-model="form.models" :options="models" name="model" placeholder="Любая модель"/>
                         <Select v-model="form.transmission" :options="transmission" name="transmission"
                                 placeholder="Любая трансмиссия"/>
                         <Select v-model="form.drive" :options="drive" name="drive" placeholder="Любой привод"/>

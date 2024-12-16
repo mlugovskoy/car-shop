@@ -60,12 +60,12 @@ class Transport extends EloquentModel
         return $this->belongsTo(FuelType::class);
     }
 
-    protected function maker()
+    public function maker()
     {
         return $this->belongsTo(Maker::class);
     }
 
-    protected function model()
+    public function model()
     {
         return $this->belongsTo(Model::class);
     }
