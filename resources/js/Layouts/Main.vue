@@ -37,7 +37,7 @@ const showingNavigationDropdown = ref(false);
                         </div>
 
                         <div class="hidden sm:ms-6 sm:flex sm:items-center">
-                            <HeaderIcon>
+                            <HeaderIcon :href="route('favorites.index')" :active="route().current('favorites.index')">
                                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
                                      width="24px">
                                     <path
@@ -206,6 +206,7 @@ const showingNavigationDropdown = ref(false);
             >
                 <div class="mx-auto gap-6 max-w-7xl px-4 py-2 hidden sm:flex sm:px-6 lg:px-8">
                     <NavLink :href="route('transport.index')" :active="route().current('transport.index')">
+                        {{}}
                         Автомобили
                     </NavLink>
                     <NavLink>
