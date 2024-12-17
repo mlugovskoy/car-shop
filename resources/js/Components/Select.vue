@@ -37,7 +37,7 @@ watch(() => props.modelValue, (newValue) => {
         class="border-2 border-emerald-400 rounded text-gray-500 focus:border-emerald-400 w-full text-sm focus:ring-blue-500 placeholder-emerald-400 block p-2.5"
         :name="name" :id="name" v-model="selectedValue">
         <option value="" selected>{{ placeholder }}</option>
-        <option v-for="option in options" :key="option.value" :value="option.value">
+        <option v-for="option in options" :key="option.value" :value="(option.value).toLowerCase()">
             {{ option.value }}
         </option>
     </select>
