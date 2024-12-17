@@ -28,7 +28,7 @@ class TransportController extends Controller
 
         return Inertia::render(
             'Transport/Index',
-            ['transports' => $transports, 'fieldsFilters' => $fieldsFilters, 'breadcrumbs' => $breadcrumbs]
+            ['transports' => $transports, 'countTransports' => count($transports), 'fieldsFilters' => $fieldsFilters, 'breadcrumbs' => $breadcrumbs]
         );
     }
 

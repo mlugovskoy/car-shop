@@ -17,6 +17,7 @@ Route::post('/news', [NewsController::class, 'store'])->name('news.store');
 Route::post('/news/{id}', [NewsController::class, 'storeComment'])->name('news.store.comment');
 
 Route::get('/transports', [TransportController::class, 'index'])->name('transport.index');
+Route::get('/transports/{id}', [TransportController::class, 'show'])->name('transport.show');
 Route::post('/transports', [TransportController::class, 'index'])->name('transport.index');
 
 Route::middleware('auth')->group(function () {

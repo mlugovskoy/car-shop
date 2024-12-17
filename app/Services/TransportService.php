@@ -3,7 +3,12 @@
 namespace App\Services;
 
 use App\Models\Transport;
+use Illuminate\Log\Logger;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
+use XMLReader;
 
 class TransportService
 {
@@ -14,7 +19,8 @@ class TransportService
         $cacheKey = 'all_transport_section';
 
         return Cache::remember($cacheKey, now()->addMinutes(10), function () use ($request, $filters) {
-            return Transport::query()
+            $transports = Transport::query()
+                ->with(['maker', 'model', 'fuelType', 'user'])
                 ->where('active', true)
                 ->orderBy('published_at', 'desc')
                 ->filter($filters)
@@ -23,18 +29,33 @@ class TransportService
                         'id',
                         'maker_id',
                         'model_id',
+                        'fuel_type_id',
+                        'transport_type_id',
                         'city',
+                        'year',
                         'power',
                         'engine',
-                        'fuel_type_id',
+                        'fuel_supply_type',
                         'mileage',
                         'price',
-                        'color',
+                        'description',
                         'user_id',
-                        'transport_type_id',
                         'published_at'
                     ]
                 );
+
+            foreach ($transports as $transport) {
+                $transport->published_at = Date::parse($transport->published_at)->translatedFormat('d F');
+
+                $transport->preview = $transport->power . ' л.с, '
+                    . $transport->fuelType->name
+                    . ', ' . $transport->fuel_supply_type
+                    . ', ' . $transport->mileage . ' км';
+
+                $transport->price = number_format($transport->price, 0, '.', ' ') . ' ₽';
+            }
+
+            return $transports;
         });
     }
 
@@ -111,5 +132,26 @@ class TransportService
         if (Cache::has($cacheKey)) {
             Cache::forget($cacheKey);
         }
+    }
+
+    private function getCurrencyCode(string $code): float
+    {
+        $res = '';
+        try {
+            if (Http::get('https://www.cbr-xml-daily.ru/daily.xml')->successful()) {
+                $contentXml = Http::get('https://www.cbr-xml-daily.ru/daily.xml')->getBody()->getContents();
+                $xmlObj = new \SimpleXMLElement($contentXml);
+
+                foreach ($xmlObj->Valute as $value) {
+                    if ($code === (string)$value->CharCode) {
+                        $res = (float)$value->Value;
+                    }
+                }
+            }
+        } catch (\Exception $err) {
+            Log::error($err->getMessage());
+        }
+
+        return $res;
     }
 }

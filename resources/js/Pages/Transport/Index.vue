@@ -105,8 +105,11 @@ const resetFilter = () => {
                     <Radio v-model="form.steeringWheel" name="steeringWheel" label="Руль" :radios="radios"/>
 
                     <div class="mt-6 flex justify-end items-center gap-10">
-                        <button
-                            v-if="form.makers
+                        <div class="flex justify-between items-center gap-6">
+                            <div class="text-gray-500">
+                                Найдено объявлений: {{ page.props.countTransports }}
+                            </div>
+                            <button v-if="form.makers
                             || form.models
                             || form.transmission
                             || form.drive
@@ -118,19 +121,20 @@ const resetFilter = () => {
                             || form.price[0]
                             || form.price[1]
                             || form.steeringWheel"
-                            @click="resetFilter"
-                            :disabled="form.processing"
-                            class="flex gap-2 text-gray-500 transition-all hover:text-emerald-400 group"
-                            :class="{'opacity-50 hover:text-gray-500': form.processing}">
-                            <svg class="transition-all group-hover:fill-emerald-400 fill-gray-500"
-                                 :class="{'opacity-50 group-hover:fill-gray-500': form.processing}"
-                                 xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
-                                 width="24px">
-                                <path
-                                    d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
-                            </svg>
-                            Сбросить все
-                        </button>
+                                    @click="resetFilter"
+                                    :disabled="form.processing"
+                                    class="flex gap-2 text-gray-500 transition-all hover:text-emerald-400 group"
+                                    :class="{'opacity-50 hover:text-gray-500': form.processing}">
+                                <svg class="transition-all group-hover:fill-emerald-400 fill-gray-500"
+                                     :class="{'opacity-50 group-hover:fill-gray-500': form.processing}"
+                                     xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
+                                     width="24px">
+                                    <path
+                                        d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
+                                </svg>
+                                Сбросить все
+                            </button>
+                        </div>
                         <button type="submit"
                                 :disabled="form.processing"
                                 class="block bg-emerald-400 py-2 px-6 rounded text-white transition-all hover:bg-emerald-300"
@@ -141,13 +145,39 @@ const resetFilter = () => {
                 </form>
 
                 <div class="border-t-2 rounded border-t-emerald-400 my-10"></div>
-                <div v-if="page.props.transports.length > 0">
-                    <div v-for="transport in page.props.transports">
-                        {{ transport.id }}
-                    </div>
+                <div v-if="page.props.transports.length > 0" class="flex flex-col gap-4">
+                    <a v-for="transport in page.props.transports" :href="route('transport.show', transport.id)"
+                       class="flex gap-8 rounded border-2 border-emerald-400 py-6 px-10 transition-colors hover:bg-emerald-400">
+                        <img v-if="transport.images" src="" :alt="transport.maker.name">
+                        <div v-else
+                             class="border-2 rounded border-emerald-400 w-48 h-48 bg-emerald-50 text-sm flex items-center text-center justify-center text-gray-500">
+                            Изображение<br> отсутствует
+                        </div>
+                        <div class="flex justify-between flex-auto gap-4">
+                            <div class="flex flex-col flex-auto">
+                                <h3 class="text-xl text-gray-500 font-bold">{{ transport.maker.name }}
+                                    {{ transport.model.name }},
+                                    {{ transport.year }}</h3>
+                                <span class="text-sm text-gray-400">{{ transport.engine }}</span>
+                                <span class="text-gray-500">{{ transport.preview }}</span>
+                                <span
+                                    class="text-gray-500 py-2 text-sm max-w-[500px] w-full">{{ transport.description }}</span>
+                            </div>
+                            <div class="flex flex-col align-center text-center justify-between">
+                                <div class="font-bold text-gray-500 text-xl">
+                                    {{ transport.price }}
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <div class="text-sm text-gray-500">{{ transport.city }}</div>
+                                    <div class="text-sm text-gray-500">{{ transport.user.name }}</div>
+                                    <div class="text-sm text-gray-500">{{ transport.published_at }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
                 </div>
                 <div v-else class="text-center text-xl text-gray-500">
-                    Список элементов пуст
+                    Список объявлений пуст
                 </div>
             </div>
         </div>
