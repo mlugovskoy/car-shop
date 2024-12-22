@@ -87,8 +87,8 @@ const resetFilter = () => {
                     </button>
                 </div>
                 <div class="flex flex-col md:grid md:grid-cols-4 gap-6 mb-6">
-                    <Select v-model="filter.makers" :options="makers" name="maker" placeholder="Любая марка"/>
-                    <Select v-model="filter.models" :options="models" name="model" placeholder="Любая модель"/>
+                    <Select v-model="filter.makers" :options="makers" to-lower name="maker" placeholder="Любая марка"/>
+                    <Select v-model="filter.models" :options="models" to-lower name="model" placeholder="Любая модель"/>
                     <Select v-model="filter.transmission" :options="transmission" name="transmission"
                             placeholder="Любая трансмиссия"/>
                     <Select v-model="filter.drive" :options="drive" name="drive" placeholder="Любой привод"/>

@@ -53,14 +53,14 @@ class TransportsFilters extends QueryFilters
     protected function makers($value)
     {
         $this->builder->whereHas('maker', function ($query) use ($value) {
-            $query->where('name', $value);
+            $query->where('name', 'ilike', $value);
         });
     }
 
     protected function models($value)
     {
         $this->builder->whereHas('model', function ($query) use ($value) {
-            $query->where('name', $value);
+            $query->where('name', 'ilike', $value);
         });
     }
 
