@@ -45,11 +45,6 @@ class Transport extends EloquentModel
         'deleted_at',
     ];
 
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
-
     public function images(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Image::class, 'image_transport');
@@ -65,12 +60,12 @@ class Transport extends EloquentModel
         return $this->belongsTo(FuelType::class);
     }
 
-    public function maker(): BelongsTo
+    public function maker()
     {
         return $this->belongsTo(Maker::class);
     }
 
-    public function model(): BelongsTo
+    public function model()
     {
         return $this->belongsTo(Model::class);
     }

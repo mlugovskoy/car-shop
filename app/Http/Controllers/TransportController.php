@@ -5,10 +5,8 @@ namespace App\Http\Controllers;
 use App\Helpers\Breadcrumbs;
 use App\Http\Filters\TransportsFilters;
 use App\Http\Requests\Transports\TransportsRequest;
-use App\Models\Favorites;
 use App\Services\TransportService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class TransportController extends Controller
@@ -20,42 +18,18 @@ class TransportController extends Controller
         $this->transportService = $transportService;
     }
 
-    public function index(TransportsRequest $request, TransportsFilters $filters, $section = null)
+    public function index(TransportsRequest $request, TransportsFilters $filters)
     {
-        $transports = $this->transportService->getAllTransport($request, $filters, $section);
+        $transports = $this->transportService->getAllTransport($request, $filters);
 
         $fieldsFilters = $this->transportService->getFieldsToFilters();
-
-        $favorites = $this->transportService->getFavorites();
 
         $breadcrumbs = (new Breadcrumbs())->generateBreadcrumbs('transport');
 
         return Inertia::render(
             'Transport/Index',
-            [
-                'transports' => $transports,
-                'countTransports' => count($transports),
-                'favorites' => $favorites->keyBy('transport_id'),
-                'fieldsFilters' => $fieldsFilters,
-                'breadcrumbs' => $breadcrumbs
-            ]
+            ['transports' => $transports, 'fieldsFilters' => $fieldsFilters, 'breadcrumbs' => $breadcrumbs]
         );
-    }
-
-    public function addFavorite($id): void
-    {
-        Favorites::query()->create([
-            'user_id' => auth()->id(),
-            'transport_id' => $id,
-        ]);
-    }
-
-    public function removeFavorite($id): void
-    {
-        Favorites::query()
-            ->where('transport_id', $id)
-            ->where('user_id', auth()->id())
-            ->delete();
     }
 
     /**
