@@ -10,20 +10,36 @@ const props = defineProps({
 });
 const processing = ref(false);
 const page = usePage();
-const favorite = reactive({
+const favorites = ref(page.props.favorites);
+const favoriteForm = reactive({
     transport_id: ''
 });
 
+const isFavorite = (id) => {
+    if (favorites.value.hasOwnProperty(id) || page.props.isFavoritePage) {
+        return true;
+    }
+}
+
 const changeFavorite = (id) => {
     processing.value = true;
-    if (page.props.favorites.hasOwnProperty(id)) {
-        router.post(route('transport.removeFavorite', id), {...favorite}, {
+
+    if (!favorites.value.hasOwnProperty(id) && !page.props.isFavoritePage) {
+        favorites.value[id] = {
+            id: id,
+            user_id: page.props.auth.user.id,
+            transport_id: id
+        }
+
+        router.post(route('transport.addFavorite', id), {...favoriteForm}, {
             preserveState: true, preserveScroll: true, onSuccess: () => {
                 processing.value = false
             }
         })
     } else {
-        router.post(route('transport.addFavorite', id), {...favorite}, {
+        delete favorites.value[id]
+
+        router.post(route('transport.removeFavorite', id), {...favoriteForm}, {
             preserveState: true, preserveScroll: true, onSuccess: () => {
                 processing.value = false
             }
@@ -67,13 +83,12 @@ const changeFavorite = (id) => {
         </div>
         <a :href="route('transport.show', transport.id)"
            class="absolute z-10 top-0 right-0 left-0 bottom-0 w-full h-full"></a>
-        <button v-if="page.props.auth.user !== null"
-                v-on:click="changeFavorite(transport.id)"
+        <button v-on:click="changeFavorite(transport.id)"
                 :disabled="processing"
                 class="absolute top-2 right-2 z-50 opacity-0 transition-all group-hover:opacity-100 group/button">
             <svg
                 class="fill-emerald-400 group-hover:fill-white transition-all group-active/button:fill-red-400"
-                :class="{'group-hover:!fill-red-400': page.props.favorites.hasOwnProperty(transport.id)}"
+                :class="{'group-hover:!fill-red-400': isFavorite(transport.id)}"
                 xmlns="http://www.w3.org/2000/svg"
                 height="26px" viewBox="0 -960 960 960"
                 width="26px">

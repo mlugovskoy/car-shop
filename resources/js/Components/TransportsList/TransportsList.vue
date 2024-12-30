@@ -13,6 +13,6 @@ const page = usePage();
                        :transport="transport"/>
     </div>
     <div v-else class="text-center text-xl text-gray-500">
-        Список объявлений пуст
+        {{ page.props.isFavoritePage ? 'Список закладок пуст' : 'Список объявлений пуст'}}
     </div>
 </template>

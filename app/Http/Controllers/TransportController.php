@@ -8,7 +8,6 @@ use App\Http\Requests\Transports\TransportsRequest;
 use App\Models\Favorites;
 use App\Services\TransportService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class TransportController extends Controller
@@ -44,18 +43,12 @@ class TransportController extends Controller
 
     public function addFavorite($id): void
     {
-        Favorites::query()->create([
-            'user_id' => auth()->id(),
-            'transport_id' => $id,
-        ]);
+        $this->transportService->addFavorite($id);
     }
 
     public function removeFavorite($id): void
     {
-        Favorites::query()
-            ->where('transport_id', $id)
-            ->where('user_id', auth()->id())
-            ->delete();
+        $this->transportService->removeFavorite($id);
     }
 
     /**
