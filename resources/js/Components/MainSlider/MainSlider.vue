@@ -20,7 +20,7 @@ const props = defineProps({'transports': Array})
         :loop="true"
         :modules="modules"
         class="h-[300px]">
-        <swiper-slide v-for="transport in transports" tag="a" class="group" href="#">
+        <swiper-slide v-for="transport in transports" tag="a" class="group" :href="route('transport.show', {section: transport.maker.name, id: transport.id})">
             <div class="h-3/4 relative">
                 <img class="h-full w-full object-cover transition-all group-hover:opacity-85"
                      :src="transport.images[0].image_path"

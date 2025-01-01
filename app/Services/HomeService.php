@@ -17,6 +17,7 @@ class HomeService
 
         return Cache::remember($cacheKey, now()->addMinutes(10), function () {
             $transports = Transport::query()
+                ->where('active', true)
                 ->orderBy('published_at', 'desc')
                 ->limit(15)
                 ->get(['id', 'city', 'model_id', 'maker_id', 'price']);
@@ -89,15 +90,15 @@ class HomeService
     public function getMakers(): \Illuminate\Database\Eloquent\Collection
     {
         $cacheKey = 'makers';
+        $makersIds = Transport::query()
+            ->where('active', true)
+            ->pluck('maker_id');
 
-        return Cache::remember($cacheKey, now()->addMinutes(10), function () {
-            $makers = Maker::all();
-
-            foreach ($makers as $maker) {
-                foreach ($maker->images as $image) {
-                    $maker->push($image);
-                }
-            }
+        return Cache::remember($cacheKey, now()->addMinutes(10), function () use ($makersIds) {
+            $makers = Maker::query()
+                ->with(['images'])
+                ->whereIn('id', $makersIds)
+                ->get();
 
             return $makers;
         });

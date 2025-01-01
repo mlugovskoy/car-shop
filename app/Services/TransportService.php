@@ -130,6 +130,20 @@ class TransportService
         });
     }
 
+    public function checkItemFavorite($id)
+    {
+        $favorites = Favorites::query()
+            ->where('user_id', auth()->id())
+            ->where('transport_id', $id)
+            ->get();
+
+        if ($favorites->count() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function removeFavorite(string $id): void
     {
         $this->removeCacheAllFavorites();
@@ -150,6 +164,61 @@ class TransportService
             'user_id' => auth()->id(),
             'transport_id' => $id,
         ]);
+    }
+
+    public function getDetailTransport(string $section, string $id)
+    {
+        if (!empty($section)) {
+            $maker = Maker::query()->where('name', 'ilike', $section)->first('id');
+        } else {
+            $maker = false;
+        }
+
+        $transport = Transport::query()
+            ->with(['maker', 'model', 'fuelType', 'user', 'images'])
+            ->where('active', true)
+            ->where('id', $id)
+            ->when($maker, function ($query) use ($maker) {
+                return $query->where('maker_id', $maker->id);
+            })
+            ->orderBy('published_at', 'desc')
+            ->first([
+                'id',
+                'maker_id',
+                'model_id',
+                'fuel_type_id',
+                'transport_type_id',
+                'year',
+
+                'city',
+                'power',
+                'engine',
+                'transmission',
+                'drive',
+                'mileage',
+                'color',
+                'steering_wheel',
+                'phone',
+
+                'fuel_supply_type',
+                'price',
+                'description',
+                'user_id',
+                'published_at'
+            ]);
+
+        $transport->published_at = Date::parse($transport->published_at)->translatedFormat('d F');
+
+        $transport->preview = $transport->power . ' л.с, '
+            . $transport->fuelType->name
+            . ', ' . $transport->fuel_supply_type
+            . ', ' . $transport->mileage . ' км';
+
+        $transport->price = number_format($transport->price, 0, '.', ' ') . ' ₽';
+        $transport->mileage = number_format($transport->mileage, 0, '.', ' ');
+        $transport->power = number_format($transport->power, 0, '.', ' ');
+
+        return $transport;
     }
 
     private function getCurrencyCode(string $code): float

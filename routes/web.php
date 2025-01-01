@@ -24,7 +24,7 @@ Route::post('/transports/{section?}/add_favorite', [TransportController::class, 
 Route::post('/transports/{section?}/delete_favorite', [TransportController::class, 'removeFavorite'])->name(
     'transport.removeFavorite'
 );
-Route::get('/transports/{id}', [TransportController::class, 'show'])->name('transport.show');
+Route::get('/transports/{section?}/{id?}', [TransportController::class, 'show'])->name('transport.show');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

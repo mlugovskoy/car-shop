@@ -17,9 +17,6 @@ const props = defineProps({
     modelValue: {
         type: String,
         required: true
-    },
-    toLower: {
-        type: Boolean
     }
 });
 
@@ -41,7 +38,7 @@ watch(() => props.modelValue, (newValue) => {
         :name="name" :id="name" v-model="selectedValue">
         <option value="" selected>{{ placeholder }}</option>
         <option v-for="(option, key) in options" :key="key"
-                :value="toLower ? (option.value).toLowerCase() : option.value">
+                :value="option.value">
             {{ option.value }}
         </option>
     </select>

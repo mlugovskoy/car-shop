@@ -81,7 +81,7 @@ const changeFavorite = (id) => {
                 </div>
             </div>
         </div>
-        <a :href="route('transport.show', transport.id)"
+        <a :href="route('transport.show', {section: transport.maker.name, id: transport.id})"
            class="absolute z-10 top-0 right-0 left-0 bottom-0 w-full h-full"></a>
         <button v-on:click="changeFavorite(transport.id)"
                 :disabled="processing"

@@ -70,9 +70,15 @@ class TransportController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $section, string $id)
     {
-        //
+        $transport = $this->transportService->getDetailTransport($section, $id);
+
+        $favorite = $this->transportService->checkItemFavorite($id);
+
+        $breadcrumbs = (new Breadcrumbs())->generateBreadcrumbs('transportDetail', $transport);
+
+        return Inertia::render('Transport/Show', ['transport' => $transport, 'breadcrumbs' => $breadcrumbs, 'isFavorite' => $favorite]);
     }
 
     /**
