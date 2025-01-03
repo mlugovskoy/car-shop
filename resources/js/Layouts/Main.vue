@@ -37,7 +37,7 @@ const showingNavigationDropdown = ref(false);
                         </div>
 
                         <div class="hidden sm:ms-6 sm:flex sm:items-center">
-                            <HeaderIcon>
+                            <HeaderIcon :href="route('favorites.index')" :active="route().current('favorites.index')">
                                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
                                      width="24px">
                                     <path
@@ -155,8 +155,8 @@ const showingNavigationDropdown = ref(false);
                     class="sm:hidden"
                 >
                     <div class="space-y-1 pb-3 pt-2">
-                        <HeaderResponsiveNavLink :active="route().current('home')
-                        || route().current('transports')">
+                        <HeaderResponsiveNavLink :href="route('transport.index')"
+                                                 :active="route().current('transport.index')">
                             Автомобили
                         </HeaderResponsiveNavLink>
                         <HeaderResponsiveNavLink>
@@ -205,8 +205,8 @@ const showingNavigationDropdown = ref(false);
                 class="bg-white shadow overflow-x-auto"
             >
                 <div class="mx-auto gap-6 max-w-7xl px-4 py-2 hidden sm:flex sm:px-6 lg:px-8">
-                    <NavLink :active="route().current('home')
-                    || route().current('transports')">
+                    <NavLink :href="route('transport.index')" :active="route().current('transport.index')">
+                        {{}}
                         Автомобили
                     </NavLink>
                     <NavLink>
@@ -241,8 +241,7 @@ const showingNavigationDropdown = ref(false);
                     <nav>
                         <div
                             class="flex flex-wrap flex-col mx-auto gap-6 max-w-7xl px-4 py-2 sm:flex-row sm:px-6 lg:px-8">
-                            <NavLink :active="route().current('home')
-                                    || route().current('transports')">
+                            <NavLink :href="route('transport.index')" :active="route().current('transport.index')">
                                 Автомобили
                             </NavLink>
                             <NavLink>

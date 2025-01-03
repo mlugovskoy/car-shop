@@ -22,6 +22,7 @@ class TransportFactory extends Factory
     public function definition(): array
     {
         return [
+            "active" => $this->faker->boolean,
             "city" => $this->faker->city,
             "vin" => $this->faker->numberBetween(10000000, 99999999),
             "phone" => $this->faker->phoneNumber,

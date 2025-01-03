@@ -25,6 +25,25 @@ class Breadcrumbs
                 'title' => $detailPage->title,
                 'url' => null
             ];
+        } elseif ($currentPage === 'transport') {
+            $breadcrumbs[] = [
+                'title' => 'Автомобили',
+                'url' => null
+            ];
+        } elseif ($currentPage === 'transportDetail') {
+            $breadcrumbs[] = [
+                'title' => 'Автомобили',
+                'url' => route('transport.index')
+            ];
+            $breadcrumbs[] = [
+                'title' => $detailPage->maker->name . ' ' . $detailPage->model->name,
+                'url' => null
+            ];
+        } elseif ($currentPage === 'favorites') {
+            $breadcrumbs[] = [
+                'title' => 'Закладки',
+                'url' => null
+            ];
         }
 
         return $breadcrumbs;

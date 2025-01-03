@@ -1,6 +1,7 @@
 <script setup>
 
-import {ref} from "vue";
+import {onMounted, onUnmounted, ref, watch} from "vue";
+import DangerButton from "@/Components/DangerButton.vue";
 
 const isModalVisible = ref(false);
 const emit = defineEmits(['close']);
@@ -13,31 +14,56 @@ const closeModal = () => {
     isModalVisible.value = false;
     emit('close');
 }
+
+const closeOnEscape = (e) => {
+    if (e.key === 'Escape' && isModalVisible.value) {
+        closeModal();
+    }
+};
+
+watch(
+    () => isModalVisible.value,
+    () => {
+        if (isModalVisible.value) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = null;
+        }
+    },
+);
+
+onMounted(() => document.addEventListener('keydown', closeOnEscape));
+
+onUnmounted(() => {
+    document.removeEventListener('keydown', closeOnEscape);
+    document.body.style.overflow = null;
+});
+
 defineExpose({showModal, closeModal});
 </script>
 
 <template>
     <transition name="modal">
         <div v-show="isModalVisible"
-             class="fixed z-10 top-0 bottom-0 left-0 right-0 bg-slate-900/20 flex justify-center items-center">
-            <div class="bg-white w-[800px] rounded shadow overflow-x-auto flex flex-col">
+             class="fixed z-10 top-0 bottom-0 left-0 right-0 p-10 bg-slate-900/20 flex justify-center items-center">
+            <div class="bg-white w-full sm:w-[800px] max-h-full rounded-md shadow flex flex-col">
                 <header
-                    class="p-6 text-2xl flex border-b-2 border-b-emerald-400 text-gray-500 font-bold justify-between">
+                    class="p-6 text-xl sm:text-2xl flex items-center border-b-2 border-b-emerald-400 text-gray-500 font-bold justify-between">
                     <slot name="header">
                         Шапка по умолчанию
                     </slot>
-                    <button
+                    <DangerButton
                         type="button"
                         @click="closeModal"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                             class="fill-red-400">
+                             class="fill-white">
                             <path
                                 d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
                         </svg>
-                    </button>
+                    </DangerButton>
                 </header>
-                <section class="relative p-6">
+                <section class="relative p-6 overflow-y-auto">
                     <slot name="body">
                         Тело по умолчанию
                     </slot>

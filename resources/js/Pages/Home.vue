@@ -23,7 +23,7 @@ const page = usePage();
                 <MainSlider :transports="page.props.topSliderTransports"/>
             </div>
             <div class="mx-auto max-w-7xl overflow-hidden bg-white shadow-sm mt-10 mb-14 p-6 lg:p-8 sm:rounded-lg">
-                <MainTitle :href="route('home')">Поиск объявлений</MainTitle>
+                <MainTitle :href="route('transport.index')">Поиск объявлений</MainTitle>
                 <MainFilter :makers="page.props.makers" class="mb-20"/>
 
                 <MainTitle href="#">Отзывы автовладельцев</MainTitle>

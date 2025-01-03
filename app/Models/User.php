@@ -56,6 +56,11 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class);
     }
 
+    public function transports(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Transport::class);
+    }
+
     public function images(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Image::class, 'image_user');

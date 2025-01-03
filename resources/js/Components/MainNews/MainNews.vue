@@ -4,12 +4,12 @@ const props = defineProps({'news': Array})
 
 <template>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <a v-for="(article, key) in news" :href="route('news.show', article.id)" class="rounded shadow group"
+        <a v-for="(article, key) in news" :href="route('news.show', article.id)" class="rounded-md shadow group"
            :class="{'lg:col-span-2': key < 2}">
-            <img v-if="article.images[0]" class="w-full h-[300px] object-cover rounded-t transition-all group-hover:opacity-85"
+            <img v-if="article.images[0]" class="w-full h-[300px] object-cover rounded-t-md transition-all group-hover:opacity-85"
                  :src="article.images[0].image_path"
                  :alt="article.images[0].image_title">
-            <div class="rounded-b p-4">
+            <div class="rounded-b-md p-4">
                 <h4 class="text-xl mb-2">{{ article.title }}</h4>
                 <div class="mb-4 text-gray-500">
                     {{ article.description.slice(0, 100) + '...' }}

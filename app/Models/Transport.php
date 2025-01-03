@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Filters\HasFilter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -9,12 +10,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Transport extends EloquentModel
 {
+    use HasFilter;
     use HasFactory;
     use SoftDeletes;
 
     protected $fillable = [
         'id',
-        'name',
+        'active',
         'city',
         'vin',
         'phone',
@@ -44,6 +46,11 @@ class Transport extends EloquentModel
         'deleted_at',
     ];
 
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function images(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Image::class, 'image_transport');
@@ -59,12 +66,12 @@ class Transport extends EloquentModel
         return $this->belongsTo(FuelType::class);
     }
 
-    protected function maker()
+    public function maker(): BelongsTo
     {
         return $this->belongsTo(Maker::class);
     }
 
-    protected function model()
+    public function model(): BelongsTo
     {
         return $this->belongsTo(Model::class);
     }
