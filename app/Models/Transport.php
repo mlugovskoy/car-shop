@@ -16,6 +16,7 @@ class Transport extends EloquentModel
 
     protected $fillable = [
         'id',
+        'active',
         'city',
         'vin',
         'phone',

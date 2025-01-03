@@ -45,13 +45,13 @@ watch(() => props.value, (newValue) => {
                 v-model="inputValue[0]"
                 :name="nameTo"
                 :id="nameTo"
-                class="border-2 border-emerald-400 rounded text-gray-500 focus:border-emerald-400 w-full md:w-1/2 text-sm focus:ring-blue-500 placeholder-gray-500 block p-2.5"
+                class="border-2 border-emerald-400 rounded-md text-gray-500 focus:border-emerald-400 w-full md:w-1/2 text-sm focus:ring-blue-500 placeholder-gray-500 block p-2.5"
                 :type="inputType" placeholder="От">
             <input
                 v-model="inputValue[1]"
                 :name="nameFrom"
                 :id="nameFrom"
-                class="border-2 border-emerald-400 rounded text-gray-500 focus:border-emerald-400 w-full md:w-1/2 text-sm focus:ring-blue-500 placeholder-gray-500 block p-2.5"
+                class="border-2 border-emerald-400 rounded-md text-gray-500 focus:border-emerald-400 w-full md:w-1/2 text-sm focus:ring-blue-500 placeholder-gray-500 block p-2.5"
                 :type="inputType" placeholder="До">
         </div>
     </div>

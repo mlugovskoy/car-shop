@@ -2,6 +2,7 @@
 import {ref, watch} from "vue";
 
 const props = defineProps({
+    required: Boolean,
     options: {
         type: Array,
         required: true
@@ -34,9 +35,9 @@ watch(() => props.modelValue, (newValue) => {
 
 <template>
     <select
-        class="border-2 border-emerald-400 rounded text-gray-500 focus:border-emerald-400 w-full text-sm focus:ring-blue-500 placeholder-emerald-400 block p-2.5"
-        :name="name" :id="name" v-model="selectedValue">
-        <option value="" selected>{{ placeholder }}</option>
+        class="border-2 border-emerald-400 rounded-md text-gray-500 focus:border-emerald-400 w-full text-sm focus:ring-blue-500 placeholder-emerald-400 block p-2.5"
+        :name="name" :id="name" v-model="selectedValue" :required="required">
+        <option value="" selected>{{ placeholder }}<span v-if="required">*</span></option>
         <option v-for="(option, key) in options" :key="key"
                 :value="option.value">
             {{ option.value }}

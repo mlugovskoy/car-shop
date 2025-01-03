@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Breadcrumbs;
 use App\Http\Filters\TransportsFilters;
+use App\Http\Requests\Transports\TransportsCreateRequest;
 use App\Http\Requests\Transports\TransportsRequest;
 use App\Models\Favorites;
 use App\Services\TransportService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class TransportController extends Controller
@@ -62,9 +64,11 @@ class TransportController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(TransportsCreateRequest $request)
     {
-        //
+        $this->transportService->storeTransport($request);
+
+        return Redirect::route('transport.index');
     }
 
     /**

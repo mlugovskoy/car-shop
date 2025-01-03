@@ -46,23 +46,20 @@ const changeFavorite = (id) => {
         })
     }
 }
-
 </script>
 
 <template>
     <div
-        class="flex flex-col md:flex-row relative group gap-8 rounded border-2 border-emerald-400 py-6 px-10 pr-12 transition-colors hover:bg-emerald-400">
-        <img v-if="transport.images" :src="transport.images[0].image_path" :alt="transport.maker.name"
-             class="w-56 object-cover rounded">
+        class="flex flex-col md:flex-row relative group gap-8 rounded-md border-2 border-emerald-400 py-6 px-10 pr-12 transition-colors hover:bg-emerald-400">
+        <img v-if="transport.images.length > 0" :src="transport.images[0].image_path" :alt="transport.maker.name"
+             class="w-56 object-cover rounded-md">
         <div v-else
-             class="border-2 rounded border-emerald-400 w-48 h-48 bg-emerald-50 text-sm flex items-center text-center justify-center text-gray-500">
+             class="border-2 rounded-md border-emerald-400 w-full sm:w-56 h-36 bg-emerald-50 text-sm flex items-center text-center justify-center text-gray-500">
             Изображение<br> отсутствует
         </div>
         <div class="flex flex-col md:flex-row justify-between flex-auto gap-4">
             <div class="flex flex-col flex-auto">
-                <h3 class="text-base md:text-xl text-gray-500 font-bold">{{ transport.maker.name }}
-                    {{ transport.model.name }},
-                    {{ transport.year }}</h3>
+                <h3 class="text-base md:text-xl text-gray-500 font-bold">{{ transport.title }}</h3>
                 <span class="text-sm text-gray-400">{{ transport.engine }}</span>
                 <span class="text-gray-500 text-sm md:text-base">{{ transport.preview }}</span>
                 <span

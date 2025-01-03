@@ -4,11 +4,11 @@ const props = defineProps({'reviews': Array})
 
 <template>
     <div class="flex flex-wrap gap-4 justify-center sm:gap-y-4 sm:justify-between">
-        <a v-for="review in reviews" href="#" class="rounded shadow group w-[220px]">
-            <img class="w-full h-[220px] object-cover rounded-t transition-all group-hover:opacity-85"
+        <a v-for="review in reviews" href="#" class="rounded-md shadow group w-[220px]">
+            <img class="w-full h-[220px] object-cover rounded-t-md transition-all group-hover:opacity-85"
                  :src="review.images[0].image_path"
                  :alt="review.images[0].image_title">
-            <div class="rounded-b p-4">
+            <div class="rounded-b-md p-4">
                 <h4 class="text-xl mb-2">{{ review.makerName + ' ' + review.modelName + ', ' + review.year }}</h4>
                 <div class="flex justify-between">
                     <div class="flex gap-2">

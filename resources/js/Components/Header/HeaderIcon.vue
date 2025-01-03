@@ -14,8 +14,8 @@ const props = defineProps({
 
 const classes = computed(() =>
     props.active
-        ? 'fill-emerald-400 bg-emerald-50 mx-2 p-2 rounded transition-all'
-        : 'fill-emerald-400 mx-2 p-2 rounded transition-all hover:bg-emerald-50',
+        ? 'fill-emerald-400 bg-emerald-50 mx-2 p-2 rounded-md transition-all'
+        : 'fill-emerald-400 mx-2 p-2 rounded-md transition-all hover:bg-emerald-50',
 );
 </script>
 

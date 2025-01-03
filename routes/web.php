@@ -18,6 +18,7 @@ Route::post('/news', [NewsController::class, 'store'])->name('news.store');
 Route::post('/news/{id}', [NewsController::class, 'storeComment'])->name('news.store.comment');
 
 Route::get('/transports/{section?}', [TransportController::class, 'index'])->name('transport.index');
+Route::post('/transports/add_new_transport', [TransportController::class, 'store'])->name('transport.store');
 Route::post('/transports/{section?}/add_favorite', [TransportController::class, 'addFavorite'])->name(
     'transport.addFavorite'
 );

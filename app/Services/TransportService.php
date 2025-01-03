@@ -3,8 +3,13 @@
 namespace App\Services;
 
 use App\Models\Favorites;
+use App\Models\FuelType;
+use App\Models\Image;
 use App\Models\Maker;
+use App\Models\Model;
 use App\Models\Transport;
+use App\Models\TransportType;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Http;
@@ -51,15 +56,93 @@ class TransportService
         foreach ($transports as $transport) {
             $transport->published_at = Date::parse($transport->published_at)->translatedFormat('d F');
 
-            $transport->preview = $transport->power . ' л.с, '
-                . $transport->fuelType->name
-                . ', ' . $transport->fuel_supply_type
-                . ', ' . $transport->mileage . ' км';
+            $transport->preview = '';
+            $transport->title = '';
+
+            if ($transport->maker) {
+                $transport->title .= $transport->maker->name;
+            }
+
+            if ($transport->model) {
+                $transport->title .= ' ' . $transport->model->name;
+            }
+
+            if ($transport->year) {
+                $transport->title .= ', ' . $transport->year;
+            }
+
+            if ($transport->power) {
+                $transport->preview .= $transport->power . ' л.с, ';
+            }
+
+            $transport->preview .= $transport->fuelType->name;
+
+            if ($transport->fuel_supply_type) {
+                $transport->preview .= ', ' . $transport->fuel_supply_type;
+            }
+
+            if ($transport->mileage) {
+                $transport->preview .= ', ' . $transport->mileage . ' км';
+            }
 
             $transport->price = number_format($transport->price, 0, '.', ' ') . ' ₽';
         }
 
         return $transports;
+    }
+
+    public function storeTransport($request)
+    {
+        $transport = Transport::query()
+            ->create(
+                [
+                    'active' => false,
+                    'city' => $request->city,
+                    'vin' => $request->vin,
+                    'phone' => $request->phone,
+                    'description' => $request->description,
+                    'engine' => $request->engine,
+                    'power' => $request->power,
+                    'transmission' => $request->transmission,
+                    'drive' => $request->drive,
+                    'mileage' => $request->mileage,
+                    'color' => $request->color,
+                    'steering_wheel' => $request->steering_wheel,
+                    'country' => $request->country,
+                    'tact' => $request->tact,
+                    'fuel_supply_type' => $request->fuel_supply_type,
+                    'doors' => $request->doors,
+                    'seats' => $request->seats,
+                    'price' => $request->price,
+                    'year' => $request->year,
+                    'model_id' => Model::query()->where('name', 'ilike', $request->models)->pluck('id')->first(),
+                    'maker_id' => Maker::query()->where('name', 'ilike', $request->makers)->pluck('id')->first(),
+                    'fuel_type_id' => FuelType::query()->where('name', 'ilike', $request->fuel_type_id)->pluck(
+                        'id'
+                    )->first(),
+                    'transport_type_id' => TransportType::query()->where(
+                        'name',
+                        'ilike',
+                        $request->transport_type_id
+                    )->pluck('id')->first(),
+                    'user_id' => auth()->id(),
+                    'published_at' => Carbon::now()->format('Y-m-d H:i:s')
+                ]
+            );
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $imageFile) {
+                $image_path = $imageFile->store('images/transports', 'public');
+                $image = Image::query()->create([
+                    'image_title' => $imageFile->getClientOriginalName(),
+                    'image_path' => '/storage/' . $image_path,
+                    'image_size' => $imageFile->getSize(),
+                    'image_ext' => $imageFile->getMimeType(),
+                    'image_source' => 'transports',
+                ]);
+                $transport->images()->attach($image->id);
+            }
+        }
     }
 
     public function getFieldsToFilters()
@@ -71,39 +154,43 @@ class TransportService
                 ->where('active', true)
                 ->get();
 
-            $makers = $transports->pluck('maker')->unique()->map(function ($maker) {
+            $makers = $transports->pluck('maker')->unique()->whereNotNull()->map(function ($maker) {
                 return ['value' => $maker['name']];
             })->values()->all();
 
-            $models = $transports->pluck('model')->unique()->map(function ($model) {
+            $models = $transports->pluck('model')->unique()->whereNotNull()->map(function ($model) {
                 return ['value' => $model['name']];
             })->values()->all();
 
-            $steeringWheel = $transports->pluck('steering_wheel')->unique()->map(function ($steeringWheel) {
-                return $steeringWheel;
-            })->values()->all();
+            $steeringWheel = $transports->pluck('steering_wheel')->unique()->whereNotNull()->map(
+                function ($steeringWheel) {
+                    return $steeringWheel;
+                }
+            )->values()->all();
 
-            $transmission = $transports->pluck('transmission')->unique()->map(function ($transmission) {
+            $transmission = $transports->pluck('transmission')->unique()->whereNotNull()->map(function ($transmission) {
                 return ['value' => $transmission];
             })->values()->all();
 
-            $drive = $transports->pluck('drive')->unique()->map(function ($drive) {
+            $drive = $transports->pluck('drive')->unique()->whereNotNull()->map(function ($drive) {
                 return ['value' => $drive];
             })->values()->all();
 
-            $color = $transports->pluck('color')->unique()->map(function ($color) {
+            $color = $transports->pluck('color')->unique()->whereNotNull()->map(function ($color) {
                 return ['value' => $color];
             })->values()->all();
 
-            $fuelType = $transports->pluck('fuelType')->unique()->map(function ($fuelType) {
+            $fuelType = $transports->pluck('fuelType')->unique()->whereNotNull()->map(function ($fuelType) {
                 return ['value' => $fuelType['name']];
             })->values()->all();
 
-            $transportType = $transports->pluck('transportType')->unique()->map(function ($transportType) {
-                return ['value' => $transportType['name']];
-            })->values()->all();
+            $transportType = $transports->pluck('transportType')->unique()->whereNotNull()->map(
+                function ($transportType) {
+                    return ['value' => $transportType['name']];
+                }
+            )->values()->all();
 
-            $year = $transports->pluck('year')->unique()->sort()->map(function ($year) {
+            $year = $transports->pluck('year')->unique()->whereNotNull()->sort()->map(function ($year) {
                 return ['value' => $year];
             })->values()->all();
 
@@ -188,8 +275,8 @@ class TransportService
                 'model_id',
                 'fuel_type_id',
                 'transport_type_id',
-                'year',
 
+                'year',
                 'city',
                 'power',
                 'engine',
@@ -199,10 +286,10 @@ class TransportService
                 'color',
                 'steering_wheel',
                 'phone',
-
-                'fuel_supply_type',
                 'price',
                 'description',
+
+                'fuel_supply_type',
                 'user_id',
                 'published_at'
             ]);

@@ -22,9 +22,13 @@ const props = defineProps({'transports': Array})
         class="h-[300px]">
         <swiper-slide v-for="transport in transports" tag="a" class="group" :href="route('transport.show', {section: transport.maker.name, id: transport.id})">
             <div class="h-3/4 relative">
-                <img class="h-full w-full object-cover transition-all group-hover:opacity-85"
+                <img v-if="transport.images[0]" class="h-full w-full object-cover transition-all group-hover:opacity-85"
                      :src="transport.images[0].image_path"
                      :alt="transport.images[0].image_title">
+                <div v-else
+                     class="border-2 rounded-md border-emerald-400 mx-auto w-full h-full bg-emerald-50 text-sm flex items-center text-center justify-center text-gray-500">
+                    Изображение<br> отсутствует
+                </div>
                 <span
                     class="absolute bottom-4 left-4 bg-emerald-400 px-2 rounded-xl text-white text-sm">
                     {{ (transport.price).toLocaleString("ru-RU") }} Р</span>

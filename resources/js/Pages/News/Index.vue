@@ -3,9 +3,10 @@ import Main from '@/Layouts/Main.vue';
 import {Head, useForm, usePage} from '@inertiajs/vue3';
 import MainTitle from "@/Components/UI/MainTitle.vue";
 import Pagination from "@/Components/Pagination.vue";
-import Breadcrumbs from "@/Components/Breadcrumbs.vue";
+import Breadcrumbs from "@/Components/UI/Breadcrumbs.vue";
 import Modal from "@/Components/Modal/Modal.vue";
 import {ref} from "vue";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
 
 const createdModal = ref(null);
 const fileInput = ref(null);
@@ -60,19 +61,18 @@ const closeModal = () => {
             <div class="mx-auto max-w-7xl overflow-hidden bg-white shadow-sm mt-4 mb-14 p-6 lg:p-8 sm:rounded-lg">
                 <div class="flex justify-between items-center mb-4 sm:mb-8">
                     <MainTitle class="!mb-0 !sm:mb-0" :href="route('news.index')">Новости</MainTitle>
-                    <button @click="showModal" v-if="page.props.auth.user !== null"
-                            class="h-12 px-6 bg-emerald-400 rounded text-white transition-all hover:bg-emerald-300">
+                    <PrimaryButton @click="showModal" v-if="page.props.auth.user !== null">
                         Добавить новость
-                    </button>
+                    </PrimaryButton>
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">
-                    <a v-for="article in news.data" :href="route('news.show', article.id)" class="rounded shadow group">
+                    <a v-for="article in news.data" :href="route('news.show', article.id)" class="rounded-md shadow group">
                         <img v-if="article.images[0]"
-                             class="w-full h-[300px] object-cover rounded-t transition-all group-hover:opacity-85"
+                             class="w-full h-[300px] object-cover rounded-t-md transition-all group-hover:opacity-85"
                              :src="article.images[0].image_path"
                              :alt="article.images[0].image_title">
-                        <div class="rounded-b p-4">
+                        <div class="rounded-b-md p-4">
                             <h4 class="text-xl mb-2">{{ article.title }}</h4>
                             <div class="mb-4 text-gray-500">
                                 {{ article.description.slice(0, 100) + '...' }}
@@ -103,14 +103,14 @@ const closeModal = () => {
         </template>
         <template v-slot:body>
             <form @submit.prevent="submit" enctype="multipart/form-data" method="POST">
-                <input class="block w-full rounded p-4 border border-emerald-400 mb-2"
+                <input class="block w-full rounded-md p-4 border border-emerald-400 mb-2"
                        type="text"
                        id="title"
                        name="title"
                        placeholder="Заголовок"
                        v-model="form.title">
                 <div class="text-sm text-red-400 mb-2" v-if="form.errors.title">{{ form.errors.title }}</div>
-                <textarea class="block w-full !h-20 rounded p-4 border border-emerald-400 resize-none mb-2"
+                <textarea class="block w-full !h-20 rounded-md p-4 border border-emerald-400 resize-none mb-2"
                           id="description"
                           name="description"
                           placeholder="Описание"
@@ -124,7 +124,7 @@ const closeModal = () => {
                         class="text-sm text-grey-500
                                 file:transition-all
                                 file:mr-2 file:py-2 file:px-6
-                                file:rounded file:border-0
+                                file:rounded-md file:border-0
                                 file:text-sm
                                 file:bg-emerald-400 file:text-white
                                 hover:file:cursor-pointer hover:file:bg-emerald-500"
@@ -134,11 +134,11 @@ const closeModal = () => {
                 <progress v-if="form.progress" :value="form.progress.percentage" max="100">
                     {{ form.progress.percentage }}%
                 </progress>
-                <button type="submit"
+                <PrimaryButton type="submit"
                         :disabled="form.processing"
-                        class="ml-auto mt-6 block bg-emerald-400 py-2 px-6 rounded text-white transition-all hover:bg-emerald-300">
+                        class="ml-auto mt-6 block bg-emerald-400 py-2 px-6 rounded-md text-white transition-all hover:bg-emerald-300">
                     Добавить
-                </button>
+                </PrimaryButton>
             </form>
         </template>
     </Modal>

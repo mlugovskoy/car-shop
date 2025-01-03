@@ -2,7 +2,7 @@
 import Main from '@/Layouts/Main.vue';
 import {Head, router, usePage} from '@inertiajs/vue3';
 import MainTitle from "@/Components/UI/MainTitle.vue";
-import Breadcrumbs from "@/Components/Breadcrumbs.vue";
+import Breadcrumbs from "@/Components/UI/Breadcrumbs.vue";
 import {Swiper, SwiperSlide} from "swiper/vue";
 import {reactive, ref} from "vue";
 import 'swiper/css';
@@ -12,7 +12,7 @@ import {Navigation} from "swiper/modules";
 const page = usePage();
 const modules = ref([Navigation]);
 const processing = ref(false);
-const beforeClassesItem = "before:absolute before:text-gray-400 before:content-[''] before:top-2 before:left-[-20px] before:w-2 before:h-2 before:bg-emerald-400 before:rounded";
+const beforeClassesItem = "before:absolute before:text-gray-400 before:content-[''] before:top-2 before:left-[-20px] before:w-2 before:h-2 before:bg-emerald-400 before:rounded-md";
 const favoriteForm = reactive({
     transport_id: ''
 });
@@ -60,63 +60,69 @@ const changeFavorite = (id) => {
 
                 <div class="mb-14">
                     <div class="flex flex-col lg:flex-row gap-10 justify-between mb-14">
-                        <swiper v-if="page.props.transport.images.length > 1"
-                                :breakpoints="{1400:{slidesPerView: 1}}"
-                                :navigation="true"
-                                :modules="modules"
-                                class="h-[300px] sm:h-[500px] lg:w-3/4 rounded">
-                            <swiper-slide v-if="page.props.transport.images"
-                                          v-for="image in page.props.transport.images"
-                                          class="object-cover"
-                                          tag="img"
-                                          :src="image.image_path"
-                                          :alt="page.props.transport.maker.name + ' ' + page.props.transport.model.name"/>
-                        </swiper>
-                        <div v-else>
-                            <img class="mx-auto" v-if="page.props.transport.images[0]"
-                                 :src="page.props.transport.images[0].image_path"
-                                 :alt="page.props.transport.maker.name + ' ' + page.props.transport.model.name">
+                        <div class="lg:w-3/4" v-if="page.props.transport.images.length !== 0">
+                            <swiper v-if="page.props.transport.images.length > 1"
+                                    :breakpoints="{1400:{slidesPerView: 1}}"
+                                    :navigation="true"
+                                    :modules="modules"
+                                    class="h-[300px] sm:h-[500px] rounded-md">
+                                <swiper-slide v-if="page.props.transport.images"
+                                              v-for="image in page.props.transport.images"
+                                              class="object-cover"
+                                              tag="img"
+                                              :src="image.image_path"
+                                              :alt="page.props.transport.maker.name + ' ' + page.props.transport.model.name"/>
+                            </swiper>
+                            <div v-else>
+                                <img class="mx-auto" v-if="page.props.transport.images[0]"
+                                     :src="page.props.transport.images[0].image_path"
+                                     :alt="page.props.transport.maker.name + ' ' + page.props.transport.model.name">
+                            </div>
+                        </div>
+                        <div v-else
+                             class="border-2 rounded-md border-emerald-400 w-full min-h-40 bg-emerald-50 text-sm flex items-center text-center justify-center text-gray-500">
+                            Изображение<br> отсутствует
                         </div>
                         <div class="w-full px-0 sm:px-20 lg:px-0 lg:w-1/4">
                             <div class="text-4xl font-bold tracking-wide mb-6">{{ page.props.transport.price }}</div>
                             <div class="flex flex-col gap-y-2">
-                                <div class="flex justify-between">
+                                <div v-if="page.props.transport.engine" class="flex justify-between">
                                     <span class="text-gray-400 pr-2 w-1/2">Двигатель</span>
                                     <span class="w-1/2">{{ page.props.transport.engine }}</span>
                                 </div>
-                                <div class="flex justify-between">
+                                <div v-if="page.props.transport.power" class="flex justify-between">
                                     <span class="text-gray-400 pr-2 w-1/2">Мощность</span>
                                     <span class="w-1/2">{{ page.props.transport.power }} л.с.</span>
                                 </div>
-                                <div class="flex justify-between">
+                                <div v-if="page.props.transport.transmission" class="flex justify-between">
                                     <span class="text-gray-400 pr-2 w-1/2">Коробка передач</span>
                                     <span class="w-1/2">{{ page.props.transport.transmission }}</span>
                                 </div>
-                                <div class="flex justify-between">
+                                <div v-if="page.props.transport.drive" class="flex justify-between">
                                     <span class="text-gray-400 pr-2 w-1/2">Привод</span>
                                     <span class="w-1/2">{{ page.props.transport.drive }}</span>
                                 </div>
-                                <div class="flex justify-between">
-                                    <span class="text-gray-400 pr-2 w-1/2">Привод</span>
-                                    <span class="w-1/2">{{ page.props.transport.drive }}</span>
-                                </div>
-                                <div class="flex justify-between">
+                                <div v-if="page.props.transport.mileage" class="flex justify-between">
                                     <span class="text-gray-400 pr-2 w-1/2">Пробег</span>
                                     <span class="w-1/2">{{ page.props.transport.mileage }} км</span>
                                 </div>
-                                <div class="flex justify-between">
+                                <div v-if="page.props.transport.color" class="flex justify-between">
                                     <span class="text-gray-400 pr-2 w-1/2">Цвет</span>
                                     <span class="w-1/2">{{ page.props.transport.color }}</span>
                                 </div>
-                                <div class="flex justify-between">
+                                <div v-if="page.props.transport.steering_wheel" class="flex justify-between">
                                     <span class="text-gray-400 pr-2 w-1/2">Руль</span>
                                     <span class="w-1/2">{{ page.props.transport.steering_wheel }}</span>
                                 </div>
-                                <div class="flex justify-between">
+                                <div v-if="page.props.transport.year" class="flex justify-between">
+                                    <span class="text-gray-400 pr-2 w-1/2">Год</span>
+                                    <span class="w-1/2">{{ page.props.transport.year }}</span>
+                                </div>
+                                <div v-if="page.props.transport.city" class="flex justify-between">
                                     <span class="text-gray-400 pr-2 w-1/2">Город</span>
                                     <span class="w-1/2">{{ page.props.transport.city }}</span>
                                 </div>
-                                <div class="flex justify-between">
+                                <div v-if="page.props.transport.phone" class="flex justify-between">
                                     <span class="text-gray-400 pr-2 w-1/2">Телефон</span>
                                     <a :href="'tel:' + page.props.transport.phone"
                                        class="w-1/2 text-emerald-400 font-bold hover:text-emerald-300 transition-all">{{
@@ -134,7 +140,7 @@ const changeFavorite = (id) => {
                             </div>
                         </div>
                     </div>
-                    <div class="px-0 sm:px-20 lg:px-0 w-full lg:mb-16">
+                    <div v-if="page.props.transport.description" class="px-0 sm:px-20 lg:px-0 w-full lg:mb-16">
                         <div
                             class="text-emerald-400 text-2xl sm:text-3xl mb-4 sm:mb-8 inline-block transition-all">
                             Описание

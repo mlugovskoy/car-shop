@@ -2,7 +2,7 @@
 import Main from '@/Layouts/Main.vue';
 import {Head, usePage} from '@inertiajs/vue3';
 import MainTitle from "@/Components/UI/MainTitle.vue";
-import Breadcrumbs from "@/Components/Breadcrumbs.vue";
+import Breadcrumbs from "@/Components/UI/Breadcrumbs.vue";
 import TransportsList from "@/Components/TransportsList/TransportsList.vue";
 
 const page = usePage();
