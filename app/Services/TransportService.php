@@ -56,35 +56,6 @@ class TransportService
         foreach ($transports as $transport) {
             $transport->published_at = Date::parse($transport->published_at)->translatedFormat('d F');
 
-            $transport->preview = '';
-            $transport->title = '';
-
-            if ($transport->maker) {
-                $transport->title .= $transport->maker->name;
-            }
-
-            if ($transport->model) {
-                $transport->title .= ' ' . $transport->model->name;
-            }
-
-            if ($transport->year) {
-                $transport->title .= ', ' . $transport->year;
-            }
-
-            if ($transport->power) {
-                $transport->preview .= $transport->power . ' л.с, ';
-            }
-
-            $transport->preview .= $transport->fuelType->name;
-
-            if ($transport->fuel_supply_type) {
-                $transport->preview .= ', ' . $transport->fuel_supply_type;
-            }
-
-            if ($transport->mileage) {
-                $transport->preview .= ', ' . $transport->mileage . ' км';
-            }
-
             $transport->price = number_format($transport->price, 0, '.', ' ') . ' ₽';
         }
 
@@ -143,6 +114,8 @@ class TransportService
                 $transport->images()->attach($image->id);
             }
         }
+
+        return $transport;
     }
 
     public function getFieldsToFilters()

@@ -28,11 +28,11 @@ class ImageSeeder extends Seeder
                     $fileSize = filesize($imagePath);
                     $fileExtension = pathinfo($imagePath, PATHINFO_EXTENSION);
 
-                    $filePath = Storage::putFileAs($folder, new File($imagePath), $image);
+                    $filePath = Storage::disk('public')->putFileAs($folder, new File($imagePath), $image);
 
                     Image::factory()->create([
                         'image_title' => explode('.', $image)[0],
-                        'image_path' => '/' . $filePath,
+                        'image_path' => $filePath,
                         'image_size' => $fileSize,
                         'image_ext' => $fileExtension,
                         'image_source' => $source[1]

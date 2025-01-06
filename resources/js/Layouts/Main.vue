@@ -8,13 +8,14 @@ import {Link} from '@inertiajs/vue3';
 import HeaderIcon from "@/Components/Header/HeaderIcon.vue";
 import HeaderSearch from "@/Components/Header/HeaderSearch.vue";
 import NavLink from "@/Components/NavLink.vue";
+import ResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
 
 const showingNavigationDropdown = ref(false);
 </script>
 
 <template>
     <div>
-        <div class="min-h-screen bg-gray-100">
+        <div class="min-h-screen h-full flex flex-col bg-gray-100">
             <header
                 class="border-b border-gray-100 bg-white"
             >
@@ -44,7 +45,7 @@ const showingNavigationDropdown = ref(false);
                                         d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z"/>
                                 </svg>
                             </HeaderIcon>
-                            <HeaderIcon>
+                            <HeaderIcon href="#">
                                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
                                      width="24px">
                                     <path
@@ -90,6 +91,11 @@ const showingNavigationDropdown = ref(false);
                                             :href="route('profile.edit')"
                                         >
                                             Профиль
+                                        </DropdownLink>
+                                        <DropdownLink
+                                            :href="route('admin.index')"
+                                        >
+                                            Администрирование
                                         </DropdownLink>
                                         <DropdownLink
                                             :href="route('logout')"
@@ -159,10 +165,10 @@ const showingNavigationDropdown = ref(false);
                                                  :active="route().current('transport.index')">
                             Автомобили
                         </HeaderResponsiveNavLink>
-                        <HeaderResponsiveNavLink>
+                        <HeaderResponsiveNavLink href="#">
                             Запчасти
                         </HeaderResponsiveNavLink>
-                        <HeaderResponsiveNavLink>
+                        <HeaderResponsiveNavLink href="#">
                             Отзывы
                         </HeaderResponsiveNavLink>
                         <HeaderResponsiveNavLink :href="route('news.index')" :active="route().current('news.index')">
@@ -189,6 +195,9 @@ const showingNavigationDropdown = ref(false);
                             <ResponsiveNavLink :href="route('profile.edit')">
                                 Профиль
                             </ResponsiveNavLink>
+                            <ResponsiveNavLink :href="route('admin.index')">
+                                Администрирование
+                            </ResponsiveNavLink>
                             <ResponsiveNavLink
                                 :href="route('logout')"
                                 method="post"
@@ -206,13 +215,12 @@ const showingNavigationDropdown = ref(false);
             >
                 <div class="mx-auto gap-6 max-w-7xl px-4 py-2 hidden sm:flex sm:px-6 lg:px-8">
                     <NavLink :href="route('transport.index')" :active="route().current('transport.index')">
-                        {{}}
                         Автомобили
                     </NavLink>
-                    <NavLink>
+                    <NavLink href="#">
                         Запчасти
                     </NavLink>
-                    <NavLink>
+                    <NavLink href="#">
                         Отзывы
                     </NavLink>
                     <NavLink :href="route('news.index')" :active="route().current('news.index')">
@@ -221,8 +229,7 @@ const showingNavigationDropdown = ref(false);
                 </div>
             </nav>
 
-            <!-- Page Content -->
-            <main>
+            <main class="flex-auto">
                 <slot/>
             </main>
 
@@ -244,10 +251,10 @@ const showingNavigationDropdown = ref(false);
                             <NavLink :href="route('transport.index')" :active="route().current('transport.index')">
                                 Автомобили
                             </NavLink>
-                            <NavLink>
+                            <NavLink href="#">
                                 Запчасти
                             </NavLink>
-                            <NavLink>
+                            <NavLink href="#">
                                 Отзывы
                             </NavLink>
                             <NavLink :href="route('news.index')" :active="route().current('news.index')">

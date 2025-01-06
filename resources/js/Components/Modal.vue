@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, onUnmounted, watch } from 'vue';
+import {computed, onMounted, onUnmounted, watch} from 'vue';
 
 const props = defineProps({
     show: {
@@ -65,7 +65,6 @@ const maxWidthClass = computed(() => {
             <div
                 v-show="show"
                 class="fixed inset-0 z-50 overflow-y-auto px-4 py-6 sm:px-0"
-                scroll-region
             >
                 <Transition
                     enter-active-class="ease-out duration-300"
@@ -99,7 +98,7 @@ const maxWidthClass = computed(() => {
                         class="mb-6 transform overflow-hidden rounded-lg bg-white shadow-xl transition-all sm:mx-auto sm:w-full"
                         :class="maxWidthClass"
                     >
-                        <slot v-if="show" />
+                        <slot v-if="show"/>
                     </div>
                 </Transition>
             </div>

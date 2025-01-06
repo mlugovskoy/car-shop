@@ -24,20 +24,20 @@ class TransportsCreateRequest extends FormRequest
         return [
             'city' => ['max:100', 'string', 'nullable'],
             'vin' => ['max:100', 'string', 'nullable'],
-            'phone' => ['max:50', 'numeric', 'nullable'],
+            'phone' => ['max:100', 'string', 'nullable'],
             'description' => ['max:1000', 'string', 'nullable'],
             'engine' => ['max:100', 'string', 'nullable'],
-            'power' => ['max:100', 'numeric', 'nullable'],
-            'mileage' => ['max:100', 'numeric', 'nullable'],
+            'power' => ['max:100', 'string', 'nullable'],
+            'mileage' => ['max:100', 'string', 'nullable'],
             'color' => ['max:100', 'string', 'nullable'],
             'steering_wheel' => ['max:100', 'string', 'nullable'],
             'country' => ['max:100', 'string', 'nullable'],
             'tact' => ['max:100', 'string', 'nullable'],
             'fuel_supply_type' => ['max:100', 'string', 'nullable'],
-            'doors' => ['max:100', 'numeric', 'nullable'],
-            'seats' => ['max:100', 'numeric', 'nullable'],
-            'year' => ['max:100', 'numeric', 'nullable'],
-            'price' => ['required', 'numeric'],
+            'doors' => ['max:100', 'string', 'nullable'],
+            'seats' => ['max:100', 'string', 'nullable'],
+            'year' => ['max:100', 'string', 'nullable'],
+            'price' => ['required', 'string'],
         ];
     }
 
@@ -47,7 +47,6 @@ class TransportsCreateRequest extends FormRequest
             'required' => 'Поле :attribute обязательно для заполнения.',
             'max' => 'Вы превысили лимит символов для поля :attribute',
             'string' => 'Поле :attribute должно быть типа строка',
-            'numeric' => 'Поле :attribute должно быть типа число',
         ];
     }
 

@@ -13,10 +13,26 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         User::factory()->create([
+            'name' => 'Admin',
+            'email' => 'admin@example.com',
+            'city' => 'Город админа',
+            'is_admin' => true,
+            'password' => 'test',
+        ]);
+
+        User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
             'city' => 'Тестовый город',
-            'is_admin' => true,
+            'is_admin' => false,
+            'password' => 'test',
+        ]);
+
+        User::factory()->create([
+            'name' => 'Московский аккаунт',
+            'email' => 'moscow@example.com',
+            'city' => 'Москва',
+            'is_admin' => false,
             'password' => 'test',
         ]);
     }

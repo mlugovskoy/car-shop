@@ -7,10 +7,6 @@ const model = defineModel({
     placeholder: String,
 });
 
-const props = defineProps({
-    error: String
-})
-
 const input = ref(null);
 
 onMounted(() => {
@@ -28,7 +24,4 @@ defineExpose({focus: () => input.value.focus()});
         v-model="model"
         ref="input"
     />
-        <div class="text-sm text-red-400" v-if="error">
-            {{ error }}
-        </div>
 </template>
