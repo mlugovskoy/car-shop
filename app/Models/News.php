@@ -12,8 +12,8 @@ class News extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'active',
         'id',
+        'active',
         'title',
         'description',
         'user_id',
@@ -33,7 +33,7 @@ class News extends Model
         return $this->belongsToMany(Comment::class, 'comment_news');
     }
 
-    protected function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class);
     }

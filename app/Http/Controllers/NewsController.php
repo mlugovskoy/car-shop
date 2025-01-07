@@ -7,7 +7,9 @@ use App\Http\Requests\News\NewsCommentsRequest;
 use App\Http\Requests\News\NewsRequest;
 use App\Services\NewsService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 
 class NewsController extends Controller
@@ -33,7 +35,14 @@ class NewsController extends Controller
      */
     public function store(NewsRequest $request)
     {
-        $this->newsService->storeArticle($request);
+        $article = $this->newsService->storeArticle($request);
+
+        $date = Date::parse($article->published_at)->translatedFormat('d F H:i:s');
+
+        Session::flash(
+            'success',
+            "Ваша новость #$article->id создана $date! <br> Ожидайте подтверждения администратора."
+        );
 
         $this->newsService->removeCacheAllNewsSection();
 

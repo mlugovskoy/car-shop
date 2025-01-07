@@ -73,7 +73,7 @@ class NewsService
         });
     }
 
-    public function storeArticle($request): void
+    public function storeArticle($request)
     {
         $article = News::query()
             ->create(
@@ -99,6 +99,8 @@ class NewsService
                 $article->images()->attach($image->id);
             }
         }
+
+        return $article;
     }
 
     public function storeArticleComment($request, $id): void

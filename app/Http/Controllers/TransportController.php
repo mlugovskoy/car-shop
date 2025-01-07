@@ -9,103 +9,115 @@ use App\Http\Requests\Transports\TransportsRequest;
 use App\Models\Favorites;
 use App\Services\TransportService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 
 class TransportController extends Controller
 {
-    protected TransportService $transportService;
+	protected TransportService $transportService;
 
-    public function __construct(TransportService $transportService)
-    {
-        $this->transportService = $transportService;
-    }
+	public function __construct(TransportService $transportService)
+	{
+		$this->transportService = $transportService;
+	}
 
-    public function index(TransportsRequest $request, TransportsFilters $filters, $section = null)
-    {
-        $transports = $this->transportService->getAllTransport($request, $filters, $section);
+	public function index(TransportsRequest $request, TransportsFilters $filters, $section = null)
+	{
+		$transports = $this->transportService->getAllTransport($request, $filters, $section);
 
-        $fieldsFilters = $this->transportService->getFieldsToFilters();
+		$fieldsFilters = $this->transportService->getFieldsToFilters();
 
-        $favorites = $this->transportService->getFavorites();
+		$favorites = $this->transportService->getFavorites();
 
-        $breadcrumbs = (new Breadcrumbs())->generateBreadcrumbs('transport');
+		$breadcrumbs = (new Breadcrumbs())->generateBreadcrumbs('transport');
 
-        return Inertia::render(
-            'Transport/Index',
-            [
-                'transports' => $transports,
-                'countTransports' => count($transports),
-                'favorites' => $favorites->keyBy('transport_id'),
-                'fieldsFilters' => $fieldsFilters,
-                'breadcrumbs' => $breadcrumbs
-            ]
-        );
-    }
+		return Inertia::render(
+			'Transport/Index',
+			[
+				'transports' => $transports,
+				'countTransports' => count($transports),
+				'favorites' => $favorites->keyBy('transport_id'),
+				'fieldsFilters' => $fieldsFilters,
+				'breadcrumbs' => $breadcrumbs
+			]
+		);
+	}
 
-    public function addFavorite($id): void
-    {
-        $this->transportService->addFavorite($id);
-    }
+	public function addFavorite($id): void
+	{
+		$this->transportService->addFavorite($id);
+	}
 
-    public function removeFavorite($id): void
-    {
-        $this->transportService->removeFavorite($id);
-    }
+	public function removeFavorite($id): void
+	{
+		$this->transportService->removeFavorite($id);
+	}
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+	/**
+	 * Show the form for creating a new resource.
+	 */
+	public function create()
+	{
+		//
+	}
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(TransportsCreateRequest $request)
-    {
-        $this->transportService->storeTransport($request);
+	/**
+	 * Store a newly created resource in storage.
+	 */
+	public function store(TransportsCreateRequest $request)
+	{
+		$transport = $this->transportService->storeTransport($request);
 
-        return Redirect::route('transport.index');
-    }
+		$date = Date::parse($transport->published_at)->translatedFormat('d F H:i:s');
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $section, string $id)
-    {
-        $transport = $this->transportService->getDetailTransport($section, $id);
+		Session::flash(
+			'success',
+			"Ваше объявление #$transport->id создано $date! <br> Ожидайте подтверждения администратора."
+		);
 
-        $favorite = $this->transportService->checkItemFavorite($id);
+		return Redirect::route('transport.index');
+	}
 
-        $breadcrumbs = (new Breadcrumbs())->generateBreadcrumbs('transportDetail', $transport);
+	/**
+	 * Display the specified resource.
+	 */
+	public function show(string $section, string $id)
+	{
+		$transport = $this->transportService->getDetailTransport($section, $id);
 
-        return Inertia::render('Transport/Show', ['transport' => $transport, 'breadcrumbs' => $breadcrumbs, 'isFavorite' => $favorite]);
-    }
+		$favorite = $this->transportService->checkItemFavorite($id);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+		$breadcrumbs = (new Breadcrumbs())->generateBreadcrumbs('transportDetail', $transport);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+		return Inertia::render(
+			'Transport/Show',
+			['transport' => $transport, 'breadcrumbs' => $breadcrumbs, 'isFavorite' => $favorite]
+		);
+	}
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
+	/**
+	 * Show the form for editing the specified resource.
+	 */
+	public function edit(string $id)
+	{
+		//
+	}
+
+	/**
+	 * Update the specified resource in storage.
+	 */
+	public function update(Request $request, string $id)
+	{
+		//
+	}
+
+	/**
+	 * Remove the specified resource from storage.
+	 */
+	public function destroy(string $id)
+	{
+		//
+	}
 }
