@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminNewsController;
 use App\Http\Controllers\AdminTransportController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\FavoritesController;
@@ -46,11 +47,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::delete('/users/destroy/{id}', [AdminUserController::class, 'destroy'])->name('users.destroy');
 
     Route::get('/transports', [AdminTransportController::class, 'index'])->name('transports');
-    Route::get('/transports/{id}', [AdminTransportController::class, 'show'])->name('transports.show');
     Route::post('/transports/{id}', [AdminTransportController::class, 'update'])->name('transports.update');
     Route::delete('/transports/destroy/{id}', [AdminTransportController::class, 'destroy'])->name('transports.destroy');
 
-    Route::get('/news', [AdminController::class, 'news'])->name('news');
+    Route::get('/news', [AdminNewsController::class, 'index'])->name('news');
+    Route::post('/news/{id}', [AdminNewsController::class, 'update'])->name('news.update');
+    Route::delete('/news/destroy/{id}', [AdminNewsController::class, 'destroy'])->name('news.destroy');
 });
 
 

@@ -28,24 +28,24 @@ const confirmDeletingForm = (id) => {
 const closeModal = () => {
     confirmingDeleting.value = false;
 
-    resetConfirmTransportDeletion();
+    resetConfirmArticleDeletion();
 };
 
-const resetConfirmTransportDeletion = () => {
+const resetConfirmArticleDeletion = () => {
     deletedId.value = null;
 
     deletingForm.reset();
 }
 
-const updateTransport = (id) => {
-    updatingForm.post(route('admin.transports.update', id), {
+const updateArticle = (id) => {
+    updatingForm.post(route('admin.news.update', id), {
         preserveScroll: true
     });
 }
 
-const deleteTransport = () => {
+const deleteArticle = () => {
     if (deletedId.value !== null) {
-        deletingForm.delete(route('admin.transports.destroy', deletedId.value), {
+        deletingForm.delete(route('admin.news.destroy', deletedId.value), {
             preserveScroll: true,
             onSuccess: () => closeModal()
         });
@@ -62,17 +62,7 @@ const deleteTransport = () => {
                     <th class="px-4 py-3 text-nowrap">ID</th>
                     <th class="px-4 py-3 text-nowrap">Опубликовано</th>
                     <th class="px-4 py-3 text-nowrap">Фото</th>
-                    <th class="px-4 py-3 text-nowrap">Модель</th>
-                    <th class="px-4 py-3 text-nowrap">Марка</th>
-                    <th class="px-4 py-3 text-nowrap">Тип топлива</th>
-                    <th class="px-4 py-3 text-nowrap">Тип транспорта</th>
-                    <th class="px-4 py-3 text-nowrap">Город</th>
-                    <th class="px-4 py-3 text-nowrap">Год</th>
-                    <th class="px-4 py-3 text-nowrap">Мощность</th>
-                    <th class="px-4 py-3 text-nowrap">Двигатель</th>
-                    <th class="px-4 py-3 text-nowrap">Топливная система</th>
-                    <th class="px-4 py-3 text-nowrap">Пробег</th>
-                    <th class="px-4 py-3 text-nowrap">Цена</th>
+                    <th class="px-4 py-3 text-nowrap">Заголовок</th>
                     <th class="px-4 py-3 text-nowrap">Описание</th>
                     <th class="px-4 py-3 text-nowrap">ID пользователя</th>
                     <th class="px-4 py-3 text-nowrap">Дата публикации</th>
@@ -88,22 +78,12 @@ const deleteTransport = () => {
                              :src="item.images[0].image_path"
                              :alt="item.images[0].image_title">
                     </td>
-                    <td class="px-4 py-3">{{ item.model.name }}</td>
-                    <td class="px-4 py-3">{{ item.maker.name }}</td>
-                    <td class="px-4 py-3">{{ item.fuel_type.name }}</td>
-                    <td class="px-4 py-3">{{ item.transport_type.name }}</td>
-                    <td class="px-4 py-3">{{ item.city }}</td>
-                    <td class="px-4 py-3">{{ item.year }}</td>
-                    <td class="px-4 py-3">{{ item.power }}</td>
-                    <td class="px-4 py-3">{{ item.engine }}</td>
-                    <td class="px-4 py-3">{{ item.fuel_supply_type }}</td>
-                    <td class="px-4 py-3">{{ item.mileage }}</td>
-                    <td class="px-4 py-3 min-w-36">{{ item.price }}</td>
+                    <td class="px-4 py-3">{{ item.title }}</td>
                     <td class="px-4 py-3 min-w-96">{{ item.description }}</td>
                     <td class="px-4 py-3">{{ item.user_id }}</td>
                     <td class="px-4 py-3">{{ item.published_at }}</td>
                     <td class="px-4 py-3 flex flex-col gap-2">
-                        <PrimaryButton @click="updateTransport(item.id)"
+                        <PrimaryButton @click="updateArticle(item.id)"
                                        class="!px-4 text-xs uppercase">
                             {{ !item.active ? 'Опубликовать' : 'Скрыть' }}
                         </PrimaryButton>
@@ -137,7 +117,7 @@ const deleteTransport = () => {
                         class="ms-3"
                         :class="{ 'opacity-25': deletingForm.processing }"
                         :disabled="deletingForm.processing"
-                        @click="deleteTransport"
+                        @click="deleteArticle"
                     >
                         Удалить
                     </DangerButton>

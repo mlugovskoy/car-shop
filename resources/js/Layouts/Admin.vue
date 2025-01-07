@@ -7,10 +7,6 @@ import NavLink from "@/Components/NavLink.vue";
 </script>
 
 <template>
-    <div v-if="route().current('admin*')"
-         class="sticky top-0 bg-white h-6 z-50 shadow text-red-400 text-center">
-        Это страница административного раздела!
-    </div>
     <Head title="Администрирование"/>
     <Main>
         <div class="mx-auto pt-12 max-w-7xl px-6 lg:px-8">
@@ -20,7 +16,7 @@ import NavLink from "@/Components/NavLink.vue";
         <div class="pb-12">
             <div class="mx-auto flex flex-col lg:flex-row justify-between gap-10 max-w-7xl sm:px-6 lg:px-8">
                 <nav
-                    class="w-full lg:w-1/6 h-full bg-white space-y-2 space-x-2 overflow-x-auto text-nowrap lg:text-wrap lg:space-x-0 p-4 shadow sm:rounded-lg sm:p-8">
+                    class="w-full lg:w-1/6 h-full bg-white space-y-2 space-x-2 overflow-x-auto text-nowrap lg:text-wrap lg:space-x-0 p-4 shadow sm:rounded-lg sm:p-6">
                     <NavLink class="block" :href="route('admin.users')"
                              :active="route().current('admin.users')">
                         Пользователи
@@ -34,7 +30,7 @@ import NavLink from "@/Components/NavLink.vue";
                         Новости
                     </NavLink>
                 </nav>
-                <div class="w-full lg:w-5/6 bg-white p-4 shadow sm:rounded-lg sm:p-8">
+                <div class="w-full lg:w-5/6 bg-white p-4 shadow sm:rounded-lg sm:p-6">
                     <slot/>
                 </div>
             </div>

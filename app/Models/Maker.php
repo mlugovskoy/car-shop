@@ -27,4 +27,9 @@ class Maker extends Model
     {
         return $this->hasMany(Transport::class);
     }
+
+    public function models()
+    {
+        return $this->hasMany(Model::class);
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Resources\AdminUserResource;
 use App\Models\Image;
 use App\Models\User;
 use Illuminate\Support\Facades\Cache;
@@ -20,12 +21,7 @@ class AdminUserService
                 ->where('active', true)
                 ->get(['id', 'name', 'city', 'email', 'is_admin']);
 
-            foreach ($users as $user) {
-                foreach ($user->images as $key => $image) {
-                    $user->images[$key]['image_path'] = asset(Storage::url($image->image_path));
-                }
-            }
-            return $users;
+            return AdminUserResource::collection($users);
         });
     }
 
@@ -40,11 +36,7 @@ class AdminUserService
                 ->where('active', true)
                 ->first(['id', 'name', 'city', 'email', 'is_admin']);
 
-            foreach ($user->images as $key => $image) {
-                $user->images[$key]['image_path'] = asset(Storage::url($image->image_path));
-            }
-
-            return $user;
+            return new AdminUserResource($user);
         });
     }
 
@@ -59,17 +51,16 @@ class AdminUserService
         $user->save();
 
         $imageUser = null;
-
-        if ($user->images->count() > 0) {
-            $imageUser = $user->images[0];
-        }
-
-        if ($imageUser && $imageUser->id) {
-            Storage::disk('public')->delete($imageUser->image_path);
-            Image::query()->find($imageUser->id)->delete();
-        }
-
         if ($request->file('images')) {
+            if ($user->images->count() > 0) {
+                $imageUser = $user->images[0];
+            }
+
+            if ($imageUser && $imageUser->id) {
+                Storage::disk('public')->delete($imageUser->image_path);
+                Image::query()->find($imageUser->id)->delete();
+            }
+
             foreach ($request->file('images') as $imageFile) {
                 $image_path = Storage::disk('public')->put('images/users', $imageFile[0]);
                 $image = Image::query()->create([
@@ -80,6 +71,13 @@ class AdminUserService
                     'image_source' => 'users',
                 ]);
                 $user->images()->attach($image->id);
+            }
+        } elseif (count($request->images) == 0) {
+            $imageUser = $user->images[0];
+
+            if ($imageUser && $imageUser->id) {
+                Storage::disk('public')->delete($imageUser->image_path);
+                Image::query()->find($imageUser->id)->delete();
             }
         }
     }

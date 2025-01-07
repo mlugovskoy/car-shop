@@ -79,7 +79,7 @@ const resetConfirmUserDeletion = () => {
             <div>
                 <InputLabel for="image" value="Фото"/>
                 <FileInput :images="updatedUserForm.images"/>
-                <InputError :message="updatedUserForm.errors.image" class="mt-2"/>
+                <InputError :message="updatedUserForm.errors.images" class="mt-2"/>
             </div>
 
             <progress v-if="updatedUserForm.progress" :value="updatedUserForm.progress.percentage" max="100">

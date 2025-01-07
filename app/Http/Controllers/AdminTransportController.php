@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\RemoveSectionCache;
 use App\Services\AdminTransportService;
-use Illuminate\Http\Request;
 
 class AdminTransportController extends Controller
 {
@@ -16,40 +16,29 @@ class AdminTransportController extends Controller
 
     public function index()
     {
-        $users = $this->adminTransportService->getAllTransports();
+        $transports = $this->adminTransportService->getAllTransports();
 
         return inertia(
-            'Profile/Admin/Transports/Index', ['items' => $users]
+            'Profile/Admin/Transports/Index', ['items' => $transports]
         );
     }
 
-//    public function show($id)
-//    {
-//        $user = $this->adminTransportService->getCurrentTransport($id);
-//
-//        return inertia(
-//            'Profile/Admin/Transports/Show', ['item' => $user]
-//        );
-//    }
-//
-//    public function update(Request $request, $id)
-//    {
-//        $this->adminTransportService->updateTransport($request, $id);
-//
-//        $this->adminTransportService->removeCacheCurrentTransport($id);
-//
-//        $this->adminTransportService->removeCacheAllTransports();
-//
-//        return redirect()->route('admin.transports')->with('success', "Объявление #$id обновлено.");
-//    }
-//
-//    public function destroy($id)
-//    {
-//        $this->adminTransportService->deactivationTransport($id);
-//
-//        $this->adminTransportService->removeCacheAllTransports();
-//
-//        return redirect()->route('admin.transports')->with('success', "Объявление #$id удалено.");
-//    }
+    public function update($id)
+    {
+        $this->adminTransportService->updateTransport($id);
+
+        (new RemoveSectionCache())->removeSectionCache(['admin_all_transports', 'top_slider_transports']);
+
+        return redirect()->route('admin.transports')->with('success', "Объявление #$id обновлено.");
+    }
+
+    public function destroy($id)
+    {
+        $this->adminTransportService->destroyTransport($id);
+
+        (new RemoveSectionCache())->removeSectionCache(['admin_all_transports', 'top_slider_transports']);
+
+        return redirect()->route('admin.transports')->with('success', "Объявление #$id удалено.");
+    }
 
 }
