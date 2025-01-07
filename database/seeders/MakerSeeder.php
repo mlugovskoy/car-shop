@@ -22,17 +22,14 @@ class MakerSeeder extends Seeder
             'Mazda',
             'Suzuki',
             'Toyota',
-            'Mazda',
             'Nissan',
             'Subaru',
             'Lexus',
             'Ford',
-            'Kia',
             'Лада',
             'УАЗ',
             'Daithatsu',
             'Isuzu',
-            'Hyundai',
             'Kia'
         ];
 
