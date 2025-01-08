@@ -93,7 +93,7 @@ const closeModal = () => {
                         </div>
                     </a>
                 </div>
-                <Pagination :links="news.links"/>
+                <Pagination :links="news.meta.links"/>
             </div>
         </div>
     </Main>

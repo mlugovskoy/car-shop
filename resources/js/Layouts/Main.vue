@@ -38,20 +38,21 @@ const showingNavigationDropdown = ref(false);
                         </div>
 
                         <div class="hidden sm:ms-6 sm:flex sm:items-center">
-                            <HeaderIcon :href="route('favorites.index')" :active="route().current('favorites.index')">
+                            <HeaderIcon :href="route('favorites.index')" v-if="$page.props.auth.user !== null"
+                                        :active="route().current('favorites.index')">
                                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
                                      width="24px">
                                     <path
                                         d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z"/>
                                 </svg>
                             </HeaderIcon>
-                            <HeaderIcon href="#">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
-                                     width="24px">
-                                    <path
-                                        d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z"/>
-                                </svg>
-                            </HeaderIcon>
+                            <!--                            <HeaderIcon href="#">-->
+                            <!--                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"-->
+                            <!--                                     width="24px">-->
+                            <!--                                    <path-->
+                            <!--                                        d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z"/>-->
+                            <!--                                </svg>-->
+                            <!--                            </HeaderIcon>-->
                             <HeaderIcon :href="route('login')" v-if="$page.props.auth.user === null">
                                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
                                      width="24px">
@@ -165,12 +166,6 @@ const showingNavigationDropdown = ref(false);
                                                  :active="route().current('transport.index')">
                             Автомобили
                         </HeaderResponsiveNavLink>
-                        <HeaderResponsiveNavLink href="#">
-                            Запчасти
-                        </HeaderResponsiveNavLink>
-                        <HeaderResponsiveNavLink href="#">
-                            Отзывы
-                        </HeaderResponsiveNavLink>
                         <HeaderResponsiveNavLink :href="route('news.index')" :active="route().current('news.index')">
                             Новости
                         </HeaderResponsiveNavLink>
@@ -217,12 +212,6 @@ const showingNavigationDropdown = ref(false);
                     <NavLink :href="route('transport.index')" :active="route().current('transport.index')">
                         Автомобили
                     </NavLink>
-                    <NavLink href="#">
-                        Запчасти
-                    </NavLink>
-                    <NavLink href="#">
-                        Отзывы
-                    </NavLink>
                     <NavLink :href="route('news.index')" :active="route().current('news.index')">
                         Новости
                     </NavLink>
@@ -250,12 +239,6 @@ const showingNavigationDropdown = ref(false);
                             class="flex flex-wrap flex-col mx-auto gap-6 max-w-7xl px-4 py-2 sm:flex-row sm:px-6 lg:px-8">
                             <NavLink :href="route('transport.index')" :active="route().current('transport.index')">
                                 Автомобили
-                            </NavLink>
-                            <NavLink href="#">
-                                Запчасти
-                            </NavLink>
-                            <NavLink href="#">
-                                Отзывы
                             </NavLink>
                             <NavLink :href="route('news.index')" :active="route().current('news.index')">
                                 Новости

@@ -129,7 +129,7 @@ const changeFavorite = (id) => {
                                             page.props.transport.phone
                                         }}</a>
                                 </div>
-                                <button
+                                <button v-if="page.props.auth.user !== null"
                                     class="mt-4 text-left text-emerald-400 font-bold hover:text-emerald-300 transition-all"
                                     v-on:click="changeFavorite(page.props.transport.id)"
                                     :disabled="processing">

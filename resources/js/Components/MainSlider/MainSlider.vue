@@ -17,10 +17,10 @@ const props = defineProps({'transports': Array})
         :breakpoints="{1400:{slidesPerView: 6},1000:{slidesPerView:4},600:{slidesPerView:2},0:{slidesPerView: 1}}"
         :space-between="5"
         :navigation="true"
-        :loop="true"
         :modules="modules"
         class="h-[300px]">
-        <swiper-slide v-for="transport in transports" tag="a" class="group" :href="route('transport.show', {section: transport.maker.name, id: transport.id})">
+        <swiper-slide v-for="transport in transports" tag="a" class="group"
+                      :href="route('transport.show', {section: transport.maker.name, id: transport.id})">
             <div class="h-3/4 relative">
                 <img v-if="transport.images[0]" class="h-full w-full object-cover transition-all group-hover:opacity-85"
                      :src="transport.images[0].image_path"
@@ -31,10 +31,10 @@ const props = defineProps({'transports': Array})
                 </div>
                 <span
                     class="absolute bottom-4 left-4 bg-emerald-400 px-2 rounded-xl text-white text-sm">
-                    {{ (transport.price).toLocaleString("ru-RU") }} Р</span>
+                    {{ transport.price }}</span>
             </div>
             <div class="h-1/4 px-2 flex flex-col justify-center">
-                <h4 class="text-xl mb-0.5">{{ transport.makerName + ' ' + transport.modelName }}</h4>
+                <h4 class="text-xl mb-0.5">{{ transport.title }}</h4>
                 <span class="text-md">{{ transport.city }}</span>
             </div>
         </swiper-slide>

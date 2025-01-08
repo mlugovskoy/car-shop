@@ -100,7 +100,7 @@ const deleteTransport = () => {
                     <td class="px-4 py-3">{{ item.mileage }}</td>
                     <td class="px-4 py-3 min-w-36">{{ item.price }}</td>
                     <td class="px-4 py-3 min-w-96">{{ item.description }}</td>
-                    <td class="px-4 py-3">{{ item.user_id }}</td>
+                    <td class="px-4 py-3">{{ item.user.id }}</td>
                     <td class="px-4 py-3">{{ item.published_at }}</td>
                     <td class="px-4 py-3 flex flex-col gap-2">
                         <PrimaryButton @click="updateTransport(item.id)"
