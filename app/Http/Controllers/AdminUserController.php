@@ -2,52 +2,47 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\AdminUserService;
+use App\Http\Resources\AdminUserResource;
+use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 
 class AdminUserController extends Controller
 {
-    protected AdminUserService $adminUserService;
+    protected UserRepository $userRepository;
 
-    public function __construct(AdminUserService $adminUserService)
+    public function __construct(UserRepository $userRepository)
     {
-        $this->adminUserService = $adminUserService;
+        $this->userRepository = $userRepository;
     }
 
     public function index()
     {
-        $users = $this->adminUserService->getAllUsers();
+        $users = $this->userRepository->getActiveUsersWithoutCurrentUser();
 
         return inertia(
-            'Profile/Admin/Users/Index', ['items' => $users]
+            'Profile/Admin/Users/Index', ['items' => AdminUserResource::collection($users)]
         );
     }
 
     public function show($id)
     {
-        $user = $this->adminUserService->getCurrentUser($id);
+        $user = $this->userRepository->getCurrentUser($id);
 
         return inertia(
-            'Profile/Admin/Users/Show', ['item' => $user]
+            'Profile/Admin/Users/Show', ['item' => new AdminUserResource($user)]
         );
     }
 
     public function update(Request $request, $id)
     {
-        $this->adminUserService->updateUser($request, $id);
-
-        $this->adminUserService->removeCacheCurrentUser($id);
-
-        $this->adminUserService->removeCacheAllUsers();
+        $this->userRepository->updateUser($request, $id);
 
         return redirect()->route('admin.users')->with('success', "Пользователь #$id обновлен.");
     }
 
     public function destroy($id)
     {
-        $this->adminUserService->deactivationUser($id);
-
-        $this->adminUserService->removeCacheAllUsers();
+        $this->userRepository->deactivationUser($id);
 
         return redirect()->route('admin.users')->with('success', "Пользователь #$id удален.");
     }

@@ -1,48 +1,54 @@
 <?php
 
-namespace App\Services;
+namespace App\Repositories;
 
-use App\Http\Resources\AdminUserResource;
+use App\Helpers\ClearCache;
 use App\Models\Image;
 use App\Models\User;
+use App\Repositories\Interfaces\UserRepositoryInterface;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class AdminUserService
+class UserRepository implements UserRepositoryInterface
 {
-    public function getAllUsers()
+    protected int $cacheTime = 10;
+
+    public function __construct(protected User $model, protected ClearCache $cacheHelper)
+    {
+    }
+
+    public function getActiveUsersWithoutCurrentUser(): Collection
     {
         $cacheKey = 'admin_all_users';
 
-        return Cache::remember($cacheKey, now()->addMinutes(10), function () {
-            $users = User::query()
+        return Cache::remember($cacheKey, now()->addMinutes($this->cacheTime), function () {
+            return $this->model
+                ->query()
                 ->with(['images'])
                 ->whereNot('id', auth()->id())
                 ->where('active', true)
                 ->get(['id', 'name', 'city', 'email', 'is_admin']);
-
-            return AdminUserResource::collection($users);
         });
     }
 
-    public function getCurrentUser($id)
+    public function getCurrentUser(int $id): User
     {
         $cacheKey = 'admin_current_users_' . $id;
 
-        return Cache::remember($cacheKey, now()->addMinutes(10), function () use ($id) {
-            $user = User::query()
+        return Cache::remember($cacheKey, now()->addMinutes($this->cacheTime), function () use ($id) {
+            return $this->model
+                ->query()
                 ->with(['images'])
-                ->where('id', $id)
                 ->where('active', true)
-                ->first(['id', 'name', 'city', 'email', 'is_admin']);
-
-            return new AdminUserResource($user);
+                ->findOrFail($id, ['id', 'name', 'city', 'email', 'is_admin']);
         });
     }
 
-    public function updateUser($request, $id)
+    public function updateUser(Request $request, int $id): void
     {
-        $user = User::query()->with(['images'])->findOrFail($id);
+        $user = $this->getCurrentUser($id);
 
         $user->name = $request->name;
         $user->city = $request->city;
@@ -80,30 +86,17 @@ class AdminUserService
                 Image::query()->find($imageUser->id)->delete();
             }
         }
+
+        $this->cacheHelper->removeSectionCache(['admin_all_users', 'admin_current_users_' . $id]);
     }
 
-    public function deactivationUser($id)
+    public function deactivationUser(int $id): void
     {
-        User::query()
+        $this->model
+            ->query()
             ->where(['id' => $id])
             ->update(['active' => false]);
-    }
 
-    public function removeCacheAllUsers(): void
-    {
-        $cacheKey = 'admin_all_users';
-
-        if (Cache::has($cacheKey)) {
-            Cache::forget($cacheKey);
-        }
-    }
-
-    public function removeCacheCurrentUser($id): void
-    {
-        $cacheKey = 'admin_current_users_' . $id;
-
-        if (Cache::has($cacheKey)) {
-            Cache::forget($cacheKey);
-        }
+        $this->cacheHelper->removeSectionCache('admin_all_users');
     }
 }

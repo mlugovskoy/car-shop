@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
-use App\Http\Resources\AdminTransportMakerResource;
-use App\Http\Resources\AdminTransportResource;
+use App\Http\Resources\TransportResource;
 use App\Http\Resources\AdminUserResource;
+use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
 
@@ -15,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(UserRepository::class);
     }
 
     /**
@@ -24,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Vite::prefetch(concurrency: 3);
-        AdminTransportResource::withoutWrapping();
+        TransportResource::withoutWrapping();
         AdminUserResource::withoutWrapping();
     }
 }

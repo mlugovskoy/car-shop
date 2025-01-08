@@ -37,7 +37,7 @@ class TransportsCreateRequest extends FormRequest
             'doors' => ['max:100', 'string', 'nullable'],
             'seats' => ['max:100', 'string', 'nullable'],
             'year' => ['max:100', 'string', 'nullable'],
-            'price' => ['required', 'string'],
+            'price' => ['required', 'numeric'],
         ];
     }
 

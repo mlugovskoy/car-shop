@@ -7,7 +7,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Storage;
 
-class AdminNewsResource extends JsonResource
+class TransportResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -19,9 +19,24 @@ class AdminNewsResource extends JsonResource
         return [
             'id' => $this->id,
             'active' => $this->active,
-            'title' => $this->title,
+            'maker' => $this->maker,
+            'model' => $this->model,
+            'fuel_type' => $this->fuelType,
+            'transport_type' => $this->transportType,
+            'city' => $this->city,
+            'year' => $this->year,
+            'power' => number_format($this->power, 0, '.', ' '),
+            'engine' => $this->engine,
+            'fuel_supply_type' => $this->fuel_supply_type,
+            'mileage' => number_format($this->mileage, 0, '.', ' '),
+            'price' => number_format($this->price, 0, '.', ' ') . ' ₽',
             'description' => $this->description,
-            'user_id' => $this->user_id,
+            'title' => $this->maker->name . ' ' . $this->model->name,
+            'preview' => $this->power . ' л.с, '
+                . $this->fuelType->name
+                . ', ' . $this->fuel_supply_type
+                . ', ' . $this->mileage . ' км',
+            'user' => $this->user,
             'published_at' => Date::parse($this->published_at)->translatedFormat('d F Y'),
             'images' => $this->images->map(function ($image) {
                 return [

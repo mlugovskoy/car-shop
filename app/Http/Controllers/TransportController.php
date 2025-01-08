@@ -5,119 +5,93 @@ namespace App\Http\Controllers;
 use App\Helpers\Breadcrumbs;
 use App\Http\Filters\TransportsFilters;
 use App\Http\Requests\Transports\TransportsCreateRequest;
-use App\Http\Requests\Transports\TransportsRequest;
-use App\Models\Favorites;
-use App\Services\TransportService;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Date;
+use App\Http\Resources\TransportResource;
+use App\Repositories\FavoriteRepository;
+use App\Repositories\MakerRepository;
+use App\Repositories\TransportRepository;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 
 class TransportController extends Controller
 {
-	protected TransportService $transportService;
+    protected TransportRepository $transportRepository;
+    protected MakerRepository $makerRepository;
+    protected FavoriteRepository $favoriteRepository;
 
-	public function __construct(TransportService $transportService)
-	{
-		$this->transportService = $transportService;
-	}
+    public function __construct(
+        TransportRepository $transportRepository,
+        MakerRepository $makerRepository,
+        FavoriteRepository $favoriteRepository
+    ) {
+        $this->makerRepository = $makerRepository;
+        $this->favoriteRepository = $favoriteRepository;
+        $this->transportRepository = $transportRepository;
+    }
 
-	public function index(TransportsRequest $request, TransportsFilters $filters, $section = null)
-	{
-		$transports = $this->transportService->getAllTransport($request, $filters, $section);
+    public function index(TransportsFilters $filters, $section = null)
+    {
+        $maker = $this->makerRepository->getMakerId($section);
 
-		$fieldsFilters = $this->transportService->getFieldsToFilters();
+        $transports = $this->transportRepository->getAllTransportsToFilters($filters, $maker);
 
-		$favorites = $this->transportService->getFavorites();
+        $fieldsFilters = $this->transportRepository->getFieldsToFilters();
 
-		$breadcrumbs = (new Breadcrumbs())->generateBreadcrumbs('transport');
+        $favorites = $this->favoriteRepository->getAllFavorites();
 
-		return Inertia::render(
-			'Transport/Index',
-			[
-				'transports' => $transports,
-				'countTransports' => count($transports),
-				'favorites' => $favorites->keyBy('transport_id'),
-				'fieldsFilters' => $fieldsFilters,
-				'breadcrumbs' => $breadcrumbs
-			]
-		);
-	}
+        $breadcrumbs = (new Breadcrumbs())->generateBreadcrumbs('transport');
 
-	public function addFavorite($id): void
-	{
-		$this->transportService->addFavorite($id);
-	}
+        return Inertia::render(
+            'Transport/Index',
+            [
+                'transports' => TransportResource::collection($transports),
+                'countTransports' => count($transports),
+                'favorites' => $favorites->keyBy('transport_id'),
+                'fieldsFilters' => $fieldsFilters,
+                'breadcrumbs' => $breadcrumbs
+            ]
+        );
+    }
 
-	public function removeFavorite($id): void
-	{
-		$this->transportService->removeFavorite($id);
-	}
+    public function addFavorite($id): void
+    {
+        $this->favoriteRepository->storeFavorite($id);
+    }
 
-	/**
-	 * Show the form for creating a new resource.
-	 */
-	public function create()
-	{
-		//
-	}
+    public function removeFavorite($id): void
+    {
+        $this->favoriteRepository->destroyFavorite($id);
+    }
 
-	/**
-	 * Store a newly created resource in storage.
-	 */
-	public function store(TransportsCreateRequest $request)
-	{
-		$transport = $this->transportService->storeTransport($request);
+    public function store(TransportsCreateRequest $request)
+    {
+        $transport = $this->transportRepository->storeTransport($request);
 
-		$date = Date::parse($transport->published_at)->translatedFormat('d F H:i:s');
+        Session::flash(
+            'success',
+            "Ваше объявление #$transport->id создано $transport->published_at! <br> Ожидайте подтверждения администратора."
+        );
 
-		Session::flash(
-			'success',
-			"Ваше объявление #$transport->id создано $date! <br> Ожидайте подтверждения администратора."
-		);
+        return Redirect::route('transport.index');
+    }
 
-		return Redirect::route('transport.index');
-	}
+    public function show(string $section, string $id)
+    {
+        $maker = $this->makerRepository->getMakerId($section);
 
-	/**
-	 * Display the specified resource.
-	 */
-	public function show(string $section, string $id)
-	{
-		$transport = $this->transportService->getDetailTransport($section, $id);
+        $transport = $this->transportRepository->getOneTransportToFilters($maker, $id);
 
-		$favorite = $this->transportService->checkItemFavorite($id);
+        $favorite = $this->favoriteRepository->checkItemFavorite($id);
 
-		$breadcrumbs = (new Breadcrumbs())->generateBreadcrumbs('transportDetail', $transport);
+        $breadcrumbs = (new Breadcrumbs())->generateBreadcrumbs('transportDetail', $transport);
 
-		return Inertia::render(
-			'Transport/Show',
-			['transport' => $transport, 'breadcrumbs' => $breadcrumbs, 'isFavorite' => $favorite]
-		);
-	}
-
-	/**
-	 * Show the form for editing the specified resource.
-	 */
-	public function edit(string $id)
-	{
-		//
-	}
-
-	/**
-	 * Update the specified resource in storage.
-	 */
-	public function update(Request $request, string $id)
-	{
-		//
-	}
-
-	/**
-	 * Remove the specified resource from storage.
-	 */
-	public function destroy(string $id)
-	{
-		//
-	}
+        return Inertia::render(
+            'Transport/Show',
+            [
+                'transport' => new TransportResource($transport),
+                'breadcrumbs' => $breadcrumbs,
+                'isFavorite' => $favorite
+            ]
+        );
+    }
 }

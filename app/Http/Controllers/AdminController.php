@@ -10,11 +10,4 @@ class AdminController extends Controller
             'Profile/Admin/Index', ['items' => []]
         );
     }
-
-    public function news()
-    {
-        return inertia(
-            'Profile/Admin/Index', ['items' => []]
-        );
-    }
 }

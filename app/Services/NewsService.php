@@ -12,44 +12,6 @@ use Illuminate\Support\Facades\Cache;
 
 class NewsService
 {
-    public function getAllNews(): LengthAwarePaginator
-    {
-        $cacheKey = 'all_news_section';
-
-        $cachedNews = Cache::remember($cacheKey, now()->addMinutes(10), function () {
-            return News::query()
-                ->where('active', true)
-                ->orderBy('published_at', 'desc')
-                ->get(['title', 'id', 'description', 'published_at']);
-        });
-
-        $currentPage = LengthAwarePaginator::resolveCurrentPage();
-        $countItemsInPage = 10;
-        $currentPageItems = $cachedNews->slice(($currentPage - 1) * $countItemsInPage, $countItemsInPage)->all();
-        $paginatedItems = new LengthAwarePaginator(
-            $currentPageItems,
-            $cachedNews->count(),
-            $countItemsInPage,
-            $currentPage,
-            [
-                'path' => LengthAwarePaginator::resolveCurrentPath(),
-                'query' => request()->query()
-            ]
-        );
-
-        foreach ($paginatedItems as $article) {
-            foreach ($article->images as $image) {
-                $article->push($image);
-            }
-            foreach ($article->comments as $comment) {
-                $article->push($comment);
-            }
-            $article->published_at = Carbon::parse($article->published_at)->translatedFormat('d F');
-        }
-
-        return $paginatedItems;
-    }
-
     public function getDetailArticle($id)
     {
         $cacheKey = 'detail_news_section_' . $id;
@@ -117,23 +79,5 @@ class NewsService
 
         $article = News::query()->findOrFail($id);
         $article->comments()->attach($comment->id);
-    }
-
-    public function removeCacheDetailArticle($id): void
-    {
-        $cacheKey = 'detail_news_section_' . $id;
-
-        if (Cache::has($cacheKey)) {
-            Cache::forget($cacheKey);
-        }
-    }
-
-    public function removeCacheAllNewsSection(): void
-    {
-        $cacheKey = 'all_news_section';
-
-        if (Cache::has($cacheKey)) {
-            Cache::forget($cacheKey);
-        }
     }
 }

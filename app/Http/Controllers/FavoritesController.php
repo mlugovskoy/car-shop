@@ -3,30 +3,36 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Breadcrumbs;
-use App\Services\FavoriteService;
+use App\Http\Resources\TransportResource;
+use App\Repositories\FavoriteRepository;
+use App\Repositories\TransportRepository;
 use Inertia\Inertia;
 
 class FavoritesController extends Controller
 {
-    protected FavoriteService $favoriteService;
+    protected FavoriteRepository $favoriteRepository;
+    protected TransportRepository $transportRepository;
 
-    public function __construct(FavoriteService $favoriteService)
+    public function __construct(FavoriteRepository $favoriteRepository, TransportRepository $transportRepository)
     {
-        $this->favoriteService = $favoriteService;
+        $this->transportRepository = $transportRepository;
+        $this->favoriteRepository = $favoriteRepository;
     }
 
     public function index()
     {
+        $favorites = $this->favoriteRepository->getAllFavorites();
+
+        $transportIds = $this->favoriteRepository->getTransportIdsOfFavoritesToArray($favorites);
+
+        $transports = $this->transportRepository->getTransportsOfFavorites($transportIds);
+
         $breadcrumbs = (new Breadcrumbs())->generateBreadcrumbs('favorites');
-
-        $transports = $this->favoriteService->getAllTransports();
-
-        $favorites = $this->favoriteService->getAllFavorites();
 
         return Inertia::render(
             'Favorites/Index',
             [
-                'transports' => $transports,
+                'transports' => TransportResource::collection($transports),
                 'favorites' => $favorites,
                 'breadcrumbs' => $breadcrumbs,
                 'isFavoritePage' => true

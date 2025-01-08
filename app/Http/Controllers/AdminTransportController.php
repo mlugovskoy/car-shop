@@ -2,41 +2,43 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\RemoveSectionCache;
-use App\Services\AdminTransportService;
+use App\Helpers\ClearCache;
+use App\Http\Resources\TransportResource;
+use App\Repositories\TransportRepository;
 
 class AdminTransportController extends Controller
 {
-    protected AdminTransportService $adminTransportService;
+    protected TransportRepository $transportRepository;
 
-    public function __construct(AdminTransportService $adminTransportService)
+    public function __construct(TransportRepository $transportRepository)
     {
-        $this->adminTransportService = $adminTransportService;
+        $this->transportRepository = $transportRepository;
     }
 
     public function index()
     {
-        $transports = $this->adminTransportService->getAllTransports();
+        $transports = $this->transportRepository->paginateTransports(
+            $this->transportRepository->getAllTransportsToAdmin(),
+            10
+        );
 
         return inertia(
-            'Profile/Admin/Transports/Index', ['items' => $transports]
+            'Profile/Admin/Transports/Index', ['items' => TransportResource::collection($transports)]
         );
     }
 
     public function update($id)
     {
-        $this->adminTransportService->updateTransport($id);
+        $resTransport = $this->transportRepository->findTransport($id);
 
-        (new RemoveSectionCache())->removeSectionCache(['admin_all_transports', 'top_slider_transports']);
+        $this->transportRepository->updateTransport($resTransport);
 
         return redirect()->route('admin.transports')->with('success', "Объявление #$id обновлено.");
     }
 
     public function destroy($id)
     {
-        $this->adminTransportService->destroyTransport($id);
-
-        (new RemoveSectionCache())->removeSectionCache(['admin_all_transports', 'top_slider_transports']);
+        $this->transportRepository->destroyTransport($id);
 
         return redirect()->route('admin.transports')->with('success', "Объявление #$id удалено.");
     }

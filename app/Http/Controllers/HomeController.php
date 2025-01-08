@@ -2,31 +2,44 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\HomeService;
+use App\Http\Resources\NewsResource;
+use App\Http\Resources\TopSliderResource;
+use App\Repositories\MakerRepository;
+use App\Repositories\NewsRepository;
+use App\Repositories\TransportRepository;
 
 class HomeController extends Controller
 {
-    protected HomeService $homeService;
+    protected MakerRepository $makerRepository;
+    protected TransportRepository $transportRepository;
+    protected NewsRepository $newsRepository;
 
-    public function __construct(HomeService $homeService)
-    {
-        $this->homeService = $homeService;
+    public function __construct(
+        MakerRepository $makerRepository,
+        TransportRepository $transportRepository,
+        NewsRepository $newsRepository
+    ) {
+        $this->makerRepository = $makerRepository;
+        $this->transportRepository = $transportRepository;
+        $this->newsRepository = $newsRepository;
     }
 
     public function index()
     {
-        $topSliderTransports = $this->homeService->getTransportsInTopSlider();
-        $latestReviews = $this->homeService->getLatestReviews();
-        $latestNews = $this->homeService->getLatestNews();
-        $makers = $this->homeService->getMakers();
+        $topSliderTransports = $this->transportRepository->getTopSliderTransports();
+
+        $makers = $this->makerRepository->getMakersAttachedToTransport(
+            $this->transportRepository->getMakerIdsAttachedTransports()
+        );
+
+        $latestNews = $this->newsRepository->getHomeNews();
 
         return inertia(
             'Home',
             [
-                'topSliderTransports' => $topSliderTransports,
+                'topSliderTransports' => TopSliderResource::collection($topSliderTransports),
                 'makers' => $makers,
-                'latestReviews' => $latestReviews,
-                'latestNews' => $latestNews
+                'latestNews' => NewsResource::collection($latestNews)
             ]
         );
     }

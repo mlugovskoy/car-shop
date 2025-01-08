@@ -2,41 +2,39 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\RemoveSectionCache;
-use App\Services\AdminNewsService;
+use App\Http\Resources\NewsResource;
+use App\Repositories\NewsRepository;
 
 class AdminNewsController extends Controller
 {
-    protected AdminNewsService $adminNewsService;
+    protected NewsRepository $newsRepository;
 
-    public function __construct(AdminNewsService $adminNewsService)
+    public function __construct(NewsRepository $newsRepository)
     {
-        $this->adminNewsService = $adminNewsService;
+        $this->newsRepository = $newsRepository;
     }
 
     public function index()
     {
-        $news = $this->adminNewsService->getAllNews();
+        $news = $this->newsRepository->paginateNews($this->newsRepository->getAdminAllNews(), 10);
 
         return inertia(
-            'Profile/Admin/News/Index', ['items' => $news]
+            'Profile/Admin/News/Index', ['items' => NewsResource::collection($news)]
         );
     }
 
     public function update($id)
     {
-        $this->adminNewsService->updateArticle($id);
+        $resOneNews = $this->newsRepository->findOneNews($id);
 
-        (new RemoveSectionCache())->removeSectionCache(['admin_all_news', 'latest_news']);
+        $this->newsRepository->updateCurrentNews($resOneNews);
 
         return redirect()->route('admin.news')->with('success', "Статья #$id обновлена.");
     }
 
     public function destroy($id)
     {
-        $this->adminNewsService->destroyArticle($id);
-
-        (new RemoveSectionCache())->removeSectionCache(['admin_all_news', 'latest_news']);
+        $this->newsRepository->destroyCurrentNews($id);
 
         return redirect()->route('admin.news')->with('success', "Статья #$id удалена.");
     }

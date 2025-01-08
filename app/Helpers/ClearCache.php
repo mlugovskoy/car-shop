@@ -4,7 +4,7 @@ namespace App\Helpers;
 
 use Illuminate\Support\Facades\Cache;
 
-class RemoveSectionCache
+class ClearCache
 {
     public function removeSectionCache(string|array $code): void
     {
