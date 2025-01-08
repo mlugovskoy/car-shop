@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Helpers\ClearCache;
 use App\Http\Requests\News\NewsRequest;
+use App\Models\Comment;
 use App\Models\Image;
 use App\Models\News;
 use App\Repositories\Interfaces\NewsRepositoryInterface;
@@ -60,6 +61,25 @@ class NewsRepository implements NewsRepositoryInterface
         });
     }
 
+    public function getDetailNews(int $id)
+    {
+        $cacheKey = 'detail_news' . $id;
+
+        return Cache::remember($cacheKey, now()->addMinutes($this->cacheTime), function () use ($id) {
+            return $this->model::query()
+                ->with(['comments', 'images', 'user'])
+                ->where('id', $id)
+                ->first();
+        });
+    }
+
+    public function attachCommentForNews(Comment $commentCollection, News $newsCollection, $id): void
+    {
+        $newsCollection->comments()->attach($commentCollection->id);
+
+        $this->cacheHelper->removeSectionCache('detail_news' . $id);
+    }
+
     public function paginateNews(Collection $newsCollection, int $perPage = 5): LengthAwarePaginator
     {
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
@@ -104,7 +124,7 @@ class NewsRepository implements NewsRepositoryInterface
             }
         }
 
-        $this->cacheHelper->removeSectionCache('all_news');
+        $this->cacheHelper->removeSectionCache(['all_news', 'admin_all_news']);
 
         return $oneNews;
     }
@@ -119,7 +139,7 @@ class NewsRepository implements NewsRepositoryInterface
     {
         $oneNewsCollection->update(['active' => !$oneNewsCollection->active]);
 
-        $this->cacheHelper->removeSectionCache(['admin_all_news', 'latest_news']);
+        $this->cacheHelper->removeSectionCache(['all_news', 'admin_all_news', 'latest_news']);
     }
 
     public function destroyCurrentNews(int $id): void
@@ -129,6 +149,6 @@ class NewsRepository implements NewsRepositoryInterface
             ->where(['id' => $id])
             ->delete();
 
-        $this->cacheHelper->removeSectionCache(['admin_all_news', 'latest_news']);
+        $this->cacheHelper->removeSectionCache(['all_news', 'admin_all_news', 'latest_news']);
     }
 }

@@ -61,7 +61,8 @@ const submit = () => {
                                       :alt="page.props.article.title"/>
                     </swiper>
                     <div v-else>
-                        <img class="mx-auto" v-if="page.props.article.images[0]" :src="page.props.article.images[0].image_path"
+                        <img class="mx-auto" v-if="page.props.article.images[0]"
+                             :src="page.props.article.images[0].image_path"
                              :alt="page.props.article.title">
                     </div>
                 </div>
@@ -75,19 +76,22 @@ const submit = () => {
                         Комментарии
                     </h4>
                     <div class="flex flex-col gap-y-8 mb-10">
-                        <div v-for="comment in page.props.article.comments"
+                        <div v-if="page.props.article.comments.length > 0"
+                             v-for="comment in page.props.article.comments"
                              class="flex gap-10">
                             <div class="flex flex-col items-center max-w-24 w-full text-center">
                                 <span class="block text-xs mb-2">{{ comment.published_at }}</span>
-                                <img class="w-16 h-16 rounded-md mb-2 object-cover" :src="comment.userImage[0].image_path"
-                                     :alt="comment.user.name">
-                                <h5>{{ comment.user.name }}</h5>
+                                <img class="w-16 h-16 rounded-md mb-2 object-cover"
+                                     :src="comment.comment_user_image[0].image_path"
+                                     :alt="comment.comment_user_name">
+                                <h5>{{ comment.comment_user_name }}</h5>
                                 <span class="text-xs">{{ comment.city }}</span>
                             </div>
                             <div class="py-4">
                                 {{ comment.description }}
                             </div>
                         </div>
+                        <div v-else class="text-gray-500">Оставьте первый комментарий</div>
                     </div>
                     <div v-if="page.props.auth.user === null" class="text-center">
                         <Link :href="route('login')" class="text-emerald-400 transition-all hover:text-emerald-300">
@@ -101,17 +105,18 @@ const submit = () => {
                     </div>
                     <div v-else>
                         <form @submit.prevent="submit" enctype="multipart/form-data" method="POST">
-                            <textarea class="block w-full !h-20 rounded-md p-4 border border-emerald-400 resize-none mb-2"
-                                      placeholder="Введите сообщение"
-                                      v-model="form.description"
-                                      id="description"
-                                      name="description"></textarea>
+                            <textarea
+                                class="block w-full !h-20 rounded-md p-4 border border-emerald-400 resize-none mb-2"
+                                placeholder="Введите сообщение"
+                                v-model="form.description"
+                                id="description"
+                                name="description"></textarea>
                             <div class="text-sm text-red-400 mb-2" v-if="form.errors.description">
                                 {{ form.errors.description }}
                             </div>
                             <PrimaryButton type="submit"
-                                    :disabled="form.processing"
-                                    class="ml-auto block bg-emerald-400 py-2 px-6 rounded-md text-white transition-all hover:bg-emerald-300">
+                                           :disabled="form.processing"
+                                           class="ml-auto block bg-emerald-400 py-2 px-6 rounded-md text-white transition-all hover:bg-emerald-300">
                                 Отправить
                             </PrimaryButton>
                         </form>

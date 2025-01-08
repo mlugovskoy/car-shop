@@ -21,7 +21,21 @@ class NewsResource extends JsonResource
             'active' => $this->active,
             'title' => $this->title,
             'description' => $this->description,
-            'comments' => $this->comments,
+            'comments' => $this->comments->map(function ($comment) {
+                return array_merge($comment->toArray(), [
+                    'comment_user_name' => $comment->user->name,
+                    'comment_user_image' => $comment->user->images->map(function ($image) {
+                        return [
+                            'id' => $image->id,
+                            'image_title' => $image->image_title,
+                            'image_path' => asset(Storage::url($image->image_path)),
+                            'image_size' => $image->image_size,
+                            'image_ext' => $image->image_ext,
+                            'image_source' => $image->image_source,
+                        ];
+                    })
+                ]);
+            }),
             'user_id' => $this->user_id,
             'published_at' => Date::parse($this->published_at)->translatedFormat('d F Y'),
             'images' => $this->images->map(function ($image) {

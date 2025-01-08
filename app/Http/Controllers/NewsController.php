@@ -7,6 +7,7 @@ use App\Helpers\ClearCache;
 use App\Http\Requests\News\NewsCommentsRequest;
 use App\Http\Requests\News\NewsRequest;
 use App\Http\Resources\NewsResource;
+use App\Repositories\CommentRepository;
 use App\Repositories\NewsRepository;
 use App\Services\NewsService;
 use Illuminate\Http\Request;
@@ -18,10 +19,12 @@ use Inertia\Inertia;
 class NewsController extends Controller
 {
     protected NewsRepository $newsRepository;
+    protected CommentRepository $commentRepository;
 
-    public function __construct(NewsRepository $newsRepository)
+    public function __construct(NewsRepository $newsRepository, CommentRepository $commentRepository)
     {
         $this->newsRepository = $newsRepository;
+        $this->commentRepository = $commentRepository;
     }
 
     public function index()
@@ -48,19 +51,21 @@ class NewsController extends Controller
 
     public function storeComment(NewsCommentsRequest $request, $id)
     {
-        $this->newsService->storeArticleComment($request, $id);
+        $newComment = $this->commentRepository->storeCommentForNews($request);
 
-        (new ClearCache())->removeSectionCache('detail_news_section_' . $id);
+        $oneNews = $this->newsRepository->findOneNews($id);
+
+        $this->newsRepository->attachCommentForNews($newComment, $oneNews, $id);
 
         return Redirect::back();
     }
 
     public function show(string $id)
     {
-        $article = $this->newsService->getDetailArticle($id);
+        $oneNews = $this->newsRepository->getDetailNews($id);
 
-        $breadcrumbs = (new Breadcrumbs())->generateBreadcrumbs('newsDetail', $article);
+        $breadcrumbs = (new Breadcrumbs())->generateBreadcrumbs('newsDetail', $oneNews);
 
-        return Inertia::render('News/Show', ['article' => $article, 'breadcrumbs' => $breadcrumbs]);
+        return Inertia::render('News/Show', ['article' => new NewsResource($oneNews), 'breadcrumbs' => $breadcrumbs]);
     }
 }
