@@ -6,16 +6,23 @@
 - Laravel 11.x
 - Node 22.12.0
 - PostgreSQL 16
+- Redis 7.2
 
 ## Этапы развертывания
 
 1. Выполнить `npm i` и `composer i`
 2. Скопировать файл .env.example в корневую директорию с названием `.env`
 3. Создать локальную БД и заполнить соответствующие поля в `.env`, пример полей:<br>
-   **DB_CONNECTION=pgsql**<br>
-   **DB_HOST=127.0.0.1**<br>
-   **DB_PORT=5432**<br>
-   **DB_DATABASE=crm**<br>
+    ### PostgreSQL
+       DB_CONNECTION=pgsql
+       DB_HOST=127.0.0.1
+       DB_PORT=5432
+       DB_DATABASE=crm
+    ### Redis
+       REDIS_CLIENT=pgsql
+       REDIS_HOST=127.0.0.1
+       REDIS_PASSWORD=null
+       REDIS_PORT=6379
 4. После создания БД нужно сгенерировать ключ `php artisan key:generate`
 5. Выполнить две команды<br> `php artisan storage:link`<br>`php artisan migrate --seed`
 
