@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\NewsResource;
 use App\Http\Resources\TopSliderResource;
+use App\Models\User;
+use App\Notifications\DatabaseNotification;
 use App\Repositories\MakerRepository;
 use App\Repositories\NewsRepository;
 use App\Repositories\TransportRepository;

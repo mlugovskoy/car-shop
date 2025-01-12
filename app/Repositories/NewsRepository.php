@@ -7,6 +7,8 @@ use App\Http\Requests\News\NewsRequest;
 use App\Models\Comment;
 use App\Models\Image;
 use App\Models\News;
+use App\Models\User;
+use App\Notifications\DatabaseNotification;
 use App\Repositories\Interfaces\NewsRepositoryInterface;
 use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -139,11 +141,30 @@ class NewsRepository implements NewsRepositoryInterface
     {
         $oneNewsCollection->update(['active' => !$oneNewsCollection->active]);
 
+        $user = User::query()->find($oneNewsCollection->user_id);
+        $user->notify(
+            new DatabaseNotification(
+                "Администратор изменил статус вашей статьи <b>$oneNewsCollection->title</b>"
+            )
+        );
+
         $this->cacheHelper->removeSectionCache(['all_news', 'admin_all_news', 'latest_news']);
     }
 
     public function destroyCurrentNews(int $id): void
     {
+        $news = $this->model
+            ->query()
+            ->where(['id' => $id])
+            ->get(['user_id', 'title']);
+
+        $user = User::query()->find($news->user_id);
+        $user->notify(
+            new DatabaseNotification(
+                "Администратор удалил вашу статью <b>$news->title</b>"
+            )
+        );
+
         $this->model
             ->query()
             ->where(['id' => $id])

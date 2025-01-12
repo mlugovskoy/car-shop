@@ -30,7 +30,6 @@ class DatabaseSeeder extends Seeder
             CommentNewsSeeder::class,
             ImageNewsSeeder::class,
             FavoritesSeeder::class,
-            NotificationsSeeder::class,
             ImageMakersSeeder::class,
             ImageUserSeeder::class,
         ]);

@@ -18,7 +18,7 @@ class CommentRepository implements CommentRepositoryInterface
 
     public function storeCommentForNews(NewsCommentsRequest $request): Comment
     {
-        return Comment::query()
+        return $this->model::query()
             ->create(
                 [
                     'description' => $request->description,

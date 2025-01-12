@@ -10,6 +10,8 @@ use App\Models\Model;
 use App\Models\Transport;
 use App\Helpers\ClearCache;
 use App\Models\TransportType;
+use App\Models\User;
+use App\Notifications\DatabaseNotification;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
@@ -325,11 +327,36 @@ class TransportRepository implements TransportRepositoryInterface
     {
         $transportCollection->update(['active' => !$transportCollection->active]);
 
+        $user = User::query()->find($transportCollection->user_id);
+        $user->notify(
+            new DatabaseNotification(
+                'Администратор изменил статус вашего объявления '
+                . '<b>' . $transportCollection->maker->name . '</b>'
+                . ' '
+                . '<b>' . $transportCollection->model->name . '</b>'
+            )
+        );
+
         $this->cacheHelper->removeSectionCache('admin_all_transports');
     }
 
     public function destroyTransport(int $id): void
     {
+        $transport = $this->model
+            ->query()
+            ->with(['maker', 'model'])
+            ->find($id);
+
+        $user = User::query()->find($transport->user_id);
+        $user->notify(
+            new DatabaseNotification(
+                'Администратор удалил ваше объявление'
+                . '<b>' . $transport->maker->name . '</b>'
+                . ' '
+                . '<b>' . $transport->model->name . '</b>'
+            )
+        );
+
         $this->model
             ->query()
             ->where(['id' => $id])

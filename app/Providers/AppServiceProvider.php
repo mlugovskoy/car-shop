@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Http\Resources\NewsResource;
+use App\Http\Resources\TopSliderResource;
 use App\Http\Resources\TransportResource;
 use App\Http\Resources\AdminUserResource;
 use App\Repositories\UserRepository;
@@ -26,5 +28,7 @@ class AppServiceProvider extends ServiceProvider
         Vite::prefetch(concurrency: 3);
         TransportResource::withoutWrapping();
         AdminUserResource::withoutWrapping();
+        NewsResource::withoutWrapping();
+        TopSliderResource::withoutWrapping();
     }
 }

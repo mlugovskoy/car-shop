@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Helpers\ClearCache;
 use App\Models\Image;
 use App\Models\User;
+use App\Notifications\DatabaseNotification;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
@@ -86,6 +87,12 @@ class UserRepository implements UserRepositoryInterface
                 Image::query()->find($imageUser->id)->delete();
             }
         }
+
+        $user->notify(
+            new DatabaseNotification(
+                "Администратор изменил ваш аккаунт"
+            )
+        );
 
         $this->cacheHelper->removeSectionCache(['admin_all_users', 'admin_current_users_' . $id]);
     }
