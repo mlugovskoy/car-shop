@@ -5,7 +5,6 @@ import {computed} from "vue";
 const props = defineProps({
     href: {
         type: String,
-        required: true,
     },
     active: {
         type: Boolean,
@@ -14,14 +13,17 @@ const props = defineProps({
 
 const classes = computed(() =>
     props.active
-        ? 'fill-emerald-400 bg-emerald-50 mx-2 p-2 rounded-md transition-all'
-        : 'fill-emerald-400 mx-2 p-2 rounded-md transition-all hover:bg-emerald-50',
+        ? 'fill-emerald-400 bg-emerald-50 mx-2 p-2 rounded-md transition-all cursor-pointer'
+        : 'fill-emerald-400 mx-2 p-2 rounded-md transition-all hover:bg-emerald-50 cursor-pointer',
 );
 </script>
 
 <template>
-    <Link :class="classes"
+    <Link v-if="href" :class="classes"
           :href="href">
         <slot/>
     </Link>
+    <div v-else :class="classes">
+        <slot/>
+    </div>
 </template>

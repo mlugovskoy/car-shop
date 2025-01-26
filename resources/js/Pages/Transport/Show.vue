@@ -4,10 +4,11 @@ import {Head, router, usePage} from '@inertiajs/vue3';
 import MainTitle from "@/Components/UI/MainTitle.vue";
 import Breadcrumbs from "@/Components/UI/Breadcrumbs.vue";
 import {Swiper, SwiperSlide} from "swiper/vue";
-import {reactive, ref} from "vue";
+import {onMounted, provide, reactive, ref} from "vue";
 import 'swiper/css';
 import 'swiper/css/navigation';
 import {Navigation} from "swiper/modules";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
 
 const page = usePage();
 const modules = ref([Navigation]);
@@ -33,6 +34,36 @@ const changeFavorite = (id) => {
             }
         })
     }
+}
+
+const addAndDeleteToCart = (item) => {
+    if (checkAdded(item)) {
+        page.props.cart.items.splice(page.props.cart.items.indexOf(item), 1)
+        deleteCartItemToDb(item.id);
+    } else {
+        page.props.cart.items.push(item);
+        addCartItemToDb(item);
+    }
+}
+
+const checkAdded = (item) => {
+    return page.props.cart.items.find(cartItem => cartItem.id === item.id)
+}
+
+const addCartItemToDb = (item) => {
+    router.post(route('cart.add'), {item}, {
+        preserveState: true, preserveScroll: true, onSuccess: () => {
+            processing.value = false
+        }
+    })
+}
+
+const deleteCartItemToDb = (id) => {
+    router.post(route('cart.delete', id), {}, {
+        preserveState: true, preserveScroll: true, onSuccess: () => {
+            processing.value = false
+        }
+    })
 }
 </script>
 
@@ -130,13 +161,18 @@ const changeFavorite = (id) => {
                                         }}</a>
                                 </div>
                                 <button v-if="page.props.auth.user !== null"
-                                    class="mt-4 text-left text-emerald-400 font-bold hover:text-emerald-300 transition-all"
-                                    v-on:click="changeFavorite(page.props.transport.id)"
-                                    :disabled="processing">
+                                        class="mt-4 text-left text-emerald-400 font-bold hover:text-emerald-300 transition-all"
+                                        @click="changeFavorite(page.props.transport.id)"
+                                        :disabled="processing">
                                     {{
                                         page.props.isFavorite ? 'Удалить из избранного' : 'Добавить в избранное'
                                     }}
                                 </button>
+                                <PrimaryButton v-if="page.props.auth.user !== null" class="mt-2"
+                                               @click="addAndDeleteToCart(page.props.transport)"
+                                               :disabled="processing">
+                                    {{ checkAdded(page.props.transport) ? 'Удалить из корзины' : 'Добавить в корзину' }}
+                                </PrimaryButton>
                             </div>
                         </div>
                     </div>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\FavoritesController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsController;
@@ -7,8 +8,9 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TransportController;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
-Route::middleware('notifications')->group(function () {
+Route::middleware(['notifications', 'cart'])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::resource('/news', NewsController::class)
         ->name('index', 'news.index')
@@ -38,6 +40,10 @@ Route::middleware('notifications')->group(function () {
 
     Route::post('/notifications', [NotificationController::class, 'destroy'])->name('notifications.destroy');
     Route::post('/notifications/{id}', [NotificationController::class, 'update'])->name('notifications.update');
+
+
+    Route::post('/cart/add', [CartController::class, 'store'])->name('cart.add');
+    Route::post('/cart/delete/{id}', [CartController::class, 'delete'])->name('cart.delete');
 });
 
 require __DIR__ . '/admin.php';

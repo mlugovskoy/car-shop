@@ -6,7 +6,7 @@ use App\Http\Controllers\AdminTransportController;
 use App\Http\Controllers\AdminUserController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth', 'admin', 'notifications'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'admin', 'notifications', 'cart'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('index');
 
     Route::get('/users', [AdminUserController::class, 'index'])->name('users');
