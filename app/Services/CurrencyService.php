@@ -39,4 +39,32 @@ class CurrencyService
         }
         return false;
     }
+
+    public function getFormattedPrice(string $price, ?string $code = ''): string
+    {
+        if (!empty($code) && $code !== 'RUB') {
+            $currency = Currency::query()
+                ->where('code', $code)
+                ->first();
+
+            $formatPrice = $price / $currency['rate'];
+            $icon = $this->getCurrencyIcon($currency['code']);
+        } else {
+            $formatPrice = $price;
+            $icon = $this->getCurrencyIcon();
+        }
+
+
+        return number_format($formatPrice, 0, '.', ' ') . ' ' . $icon;
+    }
+
+    protected function getCurrencyIcon(string $code = ''): string
+    {
+        return match ($code) {
+            'USD' => '$',
+            'EUR' => '€',
+            'CNY' => '¥',
+            default => '₽',
+        };
+    }
 }
