@@ -1,8 +1,8 @@
 <script setup>
 import GuestLayout from '@/Layouts/GuestLayout.vue';
-import InputError from '@/Components/InputError.vue';
+import InputError from '@/Components/UI/Form/InputError.vue';
 import InputLabel from '@/Components/UI/Form/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
+import PrimaryButton from '@/Components/UI/PrimaryButton.vue';
 import TextInput from '@/Components/UI/Form/TextInput.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 
@@ -22,8 +22,8 @@ const submit = () => {
         <Head title="Confirm Password" />
 
         <div class="mb-4 text-sm text-gray-600">
-            This is a secure area of the application. Please confirm your
-            password before continuing.
+            Это защищенная область приложения. Пожалуйста, подтвердите свой
+            пароль, прежде чем продолжить.
         </div>
 
         <form @submit.prevent="submit">
@@ -47,7 +47,7 @@ const submit = () => {
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
                 >
-                    Confirm
+                    Подтвердить
                 </PrimaryButton>
             </div>
         </form>

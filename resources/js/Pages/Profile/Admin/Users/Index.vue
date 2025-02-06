@@ -2,11 +2,11 @@
 
 import Admin from "@/Layouts/Admin.vue";
 import {useForm, usePage} from "@inertiajs/vue3";
-import DangerButton from "@/Components/DangerButton.vue";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
+import DangerButton from "@/Components/UI/DangerButton.vue";
+import PrimaryButton from "@/Components/UI/PrimaryButton.vue";
 import Modal from "@/Components/Modal.vue";
 import {ref} from "vue";
-import SecondaryButton from "@/Components/SecondaryButton.vue";
+import SecondaryButton from "@/Components/UI/SecondaryButton.vue";
 import FlashMessage from "@/Components/FlashMessage/FlashMessage.vue";
 
 const page = usePage();

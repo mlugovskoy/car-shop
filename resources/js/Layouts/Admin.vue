@@ -3,7 +3,7 @@
 import {Head} from "@inertiajs/vue3";
 import Main from "@/Layouts/Main.vue";
 import MainTitle from "@/Components/UI/MainTitle.vue";
-import NavLink from "@/Components/NavLink.vue";
+import NavLink from "@/Components/UI/NavLink.vue";
 </script>
 
 <template>

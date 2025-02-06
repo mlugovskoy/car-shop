@@ -1,13 +1,13 @@
 <script setup>
-import {onMounted, onUnmounted, provide, ref} from 'vue';
+import {provide, ref} from 'vue';
 import Logo from '@/Components/Header/Logo.vue';
-import Dropdown from '@/Components/Dropdown.vue';
-import DropdownLink from '@/Components/DropdownLink.vue';
+import Dropdown from '@/Components/UI/Form/Dropdown.vue';
+import DropdownLink from '@/Components/UI/Form/DropdownLink.vue';
 import HeaderResponsiveNavLink from '@/Components/Header/HeaderResponsiveNavLink.vue';
 import {Link} from '@inertiajs/vue3';
 import HeaderIcon from "@/Components/Header/HeaderIcon.vue";
-import NavLink from "@/Components/NavLink.vue";
-import ResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
+import NavLink from "@/Components/UI/NavLink.vue";
+import ResponsiveNavLink from "@/Components/UI/ResponsiveNavLink.vue";
 import HeaderNotification from "@/Components/Header/HeaderNotification.vue";
 import Drawer from "@/Components/Drawer/Drawer.vue";
 

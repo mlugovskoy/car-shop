@@ -33,16 +33,24 @@ const checkAdded = (item) => {
 
 const addCartItemToDb = (item) => {
     router.post(route('cart.add'), {item}, {
-        preserveState: true, preserveScroll: true, onSuccess: () => {
-            processing.value = false
+        preserveScroll: true,
+        onSuccess: () => processing.value = false,
+        onError: (errors) => {
+            processing.value = false;
+            alert('Произошла ошибка при добавлении в корзину.');
+            console.error(errors);
         }
     })
 }
 
 const deleteCartItemToDb = (id) => {
     router.post(route('cart.delete', id), {}, {
-        preserveState: true, preserveScroll: true, onSuccess: () => {
-            processing.value = false
+        preserveScroll: true,
+        onSuccess: () => processing.value = false,
+        onError: (errors) => {
+            processing.value = false;
+            alert('Произошла ошибка при удалении из корзины.');
+            console.error(errors);
         }
     })
 }

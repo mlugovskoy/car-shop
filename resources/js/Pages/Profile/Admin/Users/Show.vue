@@ -3,11 +3,11 @@
 import Admin from "@/Layouts/Admin.vue";
 import {router, useForm, usePage} from "@inertiajs/vue3";
 import TextInput from "@/Components/UI/Form/TextInput.vue";
-import InputError from "@/Components/InputError.vue";
+import InputError from "@/Components/UI/Form/InputError.vue";
 import InputLabel from "@/Components/UI/Form/InputLabel.vue";
-import Checkbox from "@/Components/Checkbox.vue";
+import Checkbox from "@/Components/UI/Form/Checkbox.vue";
 import FileInput from "@/Components/UI/Form/FileInput.vue";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
+import PrimaryButton from "@/Components/UI/PrimaryButton.vue";
 
 const page = usePage();
 

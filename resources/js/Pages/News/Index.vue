@@ -6,9 +6,9 @@ import Pagination from "@/Components/Pagination.vue";
 import Breadcrumbs from "@/Components/UI/Breadcrumbs.vue";
 import Modal from "@/Components/Modal.vue";
 import {ref} from "vue";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
+import PrimaryButton from "@/Components/UI/PrimaryButton.vue";
 import FlashMessage from "@/Components/FlashMessage/FlashMessage.vue";
-import DangerButton from "@/Components/DangerButton.vue";
+import DangerButton from "@/Components/UI/DangerButton.vue";
 
 const createdModal = ref(false);
 const fileInput = ref(null);

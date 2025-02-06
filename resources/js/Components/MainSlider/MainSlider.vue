@@ -9,7 +9,6 @@ import {Navigation} from "swiper/modules";
 const modules = ref([Navigation]);
 
 const props = defineProps({'transports': Array})
-
 </script>
 
 <template>
@@ -61,15 +60,13 @@ const props = defineProps({'transports': Array})
     right: -30px;
 }
 
-.swiper:hover
-.swiper-button-next {
+.swiper:hover .swiper-button-next {
     opacity: 1;
     background: linear-gradient(to right, transparent, rgba(52, 211, 153, 0.3) 100%);
     right: -15px;
 }
 
-.swiper:hover
-.swiper-button-prev {
+.swiper:hover .swiper-button-prev {
     opacity: 1;
     left: -15px;
     background: linear-gradient(to left, transparent, rgba(52, 211, 153, 0.3) 100%);

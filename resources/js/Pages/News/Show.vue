@@ -8,7 +8,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import {Navigation} from "swiper/modules";
 import {ref} from "vue";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
+import PrimaryButton from "@/Components/UI/PrimaryButton.vue";
 
 const beforeClassesItem = "before:absolute before:text-gray-400 before:content-[''] before:top-2 before:left-[-20px] before:w-2 before:h-2 before:bg-emerald-400 before:rounded-md";
 const modules = ref([Navigation]);

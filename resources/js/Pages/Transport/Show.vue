@@ -8,7 +8,7 @@ import {onMounted, provide, reactive, ref} from "vue";
 import 'swiper/css';
 import 'swiper/css/navigation';
 import {Navigation} from "swiper/modules";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
+import PrimaryButton from "@/Components/UI/PrimaryButton.vue";
 
 const page = usePage();
 const modules = ref([Navigation]);

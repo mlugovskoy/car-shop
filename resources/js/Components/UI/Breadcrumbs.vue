@@ -22,9 +22,3 @@ let classes = (items, key) => {
         </ul>
     </nav>
 </template>
-
-<style>
-.item::before {
-    content: '/';
-}
-</style>

@@ -1,13 +1,11 @@
 <script setup>
 
-import PrimaryButton from "@/Components/PrimaryButton.vue";
+import PrimaryButton from "@/Components/UI/PrimaryButton.vue";
 
 const props = defineProps({
     count: Number,
     total: Number
 })
-
-
 </script>
 
 <template>

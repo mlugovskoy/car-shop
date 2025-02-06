@@ -1,6 +1,6 @@
 <script setup>
 import {onMounted, ref} from "vue";
-import DangerButton from "@/Components/DangerButton.vue";
+import DangerButton from "@/Components/UI/DangerButton.vue";
 
 const props = defineProps({
     multiple: Boolean,

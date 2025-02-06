@@ -19,8 +19,6 @@ onMounted(() => {
         visible.value = false;
     }, 5000)
 })
-
-
 </script>
 
 <template>

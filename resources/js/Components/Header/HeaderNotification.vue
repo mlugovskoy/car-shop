@@ -1,6 +1,6 @@
 <script setup>
 
-import Dropdown from "@/Components/Dropdown.vue";
+import Dropdown from "@/Components/UI/Form/Dropdown.vue";
 import {router} from "@inertiajs/vue3";
 
 const props = defineProps({
@@ -14,19 +14,15 @@ const props = defineProps({
 })
 
 const deleteNotifications = () => {
-    router.post(route('notifications.destroy'), {
-        preserveState: true,
+    router.post(route('notifications.destroy'), {}, {
         preserveScroll: true,
     })
 }
 
 const readNotifications = (id) => {
-    router.post(route('notifications.update', id), {
-        preserveState: true,
+    router.post(route('notifications.update', id), {}, {
         preserveScroll: true,
-        onSuccess: () => {
-            router.reload({only: ['items', 'itemsCount']});
-        }
+        onSuccess: () => router.reload({only: ['items', 'itemsCount']})
     })
 }
 </script>
