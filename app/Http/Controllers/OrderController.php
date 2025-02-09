@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\OrderResource;
+use App\Http\Resources\CartItemResource;
+use App\Repositories\CartRepository;
 use App\Repositories\OrderRepository;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -10,10 +12,12 @@ use Inertia\Inertia;
 class OrderController extends Controller
 {
     protected OrderRepository $orderRepository;
+    protected CartRepository $cartRepository;
 
-    public function __construct(OrderRepository $orderRepository)
+    public function __construct(OrderRepository $orderRepository, CartRepository $cartRepository)
     {
         $this->orderRepository = $orderRepository;
+        $this->cartRepository = $cartRepository;
     }
 
     public function index()
@@ -27,6 +31,15 @@ class OrderController extends Controller
 
     public function create()
     {
-        return Inertia::render('Order/Create');
+        $cartItems = $this->cartRepository->getCartItemsForCurrentUser();
+
+        $totalPrice = number_format($cartItems->pluck('transport.price')->sum(), 0, '.', ' ') . ' ₽';
+
+        $total = $cartItems->count();
+
+        return Inertia::render(
+            'Order/Create',
+            ['items' => CartItemResource::collection($cartItems), 'total_price' => $totalPrice, 'total' => $total]
+        );
     }
 }

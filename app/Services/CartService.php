@@ -79,7 +79,9 @@ class CartService
             ]
         );
 
-        $this->cacheHelper->removeSectionCache('cart_items');
+        $this->cacheHelper->removeSectionCache(
+            ['cart_items', 'all_cart_items_for_current_user_' . $this->auth->user()->getAuthIdentifier()]
+        );
 
         return $newItem;
     }
@@ -91,6 +93,8 @@ class CartService
             $id
         )->delete();
 
-        $this->cacheHelper->removeSectionCache('cart_items');
+        $this->cacheHelper->removeSectionCache(
+            ['cart_items', 'all_cart_items_for_current_user_' . $this->auth->user()->getAuthIdentifier()]
+        );
     }
 }

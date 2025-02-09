@@ -15,7 +15,7 @@ const props = defineProps({
         <b>{{ total }} ₽</b>
     </div>
 
-    <PrimaryButton :href="route('order')" tag="a" :disabled="count <= 0" class="w-full block text-center">Оформить
+    <PrimaryButton :href="route('order.create')" tag="a" :disabled="count <= 0" class="w-full block text-center">Оформить
         заказ
     </PrimaryButton>
 </template>
