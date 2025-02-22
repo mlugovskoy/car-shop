@@ -34,7 +34,9 @@ class CartService
             return collect();
         }
 
-        return Cache::remember('cart_items', now()->addMinutes(10), function () {
+        $cacheKey = 'cart_items';
+
+        return Cache::remember($cacheKey, now()->addMinutes(10), function () {
             return $this->model->query()
                 ->with([
                     'transport.maker',

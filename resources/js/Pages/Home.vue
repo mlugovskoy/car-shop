@@ -5,6 +5,7 @@ import MainSlider from "@/Components/MainSlider/MainSlider.vue";
 import MainFilter from "@/Components/MainFilter/MainFilter.vue";
 import MainNews from "@/Components/MainNews/MainNews.vue";
 import MainTitle from "@/Components/UI/MainTitle.vue";
+import FlashMessage from "@/Components/FlashMessage/FlashMessage.vue";
 
 const page = usePage();
 
@@ -30,4 +31,5 @@ const page = usePage();
             </div>
         </div>
     </Main>
+    <FlashMessage v-if="page.props.flash.success" :key="page.props.flash.success" :message="page.props.flash.success"/>
 </template>
