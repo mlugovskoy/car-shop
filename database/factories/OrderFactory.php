@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Transport;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Order>
@@ -19,14 +20,12 @@ class OrderFactory extends Factory
     public function definition(): array
     {
         return [
-            "code" => $this->faker->text(16),
-            "quantity" => $this->faker->randomDigit(),
+            "code" => Str::random(),
             "city" => $this->faker->city(),
             "phone" => $this->faker->phoneNumber(),
             "email" => $this->faker->email(),
             "price" => $this->faker->randomNumber(),
             "user_id" => $this->faker->numberBetween(1, User::query()->count()),
-            "transport_id" => $this->faker->numberBetween(1, Transport::query()->count()),
         ];
     }
 }

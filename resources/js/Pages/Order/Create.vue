@@ -1,22 +1,44 @@
 <script setup>
 import Main from '@/Layouts/Main.vue';
-import {Head, router, useForm, usePage} from '@inertiajs/vue3';
+import {Head, useForm, usePage} from '@inertiajs/vue3';
 import MainTitle from "@/Components/UI/MainTitle.vue";
 import InputError from "@/Components/UI/Form/InputError.vue";
 import InputLabel from "@/Components/UI/Form/InputLabel.vue";
 import PrimaryButton from "@/Components/UI/PrimaryButton.vue";
 import TextInput from "@/Components/UI/Form/TextInput.vue";
-import Select from "@/Components/UI/Form/Select.vue";
+import {ref} from "vue";
 
 const page = usePage();
+
+const processing = ref(false);
+
+let transportsId = [];
+
+page.props.items.forEach((item) => {
+    transportsId.push(item.transport.id)
+})
 
 const orderForm = useForm({
     firstName: '',
     lastName: '',
     city: '',
     email: '',
-    phone: ''
+    phone: '',
+    price: page.props.cart.total.toString(),
+    transports_id: transportsId
 })
+
+const submit = () => {
+    processing.value = true;
+    orderForm.post(route('order.store'), {
+        onSuccess: () => {
+            processing.value = false
+        },
+        onError: (e) => {
+            console.error(e)
+        }
+    })
+}
 </script>
 
 <template>
@@ -30,12 +52,14 @@ const orderForm = useForm({
         <div class="flex gap-12 mx-auto max-w-7xl mb-14 sm:px-6 lg:px-8"
              v-if="page.props.items && page.props.items.length > 0">
             <div class="bg-white w-4/6 p-4 shadow sm:rounded-lg sm:p-8">
-                <form class="p-6 flex flex-col gap-4" enctype="multipart/form-data" method="POST">
+                <form class="p-6 flex flex-col gap-4" @submit.prevent="submit" enctype="multipart/form-data"
+                      method="POST">
                     <div class="flex-auto">
                         <InputLabel for="orderCreateFirstName" value="Имя"/>
                         <TextInput
                             id="orderCreateFirstName"
                             type="text"
+                            required="false"
                             v-model="orderForm.firstName"
                             placeholder="Имя"
                             autocomplete="firstName"
@@ -48,6 +72,7 @@ const orderForm = useForm({
                         <TextInput
                             id="orderCreateLastName"
                             type="text"
+                            required="false"
                             v-model="orderForm.lastName"
                             placeholder="Фамилия"
                             autocomplete="lastName"
@@ -56,7 +81,7 @@ const orderForm = useForm({
                         <InputError :message="orderForm.errors.lastName" class="mt-2"/>
                     </div>
                     <div class="flex-auto">
-                        <InputLabel for="orderCreateCity" value="Город"/>
+                        <InputLabel for="orderCreateCity" required value="Город"/>
                         <TextInput
                             id="orderCreateCity"
                             type="text"
@@ -68,7 +93,7 @@ const orderForm = useForm({
                         <InputError :message="orderForm.errors.city" class="mt-2"/>
                     </div>
                     <div class="flex-auto">
-                        <InputLabel for="orderCreateEmail" value="Email"/>
+                        <InputLabel for="orderCreateEmail" required value="Email"/>
                         <TextInput
                             id="orderCreateEmail"
                             type="text"
@@ -80,10 +105,10 @@ const orderForm = useForm({
                         <InputError :message="orderForm.errors.email" class="mt-2"/>
                     </div>
                     <div class="flex-auto">
-                        <InputLabel for="createFormPhone" value="Телефон"/>
+                        <InputLabel for="createFormPhone" required value="Телефон"/>
                         <TextInput
                             id="createFormPhone"
-                            type="number"
+                            type="text"
                             v-model="orderForm.phone"
                             placeholder="7914561868"
                             autocomplete="phone"
@@ -91,6 +116,8 @@ const orderForm = useForm({
                         <InputError :message="orderForm.errors.phone" class="mt-2"/>
                     </div>
 
+                    <input type="hidden" v-model="orderForm.price">
+                    <input type="hidden" v-model="orderForm.transports_id">
 
                     <PrimaryButton type="submit"
                                    class="mx-auto mt-6 block bg-emerald-400 py-2 px-6 rounded-md text-white transition-all hover:bg-emerald-300">

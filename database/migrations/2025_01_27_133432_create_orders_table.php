@@ -13,14 +13,14 @@ return new class extends Migration {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->string('code', 16);
-            $table->integer('quantity');
             $table->string('city', 100);
+            $table->string('first_name', 50)->nullable();
+            $table->string('last_name', 50)->nullable();
             $table->string('phone', 45);
-            $table->string('email');
+            $table->string('email', 100);
             $table->integer('price');
 
             $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('transport_id')->constrained('transports');
             $table->timestamp('created_at')->useCurrent();
         });
     }

@@ -29,4 +29,18 @@ class CartRepository implements CartRepositoryInterface
                 ->get(['id', 'code', 'transport_id', 'created_at']);
         });
     }
+
+    public function clearCart(): void
+    {
+        $currentUserId = auth()->id();
+
+        $allCartItemsForCurrentUser = $this->model
+            ->query()
+            ->where(['user_id' => $currentUserId])
+            ->pluck('id');
+
+        $this->model->destroy($allCartItemsForCurrentUser);
+
+        $this->cacheHelper->removeSectionCache(['all_cart_items_for_current_user_' . $currentUserId, 'cart_items']);
+    }
 }

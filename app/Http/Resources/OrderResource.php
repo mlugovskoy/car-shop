@@ -19,13 +19,12 @@ class OrderResource extends JsonResource
         return [
             'id' => sprintf('%06d', $this->id),
             'code' => $this->code,
-            'quantity' => $this->quantity,
+            'quantity' => count($this->orderTransports),
             'city' => $this->city,
             'phone' => $this->phone,
             'email' => $this->email,
             'price' => number_format($this->price, 0, '.', ' ') . ' ₽',
             'user' => $this->user,
-            'transport' => $this->transport,
             'created_at' => Date::parse($this->published_at)->translatedFormat('d F Y'),
         ];
     }

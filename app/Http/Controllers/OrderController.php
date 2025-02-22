@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OrderRequest;
 use App\Http\Resources\OrderResource;
 use App\Http\Resources\CartItemResource;
 use App\Repositories\CartRepository;
 use App\Repositories\OrderRepository;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 
 class OrderController extends Controller
@@ -41,5 +43,18 @@ class OrderController extends Controller
             'Order/Create',
             ['items' => CartItemResource::collection($cartItems), 'total_price' => $totalPrice, 'total' => $total]
         );
+    }
+
+    public function store(OrderRequest $request)
+    {
+        $this->orderRepository->storeOrder($request);
+        $this->cartRepository->clearCart();
+
+        Session::flash(
+            'success',
+            "Заказ оформлен! Скоро с вами свяжется администратор."
+        );
+
+        return Redirect::route('home');
     }
 }

@@ -60,4 +60,5 @@ Route::middleware(['auth', 'cart'])->group(function () {
 
     Route::get('/orders', [OrderController::class, 'index'])->name('orders');
     Route::get('/order/create', [OrderController::class, 'create'])->name('order.create');
+    Route::post('/order/create', [OrderController::class, 'store'])->name('order.store');
 });
