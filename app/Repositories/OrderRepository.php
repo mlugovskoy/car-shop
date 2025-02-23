@@ -30,7 +30,7 @@ class OrderRepository implements OrderRepositoryInterface
                 ->query()
                 ->with(['user', 'transport', 'orderTransports'])
                 ->where('user_id', $currentUserId)
-                ->get(['id', 'transports', 'code', 'price', 'created_at']);
+                ->get(['id', 'code', 'price', 'created_at']);
         });
     }
 

@@ -2,28 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\Color;
-use App\Services\CartService;
+use App\Repositories\CartRepository;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    protected CartService $cartService;
+    protected CartRepository $cartRepository;
 
-    public function __construct(CartService $cartService)
+    public function __construct(CartRepository $cartRepository)
     {
-        $this->cartService = $cartService;
+        $this->cartRepository = $cartRepository;
     }
 
     public function store(Request $request)
     {
-        $this->cartService->addItem($request->item);
-        $this->cartService->total();
+        $this->cartRepository->storeItem($request->item);
     }
 
     public function delete($id)
     {
-        $this->cartService->deleteItem($id);
-        $this->cartService->total();
+        $this->cartRepository->deleteItem($id);
     }
 }
