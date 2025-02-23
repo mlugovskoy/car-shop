@@ -62,6 +62,11 @@ class Transport extends EloquentModel
         return $this->belongsTo(TransportType::class);
     }
 
+    public function order(): BelongsTo
+    {
+        return $this->belongsTo(Order::class);
+    }
+
     public function fuelType(): BelongsTo
     {
         return $this->belongsTo(FuelType::class);

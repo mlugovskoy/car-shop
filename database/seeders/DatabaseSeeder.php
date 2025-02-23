@@ -32,6 +32,7 @@ class DatabaseSeeder extends Seeder
             FavoritesSeeder::class,
             ImageMakersSeeder::class,
             ImageUserSeeder::class,
+            OrderSeeder::class,
         ]);
     }
 }

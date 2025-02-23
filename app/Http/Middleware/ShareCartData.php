@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Http\Resources\TransportResource;
-use App\Services\CartService;
+use App\Repositories\CartRepository;
 use Closure;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -11,21 +11,21 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ShareCartData
 {
-    protected CartService $cartService;
+    protected CartRepository $cartRepository;
 
-    public function __construct(CartService $cartService)
+    public function __construct(CartRepository $cartRepository)
     {
-        $this->cartService = $cartService;
+        $this->cartRepository = $cartRepository;
     }
 
     public function handle(Request $request, Closure $next): Response
     {
         if (auth()->check()) {
-            $items = $this->cartService->getCartItems();
+            $items = $this->cartRepository->getCartItems();
 
             Inertia::share('cart', function () use ($items) {
                 return [
-                    'total' => $this->cartService->total(),
+                    'total' => $this->cartRepository->total(),
                     'count' => $items->count(),
                     'items' => TransportResource::collection($items->pluck('transport')),
                 ];

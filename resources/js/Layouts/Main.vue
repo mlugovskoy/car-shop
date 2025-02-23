@@ -103,6 +103,7 @@ provide('changeDrawerStatus', changeDrawerStatus);
                                         </DropdownLink>
                                         <DropdownLink
                                             :href="route('admin.index')"
+                                            v-if="$page.props.auth.user.is_admin"
                                         >
                                             Администрирование
                                         </DropdownLink>
@@ -199,7 +200,7 @@ provide('changeDrawerStatus', changeDrawerStatus);
                             <ResponsiveNavLink :href="route('profile.edit')">
                                 Профиль
                             </ResponsiveNavLink>
-                            <ResponsiveNavLink :href="route('admin.index')">
+                            <ResponsiveNavLink :href="route('admin.index')" v-if="$page.props.auth.user.is_admin">
                                 Администрирование
                             </ResponsiveNavLink>
                             <ResponsiveNavLink
