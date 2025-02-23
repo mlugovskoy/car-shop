@@ -34,7 +34,7 @@ class OrderRepository implements OrderRepositoryInterface
         });
     }
 
-    public function storeOrder(OrderRequest $request): void
+    public function storeOrder(OrderRequest $request)
     {
         $newOrder = $this->model::query()
             ->create(
@@ -62,5 +62,7 @@ class OrderRepository implements OrderRepositoryInterface
         $currentUserId = auth()->id();
 
         $this->cacheHelper->removeSectionCache(['all_cart_items_for_current_user_' . $currentUserId, 'cart_items']);
+
+        return $newOrder;
     }
 }

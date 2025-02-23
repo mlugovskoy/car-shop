@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests\OrderRequest;
 use App\Http\Resources\OrderResource;
 use App\Http\Resources\CartItemResource;
+use App\Mail\OrderShipped;
+use App\Models\Order;
 use App\Repositories\CartRepository;
 use App\Repositories\OrderRepository;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
@@ -47,8 +50,10 @@ class OrderController extends Controller
 
     public function store(OrderRequest $request)
     {
-        $this->orderRepository->storeOrder($request);
+        $order = $this->orderRepository->storeOrder($request);
         $this->cartRepository->clearCart();
+
+        Mail::to($request->user())->send(new OrderShipped($order));
 
         Session::flash(
             'success',
