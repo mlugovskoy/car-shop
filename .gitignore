@@ -22,3 +22,4 @@ yarn-error.log
 /.zed
 _docker
 *compose*.yaml
+tmp
