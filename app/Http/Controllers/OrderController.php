@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\OrderRequest;
 use App\Http\Resources\OrderResource;
 use App\Http\Resources\CartItemResource;
+use App\Jobs\SendMailJob;
 use App\Mail\OrderShipped;
 use App\Models\Order;
 use App\Repositories\CartRepository;
@@ -53,7 +54,7 @@ class OrderController extends Controller
         $order = $this->orderRepository->storeOrder($request);
         $this->cartRepository->clearCart();
 
-        Mail::to($request->user())->send(new OrderShipped($order));
+        SendMailJob::dispatch(['user' => $request->user(), 'order' => $order]);
 
         Session::flash(
             'success',
