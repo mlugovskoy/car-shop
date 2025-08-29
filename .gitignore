@@ -20,6 +20,4 @@ yarn-error.log
 /.idea
 /.vscode
 /.zed
-_docker
-*compose*.yaml
 tmp
