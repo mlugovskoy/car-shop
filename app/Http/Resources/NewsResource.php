@@ -42,6 +42,7 @@ class NewsResource extends JsonResource
                 return [
                     'id' => $image->id,
                     'image_title' => $image->image_title,
+                    'alt_title' => $this->title,
                     'image_path' => asset(Storage::url($image->image_path)),
                     'image_size' => $image->image_size,
                     'image_ext' => $image->image_ext,

@@ -3,15 +3,11 @@ import Main from '@/Layouts/Main.vue';
 import {Head, Link, useForm, usePage} from '@inertiajs/vue3';
 import MainTitle from "@/Components/UI/MainTitle.vue";
 import Breadcrumbs from "@/Components/UI/Breadcrumbs.vue";
-import {Swiper, SwiperSlide} from "swiper/vue";
-import 'swiper/css';
-import 'swiper/css/navigation';
-import {Navigation} from "swiper/modules";
-import {ref} from "vue";
 import PrimaryButton from "@/Components/UI/PrimaryButton.vue";
+import Slider from "@/Components/Slider/Slider.vue";
 
 const beforeClassesItem = "before:absolute before:text-gray-400 before:content-[''] before:top-2 before:left-[-20px] before:w-2 before:h-2 before:bg-emerald-400 before:rounded-md";
-const modules = ref([Navigation]);
+
 const page = usePage();
 const form = useForm({
     description: null
@@ -48,23 +44,7 @@ const submit = () => {
                 </div>
 
                 <div class="mb-14">
-                    <swiper v-if="page.props.article.images.length > 1"
-                            :breakpoints="{1400:{slidesPerView: 1}}"
-                            :navigation="true"
-                            :modules="modules"
-                            class="h-[300px] sm:h-[500px] lg:w-3/4 rounded-md">
-                        <swiper-slide v-if="page.props.article.images"
-                                      v-for="image in page.props.article.images"
-                                      class="object-cover"
-                                      tag="img"
-                                      :src="image.image_path"
-                                      :alt="page.props.article.title"/>
-                    </swiper>
-                    <div v-else>
-                        <img class="mx-auto" v-if="page.props.article.images[0]"
-                             :src="page.props.article.images[0].image_path"
-                             :alt="page.props.article.title">
-                    </div>
+                    <Slider :items="page.props.article.images"/>
                 </div>
 
                 <div class="mb-14">
@@ -114,9 +94,10 @@ const submit = () => {
                             <div class="text-sm text-red-400 mb-2" v-if="form.errors.description">
                                 {{ form.errors.description }}
                             </div>
-                            <PrimaryButton type="submit"
-                                           :disabled="form.processing"
-                                           class="ml-auto block bg-emerald-400 py-2 px-6 rounded-md text-white transition-all hover:bg-emerald-300">
+                            <PrimaryButton
+                                type="submit"
+                                :disabled="form.processing"
+                                class="ml-auto block bg-emerald-400 py-2 px-6 rounded-md text-white transition-all hover:bg-emerald-300">
                                 Отправить
                             </PrimaryButton>
                         </form>
@@ -126,38 +107,3 @@ const submit = () => {
         </div>
     </Main>
 </template>
-
-<style>
-.swiper-button-prev,
-.swiper-button-next {
-    color: rgba(52 211 153);
-    height: 100%;
-    width: 100px;
-    top: 0;
-    margin-top: 0;
-    opacity: 0;
-    transition: all .3s;
-}
-
-.swiper-button-prev {
-    left: -30px;
-}
-
-.swiper-button-next {
-    right: -30px;
-}
-
-.swiper:hover
-.swiper-button-next {
-    opacity: 1;
-    background: linear-gradient(to right, transparent, rgba(52, 211, 153, 0.3) 100%);
-    right: -15px;
-}
-
-.swiper:hover
-.swiper-button-prev {
-    opacity: 1;
-    left: -15px;
-    background: linear-gradient(to left, transparent, rgba(52, 211, 153, 0.3) 100%);
-}
-</style>

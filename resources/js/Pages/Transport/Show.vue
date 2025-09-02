@@ -4,11 +4,12 @@ import {Head, router, usePage} from '@inertiajs/vue3';
 import MainTitle from "@/Components/UI/MainTitle.vue";
 import Breadcrumbs from "@/Components/UI/Breadcrumbs.vue";
 import {Swiper, SwiperSlide} from "swiper/vue";
-import {onMounted, provide, reactive, ref} from "vue";
+import {reactive, ref} from "vue";
 import 'swiper/css';
 import 'swiper/css/navigation';
 import {Navigation} from "swiper/modules";
 import PrimaryButton from "@/Components/UI/PrimaryButton.vue";
+import Slider from "@/Components/Slider/Slider.vue";
 
 const page = usePage();
 const modules = ref([Navigation]);
@@ -91,28 +92,8 @@ const deleteCartItemToDb = (id) => {
 
                 <div class="mb-14">
                     <div class="flex flex-col lg:flex-row gap-10 justify-between mb-14">
-                        <div class="lg:w-3/4" v-if="page.props.transport.images.length !== 0">
-                            <swiper v-if="page.props.transport.images.length > 1"
-                                    :breakpoints="{1400:{slidesPerView: 1}}"
-                                    :navigation="true"
-                                    :modules="modules"
-                                    class="h-[300px] sm:h-[500px] rounded-md">
-                                <swiper-slide v-if="page.props.transport.images"
-                                              v-for="image in page.props.transport.images"
-                                              class="object-cover"
-                                              tag="img"
-                                              :src="image.image_path"
-                                              :alt="page.props.transport.maker.name + ' ' + page.props.transport.model.name"/>
-                            </swiper>
-                            <div v-else>
-                                <img class="mx-auto" v-if="page.props.transport.images[0]"
-                                     :src="page.props.transport.images[0].image_path"
-                                     :alt="page.props.transport.maker.name + ' ' + page.props.transport.model.name">
-                            </div>
-                        </div>
-                        <div v-else
-                             class="border-2 rounded-md border-emerald-400 w-full min-h-40 bg-emerald-50 text-sm flex items-center text-center justify-center text-gray-500">
-                            Изображение<br> отсутствует
+                        <div class="lg:w-3/4">
+                            <Slider :items="page.props.transport.images" />
                         </div>
                         <div class="w-full px-0 sm:px-20 lg:px-0 lg:w-1/4">
                             <div class="text-4xl font-bold tracking-wide mb-6">{{ page.props.transport.price }}</div>
@@ -190,40 +171,3 @@ const deleteCartItemToDb = (id) => {
         </div>
     </Main>
 </template>
-
-<style>
-.swiper-button-prev,
-.swiper-button-next,
-.swiper-button-prev.swiper-button-disabled,
-.swiper-button-next.swiper-button-disabled {
-    color: rgba(52 211 153);
-    height: 100%;
-    width: 100px;
-    top: 0;
-    margin-top: 0;
-    opacity: 0;
-    transition: all .3s;
-}
-
-.swiper-button-prev {
-    left: -30px;
-}
-
-.swiper-button-next {
-    right: -30px;
-}
-
-.swiper:hover
-.swiper-button-next {
-    opacity: 1;
-    background: linear-gradient(to right, transparent, rgba(52, 211, 153, 0.3) 100%);
-    right: -15px;
-}
-
-.swiper:hover
-.swiper-button-prev {
-    opacity: 1;
-    left: -15px;
-    background: linear-gradient(to left, transparent, rgba(52, 211, 153, 0.3) 100%);
-}
-</style>
