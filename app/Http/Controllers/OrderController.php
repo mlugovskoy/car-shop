@@ -37,7 +37,7 @@ class OrderController extends Controller
 
     public function create()
     {
-        $cartItems = $this->cartRepository->getCartItemsForCurrentUser();
+        $cartItems = $this->cartRepository->getCartItems();
 
         $totalPrice = number_format($cartItems->pluck('transport.price')->sum(), 0, '.', ' ') . ' ₽';
 
@@ -57,7 +57,7 @@ class OrderController extends Controller
         SendMailJob::dispatch(['user' => $request->user(), 'order' => $order]);
 
         Session::flash(
-            'success',
+            'flash',
             "Заказ оформлен! Скоро с вами свяжется администратор."
         );
 

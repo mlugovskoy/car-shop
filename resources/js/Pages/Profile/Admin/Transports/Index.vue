@@ -7,7 +7,6 @@ import PrimaryButton from "@/Components/UI/PrimaryButton.vue";
 import Modal from "@/Components/Modal.vue";
 import {ref} from "vue";
 import SecondaryButton from "@/Components/UI/SecondaryButton.vue";
-import FlashMessage from "@/Components/FlashMessage/FlashMessage.vue";
 import Pagination from "@/Components/Pagination.vue";
 
 const page = usePage();
@@ -156,5 +155,4 @@ const deleteTransport = () => {
             </div>
         </Modal>
     </Admin>
-    <FlashMessage v-if="page.props.flash.success" :key="page.props.flash.success" :message="page.props.flash.success"/>
 </template>

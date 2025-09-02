@@ -13,7 +13,6 @@ import Modal from "@/Components/Modal.vue";
 import InputLabel from "@/Components/UI/Form/InputLabel.vue";
 import TextInput from "@/Components/UI/Form/TextInput.vue";
 import PrimaryButton from "@/Components/UI/PrimaryButton.vue";
-import FlashMessage from "@/Components/FlashMessage/FlashMessage.vue";
 import InputError from "@/Components/UI/Form/InputError.vue";
 import DangerButton from "@/Components/UI/DangerButton.vue";
 
@@ -493,5 +492,4 @@ const resetFilter = () => {
             </PrimaryButton>
         </form>
     </Modal>
-    <FlashMessage v-if="page.props.flash.success" :key="page.props.flash.success" :message="page.props.flash.success"/>
 </template>

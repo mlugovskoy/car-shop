@@ -1,13 +1,17 @@
 <script setup>
 
-import {Head} from "@inertiajs/vue3";
+import {Head, usePage} from "@inertiajs/vue3";
 import Main from "@/Layouts/Main.vue";
 import MainTitle from "@/Components/UI/MainTitle.vue";
 import NavLink from "@/Components/UI/NavLink.vue";
+import FlashMessage from "@/Components/FlashMessage/FlashMessage.vue";
+
+const page = usePage();
 </script>
 
 <template>
     <Head title="Администрирование"/>
+
     <Main>
         <div class="mx-auto pt-12 max-w-7xl px-6 lg:px-8">
             <MainTitle :href="route('admin.index')">Администрирование</MainTitle>
@@ -36,4 +40,6 @@ import NavLink from "@/Components/UI/NavLink.vue";
             </div>
         </div>
     </Main>
+
+    <FlashMessage v-if="page.props.flash" :key="page.props.flash" :message="page.props.flash"/>
 </template>

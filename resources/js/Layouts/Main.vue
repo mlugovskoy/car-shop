@@ -4,12 +4,13 @@ import Logo from '@/Components/Header/Logo.vue';
 import Dropdown from '@/Components/UI/Form/Dropdown.vue';
 import DropdownLink from '@/Components/UI/Form/DropdownLink.vue';
 import HeaderResponsiveNavLink from '@/Components/Header/HeaderResponsiveNavLink.vue';
-import {Link} from '@inertiajs/vue3';
+import {Link, usePage} from '@inertiajs/vue3';
 import HeaderIcon from "@/Components/Header/HeaderIcon.vue";
 import NavLink from "@/Components/UI/NavLink.vue";
 import ResponsiveNavLink from "@/Components/UI/ResponsiveNavLink.vue";
 import HeaderNotification from "@/Components/Header/HeaderNotification.vue";
 import Drawer from "@/Components/Drawer/Drawer.vue";
+import FlashMessage from "@/Components/FlashMessage/FlashMessage.vue";
 
 const showingNavigationDropdown = ref(false);
 const drawerStatus = ref(false);
@@ -18,11 +19,14 @@ const changeDrawerStatus = () => {
     drawerStatus.value = !drawerStatus.value;
 }
 
+const page = usePage();
+
 provide('changeDrawerStatus', changeDrawerStatus);
 </script>
 
 <template>
     <Drawer :show="drawerStatus"/>
+
     <div>
         <div class="min-h-screen h-full flex flex-col bg-gray-100">
             <header
@@ -231,7 +235,6 @@ provide('changeDrawerStatus', changeDrawerStatus);
             <main class="flex-auto">
                 <slot/>
             </main>
-
             <footer class="bg-white">
                 <div
                     class="mx-auto max-w-7xl px-4 py-6 flex flex-wrap flex-col gap-4 lg:gap-0 sm:flex-row justify-between items-center">
@@ -260,4 +263,6 @@ provide('changeDrawerStatus', changeDrawerStatus);
             </footer>
         </div>
     </div>
+
+    <FlashMessage v-if="page.props.flash" :key="page.props.flash" :message="page.props.flash"/>
 </template>

@@ -23,7 +23,7 @@ onMounted(() => {
 
 <template>
     <div v-if="visible"
-         class="bg-white border-2 border-emerald-400 py-6 px-10 z-50 rounded-md absolute top-10 right-5 text-sm">
+         class="bg-white border-2 border-emerald-400 py-6 px-10 z-50 rounded-md fixed top-10 right-5 text-sm">
         <div class="relative">
             <h5 class="font-semibold tracking-wider mb-2">Уведомление</h5>
             <button @click="close" class="absolute -top-4 -right-8">

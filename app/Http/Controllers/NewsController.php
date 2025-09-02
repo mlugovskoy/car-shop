@@ -42,7 +42,7 @@ class NewsController extends Controller
         $article = $this->newsRepository->storeOneNews($request);
 
         Session::flash(
-            'success',
+            'flash',
             "Ваша новость #$article->id создана $article->published_at! <br> Ожидайте подтверждения администратора."
         );
 

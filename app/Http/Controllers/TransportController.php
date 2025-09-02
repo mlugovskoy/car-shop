@@ -65,12 +65,7 @@ class TransportController extends Controller
 
     public function store(TransportsCreateRequest $request)
     {
-        $transport = $this->transportRepository->storeTransport($request);
-
-        Session::flash(
-            'success',
-            "Ваше объявление #$transport->id создано $transport->published_at! <br> Ожидайте подтверждения администратора."
-        );
+        $this->transportRepository->storeTransport($request);
 
         return Redirect::route('transport.index');
     }
