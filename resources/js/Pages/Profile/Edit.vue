@@ -4,7 +4,6 @@ import DeleteUserForm from './Partials/DeleteUserForm.vue';
 import UpdatePasswordForm from './Partials/UpdatePasswordForm.vue';
 import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm.vue';
 import {Head} from '@inertiajs/vue3';
-import Breadcrumbs from "@/Components/UI/Breadcrumbs.vue";
 import MainTitle from "@/Components/UI/MainTitle.vue";
 
 defineProps({

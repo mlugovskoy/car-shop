@@ -7,15 +7,14 @@ use App\Http\Requests\OrderRequest;
 use App\Models\Order;
 use App\Models\OrderTransport;
 use App\Repositories\Interfaces\OrderRepositoryInterface;
+use App\Services\CacheService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 class OrderRepository implements OrderRepositoryInterface
 {
-    protected int $cacheTime = 10;
-
-    public function __construct(protected Order $model, protected ClearCache $cacheHelper)
+    public function __construct(protected Order $model)
     {
     }
 
@@ -25,43 +24,41 @@ class OrderRepository implements OrderRepositoryInterface
 
         $cacheKey = 'all_orders_for_current_user_' . $currentUserId;
 
-        return Cache::remember($cacheKey, now()->addMinutes($this->cacheTime), function () use ($currentUserId) {
-            return $this->model
-                ->query()
-                ->with(['user', 'transport', 'orderTransports'])
-                ->where('user_id', $currentUserId)
-                ->get(['id', 'code', 'price', 'created_at']);
-        });
+        $item = $this->model
+            ->query()
+            ->with(['user', 'transport', 'orderTransports'])
+            ->where('user_id', $currentUserId)
+            ->get(['id', 'code', 'price', 'created_at']);
+
+        return CacheService::save($item, $cacheKey, $this->model::CACHE_TIME);
     }
 
     public function storeOrder(OrderRequest $request)
     {
-        $newOrder = $this->model::query()
-            ->create(
-                [
-                    'code' => Str::random(),
-                    'first_name' => $request->firstName ?? null,
-                    'last_name' => $request->lastName ?? null,
-                    'city' => $request->city,
-                    'phone' => $request->phone,
-                    'email' => $request->email,
-                    'price' => $request->price,
-                    'user_id' => auth()->id(),
-                    'created_at' => Carbon::now()->format('Y-m-d H:i:s')
-                ]
-            );
+        $newOrder = $this->model
+            ->query()
+            ->create([
+                'code' => Str::random(),
+                'first_name' => $request->firstName ?? null,
+                'last_name' => $request->lastName ?? null,
+                'city' => $request->city,
+                'phone' => $request->phone,
+                'email' => $request->email,
+                'price' => $request->price,
+                'user_id' => auth()->id(),
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ]);
 
-        collect($request->transports_id)->each(function ($id) use ($newOrder) {
-            OrderTransport::query()
+        collect($request->transports_id)
+            ->each(fn($id) => OrderTransport::query()
                 ->create([
                     'order_id' => $newOrder->id,
                     'transport_id' => $id,
-                ]);
-        });
+                ]));
 
         $currentUserId = auth()->id();
 
-        $this->cacheHelper->removeSectionCache(['all_cart_items_for_current_user_' . $currentUserId, 'cart_items']);
+        CacheService::deleteItems(['cart_items', 'all_cart_items_for_current_user_' . $currentUserId]);
 
         return $newOrder;
     }

@@ -19,9 +19,7 @@ use Illuminate\Support\Facades\Storage;
 
 class NewsRepository implements NewsRepositoryInterface
 {
-    protected int $cacheTime = 10;
-
-    public function __construct(protected News $model, protected ClearCache $cacheHelper)
+    public function __construct(protected News $model)
     {
     }
 

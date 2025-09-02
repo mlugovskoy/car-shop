@@ -11,6 +11,9 @@ class News extends Model
     use HasFactory;
     use SoftDeletes;
 
+    public const CACHE_KEY = 'maker_items';
+    public const CACHE_TIME = 10;
+
     protected $fillable = [
         'id',
         'active',

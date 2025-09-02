@@ -4,8 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Currency;
 use App\Repositories\Interfaces\CurrencyRepositoryInterface;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Collection;
 
 class CurrencyRepository implements CurrencyRepositoryInterface
 {
@@ -14,12 +13,11 @@ class CurrencyRepository implements CurrencyRepositoryInterface
     {
     }
 
-    public function getAllCurrency(): \Illuminate\Support\Collection
+    public function getAllCurrency(): Collection
     {
-        return $this->model::query()
+        return $this->model
+            ->query()
             ->pluck('code')
-            ->map(function ($code) {
-                return ['value' => $code];
-            });
+            ->map(fn($code) => ['value' => $code]);
     }
 }

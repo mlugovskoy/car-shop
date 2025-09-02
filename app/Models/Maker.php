@@ -9,6 +9,9 @@ class Maker extends Model
 {
     use HasFactory;
 
+    public const CACHE_KEY = 'maker_items';
+    public const CACHE_TIME = 10;
+
     public $timestamps = false;
 
     protected $fillable = ['name', 'image_id'];

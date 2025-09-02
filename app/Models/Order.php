@@ -11,6 +11,9 @@ class Order extends Model
 {
     use HasFactory;
 
+    public const CACHE_KEY = 'order_items';
+    public const CACHE_TIME = 10;
+
     public $timestamps = false;
 
     protected $fillable = [

@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class CartItem extends Model
 {
+    public const CACHE_KEY = 'cart_items';
+    public const CACHE_TIME = 10;
+
     protected $fillable = [
         'code',
         'user_id',

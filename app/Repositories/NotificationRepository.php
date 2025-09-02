@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Notifications;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Notifications\DatabaseNotification;
 use App\Repositories\Interfaces\NotificationRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
@@ -13,7 +14,7 @@ class NotificationRepository implements NotificationRepositoryInterface
     {
     }
 
-    public function unReadNotification(string $id): \Illuminate\Http\JsonResponse
+    public function unReadNotification(string $id): JsonResponse
     {
         $notification = DatabaseNotification::query()->findOrFail($id);
 
@@ -26,7 +27,8 @@ class NotificationRepository implements NotificationRepositoryInterface
 
     public function destroyNotifications(): void
     {
-        $this->model::query()
+        $this->model
+            ->query()
             ->where('notifiable_id', Auth::user()->id)
             ->forceDelete();
     }
