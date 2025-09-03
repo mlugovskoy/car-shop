@@ -12,6 +12,10 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
+    public const ADMIN_CACHE_KEY = 'users_admin';
+    public const CURRENT_CACHE_KEY = 'current_user_admin';
+    public const CACHE_TIME = 10;
+
     /**
      * The attributes that are mass assignable.
      *

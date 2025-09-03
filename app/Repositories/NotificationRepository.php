@@ -5,7 +5,7 @@ namespace App\Repositories;
 use App\Models\Notifications;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Notifications\DatabaseNotification;
-use App\Repositories\Interfaces\NotificationRepositoryInterface;
+use App\Repositories\Contracts\NotificationRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 
 class NotificationRepository implements NotificationRepositoryInterface

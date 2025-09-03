@@ -3,7 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Maker;
-use App\Repositories\Interfaces\MakerRepositoryInterface;
+use App\Repositories\Contracts\MakerRepositoryInterface;
 use App\Services\CacheService;
 use Illuminate\Support\Collection;
 

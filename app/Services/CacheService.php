@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Models\CartItem;
-use App\Services\Interfaces\CacheInterface;
+use App\Services\Contracts\CacheInterface;
 use Illuminate\Support\Facades\Cache;
 
 class CacheService implements CacheInterface

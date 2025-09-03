@@ -2,14 +2,13 @@
 
 namespace App\Repositories;
 
-use App\Helpers\ClearCache;
 use App\Http\Requests\OrderRequest;
+use App\Models\CartItem;
 use App\Models\Order;
 use App\Models\OrderTransport;
-use App\Repositories\Interfaces\OrderRepositoryInterface;
+use App\Repositories\Contracts\OrderRepositoryInterface;
 use App\Services\CacheService;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 class OrderRepository implements OrderRepositoryInterface
@@ -22,15 +21,13 @@ class OrderRepository implements OrderRepositoryInterface
     {
         $currentUserId = auth()->id();
 
-        $cacheKey = 'all_orders_for_current_user_' . $currentUserId;
-
         $item = $this->model
             ->query()
             ->with(['user', 'transport', 'orderTransports'])
             ->where('user_id', $currentUserId)
             ->get(['id', 'code', 'price', 'created_at']);
 
-        return CacheService::save($item, $cacheKey, $this->model::CACHE_TIME);
+        return CacheService::save($item, $this->model::CURRENT_CACHE_KEY . "_$currentUserId", $this->model::CACHE_TIME);
     }
 
     public function storeOrder(OrderRequest $request)
@@ -58,7 +55,7 @@ class OrderRepository implements OrderRepositoryInterface
 
         $currentUserId = auth()->id();
 
-        CacheService::deleteItems(['cart_items', 'all_cart_items_for_current_user_' . $currentUserId]);
+        CacheService::deleteItems([CartItem::CACHE_KEY, $this->model::CURRENT_CACHE_KEY . "_$currentUserId"]);
 
         return $newOrder;
     }

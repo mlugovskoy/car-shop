@@ -2,19 +2,18 @@
 
 namespace App\Repositories;
 
-use App\Helpers\ClearCache;
 use App\Http\Requests\News\NewsRequest;
 use App\Models\Comment;
 use App\Models\Image;
 use App\Models\News;
 use App\Models\User;
 use App\Notifications\DatabaseNotification;
-use App\Repositories\Interfaces\NewsRepositoryInterface;
+use App\Repositories\Contracts\NewsRepositoryInterface;
+use App\Services\CacheService;
 use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
 class NewsRepository implements NewsRepositoryInterface
@@ -25,59 +24,55 @@ class NewsRepository implements NewsRepositoryInterface
 
     public function getHomeNews(int $limit = 5): Collection
     {
-        $cacheKey = 'home_news';
+        $item = $this->model
+            ->query()
+            ->with(['images', 'comments'])
+            ->orderBy('published_at', 'desc')
+            ->where('active', true)
+            ->limit($limit)
+            ->get(['id', 'title', 'description', 'published_at']);
 
-        return Cache::remember($cacheKey, now()->addMinutes($this->cacheTime), function () use ($limit) {
-            return $this->model::query()
-                ->with(['images', 'comments'])
-                ->orderBy('published_at', 'desc')
-                ->where('active', true)
-                ->limit($limit)
-                ->get(['id', 'title', 'description', 'published_at']);
-        });
+        return CacheService::save($item, $this->model::HOME_CACHE_KEY, $this->model::CACHE_TIME);
     }
 
     public function getAllNews(): Collection
     {
-        $cacheKey = 'all_news';
+        $item = $this->model
+            ->query()
+            ->where('active', true)
+            ->orderBy('published_at', 'desc')
+            ->get(['title', 'id', 'description', 'published_at']);
 
-        return Cache::remember($cacheKey, now()->addMinutes($this->cacheTime), function () {
-            return $this->model::query()
-                ->where('active', true)
-                ->orderBy('published_at', 'desc')
-                ->get(['title', 'id', 'description', 'published_at']);
-        });
+        return CacheService::save($item, $this->model::CACHE_KEY, $this->model::CACHE_TIME);
     }
 
     public function getAdminAllNews(): Collection
     {
-        $cacheKey = 'admin_all_news';
+        $item = $this->model
+            ->query()
+            ->with(['user', 'images'])
+            ->orderBy('published_at', 'desc')
+            ->get(['id', 'active', 'title', 'description', 'user_id', 'published_at']);
 
-        return Cache::remember($cacheKey, now()->addMinutes($this->cacheTime), function () {
-            return $this->model::query()
-                ->with(['user', 'images'])
-                ->orderBy('published_at', 'desc')
-                ->get(['id', 'active', 'title', 'description', 'user_id', 'published_at']);
-        });
+        return CacheService::save($item, $this->model::ADMIN_CACHE_KEY, $this->model::CACHE_TIME);
     }
 
     public function getDetailNews(int $id)
     {
-        $cacheKey = 'detail_news' . $id;
+        $item = $this->model
+            ->query()
+            ->with(['comments', 'images', 'user'])
+            ->where('id', $id)
+            ->first();
 
-        return Cache::remember($cacheKey, now()->addMinutes($this->cacheTime), function () use ($id) {
-            return $this->model::query()
-                ->with(['comments', 'images', 'user'])
-                ->where('id', $id)
-                ->first();
-        });
+        return CacheService::save($item, $this->model::DETAIL_CACHE_KEY . "_$id", $this->model::CACHE_TIME);
     }
 
     public function attachCommentForNews(Comment $commentCollection, News $newsCollection, $id): void
     {
         $newsCollection->comments()->attach($commentCollection->id);
 
-        $this->cacheHelper->removeSectionCache('detail_news' . $id);
+        CacheService::deleteItem($this->model::DETAIL_CACHE_KEY . "_$id");
     }
 
     public function paginateNews(Collection $newsCollection, int $perPage = 5): LengthAwarePaginator
@@ -99,16 +94,15 @@ class NewsRepository implements NewsRepositoryInterface
 
     public function storeOneNews(NewsRequest $request)
     {
-        $oneNews = $this->model::query()
-            ->create(
-                [
-                    'active' => false,
-                    'title' => $request->title,
-                    'description' => $request->description,
-                    'user_id' => Auth::user()->id,
-                    'published_at' => Carbon::now()->format('Y-m-d H:i:s')
-                ]
-            );
+        $oneNews = $this->model
+            ->query()
+            ->create([
+                'active' => false,
+                'title' => $request->title,
+                'description' => $request->description,
+                'user_id' => Auth::user()->id,
+                'published_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ]);
 
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $imageFile) {
@@ -124,14 +118,15 @@ class NewsRepository implements NewsRepositoryInterface
             }
         }
 
-        $this->cacheHelper->removeSectionCache(['all_news', 'admin_all_news']);
+        CacheService::deleteItems([$this->model::CACHE_KEY, $this->model::ADMIN_CACHE_KEY]);
 
         return $oneNews;
     }
 
     public function findOneNews(int $id): News
     {
-        return $this->model::query()
+        return $this->model
+            ->query()
             ->findOrFail($id);
     }
 
@@ -146,7 +141,7 @@ class NewsRepository implements NewsRepositoryInterface
             )
         );
 
-        $this->cacheHelper->removeSectionCache(['all_news', 'admin_all_news', 'latest_news']);
+        CacheService::deleteItems([$this->model::CACHE_KEY, $this->model::ADMIN_CACHE_KEY]);
     }
 
     public function destroyCurrentNews(int $id): void
@@ -168,6 +163,6 @@ class NewsRepository implements NewsRepositoryInterface
             ->where(['id' => $id])
             ->delete();
 
-        $this->cacheHelper->removeSectionCache(['all_news', 'admin_all_news', 'latest_news']);
+        CacheService::deleteItems([$this->model::CACHE_KEY, $this->model::ADMIN_CACHE_KEY]);
     }
 }

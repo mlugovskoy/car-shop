@@ -4,13 +4,12 @@ namespace App\Repositories;
 
 use App\Http\Requests\News\NewsCommentsRequest;
 use App\Models\Comment;
-use App\Repositories\Interfaces\CommentRepositoryInterface;
+use App\Repositories\Contracts\CommentRepositoryInterface;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class CommentRepository implements CommentRepositoryInterface
 {
-
     public function __construct(protected Comment $model)
     {
     }

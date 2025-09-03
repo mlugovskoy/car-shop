@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 use App\Helpers\ClearCache;
 use App\Models\CartItem;
-use App\Repositories\Interfaces\CartRepositoryInterface;
+use App\Repositories\Contracts\CartRepositoryInterface;
 use App\Services\CacheService;
 use Illuminate\Support\Str;
 

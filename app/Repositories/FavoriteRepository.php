@@ -3,7 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Favorites;
-use App\Repositories\Interfaces\FavoriteRepositoryInterface;
+use App\Repositories\Contracts\FavoriteRepositoryInterface;
 use App\Services\CacheService;
 use Illuminate\Support\Collection;
 
@@ -30,8 +30,6 @@ class FavoriteRepository implements FavoriteRepositoryInterface
 
     public function checkItemFavorite(string $id): bool
     {
-        $cacheKey = 'favorite_item_' . $id;
-
         $favorites = $this->model
             ->query()
             ->where('user_id', auth()->id())
@@ -40,13 +38,11 @@ class FavoriteRepository implements FavoriteRepositoryInterface
 
         $isFavorite = $favorites->count() > 0;
 
-        return CacheService::save($isFavorite, $cacheKey, $this->model::CACHE_TIME);
+        return CacheService::save($isFavorite, $this->model::DETAIL_CACHE_KEY . "_$id", $this->model::CACHE_TIME);
     }
 
     public function storeFavorite(string $id): void
     {
-        $cacheKey = 'favorite_item_' . $id;
-
         $this->model
             ->query()
             ->create([
@@ -54,19 +50,17 @@ class FavoriteRepository implements FavoriteRepositoryInterface
                 'transport_id' => $id,
             ]);
 
-        CacheService::deleteItems([$this->model::CACHE_KEY, $cacheKey]);
+        CacheService::deleteItems([$this->model::CACHE_KEY, $this->model::DETAIL_CACHE_KEY . "_$id"]);
     }
 
     public function destroyFavorite(string $id): void
     {
-        $cacheKey = 'favorite_item_' . $id;
-
         $this->model
             ->query()
             ->where('transport_id', $id)
             ->where('user_id', auth()->id())
             ->delete();
 
-        CacheService::deleteItems([$this->model::CACHE_KEY, $cacheKey]);
+        CacheService::deleteItems([$this->model::CACHE_KEY, $this->model::DETAIL_CACHE_KEY . "_$id"]);
     }
 }

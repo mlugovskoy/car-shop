@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories\Interfaces;
+namespace App\Repositories\Contracts;
 
 use App\Http\Filters\TransportsFilters;
 use App\Http\Requests\Transports\TransportsCreateRequest;

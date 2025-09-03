@@ -15,6 +15,13 @@ class Transport extends EloquentModel
     use HasFactory;
     use SoftDeletes;
 
+    public const SLIDER_CACHE_KEY = 'transport_items_for_slider';
+    public const FAVORITE_CACHE_KEY = 'transport_items_for_favorites';
+    public const ADMIN_CACHE_KEY = 'transport_items_for_admin';
+    public const DETAIL_CACHE_KEY = 'transport_detail';
+    public const FILTER_CACHE_KEY = 'transport_items_for_filter';
+    public const CACHE_TIME = 10;
+
     protected $fillable = [
         'id',
         'active',
