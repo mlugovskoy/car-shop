@@ -11,7 +11,7 @@ use App\Models\Transport;
 use App\Models\TransportType;
 use App\Models\User;
 use App\Notifications\DatabaseNotification;
-use App\Services\CacheService;
+use App\Services\Contracts\CacheInterface;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Storage;
 
 class TransportRepository implements TransportRepositoryInterface
 {
-    public function __construct(protected Transport $model)
+    public function __construct(private Transport $model, protected CacheInterface $cache)
     {
     }
 
@@ -35,7 +35,7 @@ class TransportRepository implements TransportRepositoryInterface
             ->limit($limit)
             ->get(['id', 'city', 'model_id', 'maker_id', 'price']);
 
-        return CacheService::save($item, $this->model::SLIDER_CACHE_KEY, $this->model::CACHE_TIME);
+        return $this->cache->save($item, $this->model::SLIDER_CACHE_KEY, $this->model::CACHE_TIME);
     }
 
     public function getTransportsOfFavorites(?array $favorites): Collection
@@ -64,7 +64,7 @@ class TransportRepository implements TransportRepositoryInterface
                 'published_at'
             ]);
 
-        return CacheService::save($item, $this->model::FAVORITE_CACHE_KEY, $this->model::CACHE_TIME);
+        return $this->cache->save($item, $this->model::FAVORITE_CACHE_KEY, $this->model::CACHE_TIME);
     }
 
     public function getAllTransportsToAdmin(): Collection
@@ -92,7 +92,7 @@ class TransportRepository implements TransportRepositoryInterface
                 'published_at'
             ]);
 
-        return CacheService::save($item, $this->model::ADMIN_CACHE_KEY, $this->model::CACHE_TIME);
+        return $this->cache->save($item, $this->model::ADMIN_CACHE_KEY, $this->model::CACHE_TIME);
     }
 
     public function paginateTransports(Collection $newsCollection, int $perPage = 5): LengthAwarePaginator
@@ -174,7 +174,7 @@ class TransportRepository implements TransportRepositoryInterface
                 'published_at'
             ]);
 
-        return CacheService::save($item, $this->model::DETAIL_CACHE_KEY . "_$id", $this->model::CACHE_TIME);
+        return $this->cache->save($item, $this->model::DETAIL_CACHE_KEY . "_$id", $this->model::CACHE_TIME);
     }
 
     public function getFieldsToFilters(): array
@@ -269,7 +269,7 @@ class TransportRepository implements TransportRepositoryInterface
             'year' => $year
         ];
 
-        return CacheService::save($items, $this->model::FILTER_CACHE_KEY, $this->model::CACHE_TIME);
+        return $this->cache->save($items, $this->model::FILTER_CACHE_KEY, $this->model::CACHE_TIME);
     }
 
     public function storeTransport(TransportsCreateRequest $request): Transport
@@ -335,7 +335,7 @@ class TransportRepository implements TransportRepositoryInterface
             }
         }
 
-        CacheService::deleteItems([$this->model::FILTER_CACHE_KEY, $this->model::ADMIN_CACHE_KEY]);
+        $this->cache->deleteItems([$this->model::FILTER_CACHE_KEY, $this->model::ADMIN_CACHE_KEY]);
 
         return $transport;
     }
@@ -369,7 +369,7 @@ class TransportRepository implements TransportRepositoryInterface
             )
         );
 
-        CacheService::deleteItem($this->model::ADMIN_CACHE_KEY);
+        $this->cache->deleteItem($this->model::ADMIN_CACHE_KEY);
     }
 
     public function destroyTransport(int $id): void
@@ -394,6 +394,6 @@ class TransportRepository implements TransportRepositoryInterface
             ->where(['id' => $id])
             ->delete();
 
-        CacheService::deleteItem($this->model::ADMIN_CACHE_KEY);
+        $this->cache->deleteItem($this->model::ADMIN_CACHE_KEY);
     }
 }

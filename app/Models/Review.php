@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Review extends EloquentModel
@@ -31,12 +32,12 @@ class Review extends EloquentModel
         'deleted_at',
     ];
 
-    public function images(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function images(): BelongsToMany
     {
         return $this->belongsToMany(Image::class, 'image_review');
     }
 
-    public function comments(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function comments(): BelongsToMany
     {
         return $this->belongsToMany(Comment::class, 'comment_review');
     }

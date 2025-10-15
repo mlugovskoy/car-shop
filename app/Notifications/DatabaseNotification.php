@@ -9,6 +9,8 @@ class DatabaseNotification extends Notification
 {
     use Queueable;
 
+    protected string $message;
+
     public function __construct(string $message)
     {
         $this->message = $message;

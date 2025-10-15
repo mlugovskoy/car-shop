@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class NotificationRepository implements NotificationRepositoryInterface
 {
-    public function __construct(protected Notifications $model)
+    public function __construct(private Notifications $model)
     {
     }
 

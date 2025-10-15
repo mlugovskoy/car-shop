@@ -2,21 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\Breadcrumbs;
+use App\Helpers\Contracts\BreadcrumbsInterface;
 use App\Http\Resources\TransportResource;
-use App\Repositories\FavoriteRepository;
-use App\Repositories\TransportRepository;
+use App\Repositories\Contracts\FavoriteRepositoryInterface;
+use App\Repositories\Contracts\TransportRepositoryInterface;
 use Inertia\Inertia;
 
 class FavoritesController extends Controller
 {
-    protected FavoriteRepository $favoriteRepository;
-    protected TransportRepository $transportRepository;
-
-    public function __construct(FavoriteRepository $favoriteRepository, TransportRepository $transportRepository)
-    {
-        $this->transportRepository = $transportRepository;
-        $this->favoriteRepository = $favoriteRepository;
+    public function __construct(
+        private FavoriteRepositoryInterface $favoriteRepository,
+        private TransportRepositoryInterface $transportRepository,
+        private BreadcrumbsInterface $breadcrumbs
+    ) {
     }
 
     public function index()
@@ -27,7 +25,7 @@ class FavoritesController extends Controller
 
         $transports = $this->transportRepository->getTransportsOfFavorites($transportIds);
 
-        $breadcrumbs = (new Breadcrumbs())->generateBreadcrumbs('favorites');
+        $breadcrumbs = $this->breadcrumbs->generateBreadcrumbs('favorites');
 
         return Inertia::render(
             'Favorites/Index',

@@ -2,7 +2,9 @@
 
 namespace App\Helpers;
 
-class Breadcrumbs
+use App\Helpers\Contracts\BreadcrumbsInterface;
+
+class Breadcrumbs implements BreadcrumbsInterface
 {
     public function generateBreadcrumbs($currentPage, $detailPage = null): array
     {

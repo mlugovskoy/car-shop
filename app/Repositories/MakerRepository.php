@@ -5,11 +5,12 @@ namespace App\Repositories;
 use App\Models\Maker;
 use App\Repositories\Contracts\MakerRepositoryInterface;
 use App\Services\CacheService;
+use App\Services\Contracts\CacheInterface;
 use Illuminate\Support\Collection;
 
 class MakerRepository implements MakerRepositoryInterface
 {
-    public function __construct(protected Maker $model)
+    public function __construct(private Maker $model, private CacheInterface $cache)
     {
     }
 
@@ -21,7 +22,7 @@ class MakerRepository implements MakerRepositoryInterface
             ->whereIn('id', $arrMakerIds)
             ->get(['id', 'name']);
 
-        return CacheService::save($item, $this->model::CACHE_KEY, $this->model::CACHE_TIME);
+        return $this->cache->save($item, $this->model::CACHE_KEY, $this->model::CACHE_TIME);
     }
 
     public function getMakerId(string $section = null)

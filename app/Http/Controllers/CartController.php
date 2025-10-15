@@ -3,17 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\CartRepository;
+use App\Repositories\Contracts\CartRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Str;
 
 class CartController extends Controller
 {
-    protected CartRepository $cartRepository;
-
-    public function __construct(CartRepository $cartRepository)
+    public function __construct(private CartRepositoryInterface $cartRepository)
     {
-        $this->cartRepository = $cartRepository;
     }
 
     public function store(Request $request)

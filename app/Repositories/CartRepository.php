@@ -2,15 +2,14 @@
 
 namespace App\Repositories;
 
-use App\Helpers\ClearCache;
 use App\Models\CartItem;
 use App\Repositories\Contracts\CartRepositoryInterface;
-use App\Services\CacheService;
+use App\Services\Contracts\CacheInterface;
 use Illuminate\Support\Str;
 
 class CartRepository implements CartRepositoryInterface
 {
-    public function __construct(protected CartItem $model)
+    public function __construct(private CartItem $model, private CacheInterface $cache)
     {
     }
 
@@ -31,7 +30,7 @@ class CartRepository implements CartRepositoryInterface
             ->where('user_id', auth()->id())
             ->get();
 
-        return CacheService::save($item, $this->model::CACHE_KEY, $this->model::CACHE_TIME);
+        return $this->cache->save($item, $this->model::CACHE_KEY, $this->model::CACHE_TIME);
     }
 
     public function storeItem($transport)
@@ -48,7 +47,7 @@ class CartRepository implements CartRepositoryInterface
                 'transport_id' => $transport['id'],
             ]);
 
-        CacheService::deleteItem($this->model::CACHE_KEY);
+        $this->cache->deleteItem($this->model::CACHE_KEY);
 
         return $newItem;
     }
@@ -61,7 +60,7 @@ class CartRepository implements CartRepositoryInterface
             ->where('transport_id', $id)
             ->delete();
 
-        CacheService::deleteItem($this->model::CACHE_KEY);
+        $this->cache->deleteItem($this->model::CACHE_KEY);
     }
 
     public function total()
@@ -87,6 +86,6 @@ class CartRepository implements CartRepositoryInterface
 
         $this->model->destroy($allCartItemsForCurrentUser);
 
-        CacheService::deleteItem($this->model::CACHE_KEY);
+        $this->cache->deleteItem($this->model::CACHE_KEY);
     }
 }

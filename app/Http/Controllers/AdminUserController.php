@@ -3,16 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\AdminUserResource;
-use App\Repositories\UserRepository;
+use App\Repositories\Contracts\UserRepositoryInterface;
 use Illuminate\Http\Request;
 
 class AdminUserController extends Controller
 {
-    protected UserRepository $userRepository;
-
-    public function __construct(UserRepository $userRepository)
+    public function __construct(private UserRepositoryInterface $userRepository)
     {
-        $this->userRepository = $userRepository;
     }
 
     public function index()

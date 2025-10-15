@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CommentRepository implements CommentRepositoryInterface
 {
-    public function __construct(protected Comment $model)
+    public function __construct(private Comment $model)
     {
     }
 

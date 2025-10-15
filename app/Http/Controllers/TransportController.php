@@ -3,30 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Breadcrumbs;
+use App\Helpers\Contracts\BreadcrumbsInterface;
 use App\Http\Filters\TransportsFilters;
 use App\Http\Requests\Transports\TransportsCreateRequest;
 use App\Http\Resources\TransportResource;
-use App\Repositories\FavoriteRepository;
-use App\Repositories\MakerRepository;
-use App\Repositories\TransportRepository;
+use App\Repositories\Contracts\FavoriteRepositoryInterface;
+use App\Repositories\Contracts\MakerRepositoryInterface;
+use App\Repositories\Contracts\TransportRepositoryInterface;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 
 class TransportController extends Controller
 {
-    protected TransportRepository $transportRepository;
-    protected MakerRepository $makerRepository;
-    protected FavoriteRepository $favoriteRepository;
-
     public function __construct(
-        TransportRepository $transportRepository,
-        MakerRepository $makerRepository,
-        FavoriteRepository $favoriteRepository
+        private TransportRepositoryInterface $transportRepository,
+        private MakerRepositoryInterface $makerRepository,
+        private FavoriteRepositoryInterface $favoriteRepository,
+        private BreadcrumbsInterface $breadcrumbs
     ) {
-        $this->makerRepository = $makerRepository;
-        $this->favoriteRepository = $favoriteRepository;
-        $this->transportRepository = $transportRepository;
     }
 
     public function index(TransportsFilters $filters, $section = null)
@@ -39,7 +33,7 @@ class TransportController extends Controller
 
         $favorites = $this->favoriteRepository->getAllFavorites();
 
-        $breadcrumbs = (new Breadcrumbs())->generateBreadcrumbs('transport');
+        $breadcrumbs = $this->breadcrumbs->generateBreadcrumbs('transport');
 
         return Inertia::render(
             'Transport/Index',
@@ -78,7 +72,7 @@ class TransportController extends Controller
 
         $favorite = $this->favoriteRepository->checkItemFavorite($id);
 
-        $breadcrumbs = (new Breadcrumbs())->generateBreadcrumbs('transportDetail', $transport);
+        $breadcrumbs = $this->breadcrumbs->generateBreadcrumbs('transportDetail', $transport);
 
         return Inertia::render(
             'Transport/Show',

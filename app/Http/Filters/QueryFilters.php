@@ -8,13 +8,11 @@ use Illuminate\Support\Str;
 abstract class QueryFilters
 {
     protected $builder;
-    protected $request;
 
     protected const KEYS_ARRAY = ['price', 'year'];
 
-    public function __construct(Request $request)
+    public function __construct(private Request $request)
     {
-        $this->request = $request;
     }
 
     public function apply($builder)

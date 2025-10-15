@@ -6,24 +6,18 @@ use App\Http\Requests\OrderRequest;
 use App\Http\Resources\OrderResource;
 use App\Http\Resources\CartItemResource;
 use App\Jobs\SendMailJob;
-use App\Mail\OrderShipped;
-use App\Models\Order;
-use App\Repositories\CartRepository;
-use App\Repositories\OrderRepository;
-use Illuminate\Support\Facades\Mail;
+use App\Repositories\Contracts\CartRepositoryInterface;
+use App\Repositories\Contracts\OrderRepositoryInterface;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 
 class OrderController extends Controller
 {
-    protected OrderRepository $orderRepository;
-    protected CartRepository $cartRepository;
-
-    public function __construct(OrderRepository $orderRepository, CartRepository $cartRepository)
-    {
-        $this->orderRepository = $orderRepository;
-        $this->cartRepository = $cartRepository;
+    public function __construct(
+        private OrderRepositoryInterface $orderRepository,
+        private CartRepositoryInterface $cartRepository
+    ) {
     }
 
     public function index()

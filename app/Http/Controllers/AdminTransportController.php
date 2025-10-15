@@ -2,17 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\ClearCache;
 use App\Http\Resources\TransportResource;
-use App\Repositories\TransportRepository;
+use App\Repositories\Contracts\TransportRepositoryInterface;
 
 class AdminTransportController extends Controller
 {
-    protected TransportRepository $transportRepository;
-
-    public function __construct(TransportRepository $transportRepository)
+    public function __construct(private TransportRepositoryInterface $transportRepository)
     {
-        $this->transportRepository = $transportRepository;
     }
 
     public function index()

@@ -10,13 +10,13 @@ interface CacheInterface
 
     public function hasItem($key);
 
-    public static function clear();
+    public function clear();
 
-    public static function deleteItem($key);
+    public function deleteItem($key);
 
-    public static function deleteItems(array $keys);
+    public function deleteItems(array $keys);
 
-    public static function save($item, $key, $time);
+    public function save($item, $key, $time);
 
     public function commit();
 }

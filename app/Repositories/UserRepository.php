@@ -6,15 +6,14 @@ use App\Models\Image;
 use App\Models\User;
 use App\Notifications\DatabaseNotification;
 use App\Repositories\Contracts\UserRepositoryInterface;
-use App\Services\CacheService;
+use App\Services\Contracts\CacheInterface;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class UserRepository implements UserRepositoryInterface
 {
-    public function __construct(protected User $model)
+    public function __construct(private User $model, private CacheInterface $cache)
     {
     }
 
@@ -27,7 +26,7 @@ class UserRepository implements UserRepositoryInterface
             ->where('active', true)
             ->get(['id', 'name', 'city', 'email', 'is_admin']);
 
-        return CacheService::save($item, $this->model::ADMIN_CACHE_KEY, $this->model::CACHE_TIME);
+        return $this->cache->save($item, $this->model::ADMIN_CACHE_KEY, $this->model::CACHE_TIME);
     }
 
     public function getCurrentUser(int $id): User
@@ -38,7 +37,7 @@ class UserRepository implements UserRepositoryInterface
             ->where('active', true)
             ->findOrFail($id, ['id', 'name', 'city', 'email', 'is_admin']);
 
-        return CacheService::save($item, $this->model::CURRENT_CACHE_KEY . "_$id", $this->model::CACHE_TIME);
+        return $this->cache->save($item, $this->model::CURRENT_CACHE_KEY . "_$id", $this->model::CACHE_TIME);
     }
 
     public function updateUser(Request $request, int $id): void
@@ -88,7 +87,7 @@ class UserRepository implements UserRepositoryInterface
             )
         );
 
-        CacheService::deleteItems([$this->model::ADMIN_CACHE_KEY, $this->model::CURRENT_CACHE_KEY]);
+        $this->cache->deleteItems([$this->model::ADMIN_CACHE_KEY, $this->model::CURRENT_CACHE_KEY]);
     }
 
     public function deactivationUser(int $id): void
@@ -98,6 +97,6 @@ class UserRepository implements UserRepositoryInterface
             ->where(['id' => $id])
             ->update(['active' => false]);
 
-        CacheService::deleteItem($this->model::ADMIN_CACHE_KEY);
+        $this->cache->deleteItem($this->model::ADMIN_CACHE_KEY);
     }
 }

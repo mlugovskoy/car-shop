@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 class CurrencyRepository implements CurrencyRepositoryInterface
 {
 
-    public function __construct(protected Currency $model)
+    public function __construct(private Currency $model)
     {
     }
 

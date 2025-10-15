@@ -3,15 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\NewsResource;
-use App\Repositories\NewsRepository;
+use App\Repositories\Contracts\NewsRepositoryInterface;
 
 class AdminNewsController extends Controller
 {
-    protected NewsRepository $newsRepository;
-
-    public function __construct(NewsRepository $newsRepository)
+    public function __construct(private NewsRepositoryInterface $newsRepository)
     {
-        $this->newsRepository = $newsRepository;
     }
 
     public function index()

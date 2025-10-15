@@ -6,6 +6,7 @@ use App\Http\Filters\HasFilter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Predis\Response\Status;
 
@@ -59,7 +60,7 @@ class Transport extends EloquentModel
         return $this->belongsTo(User::class);
     }
 
-    public function images(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function images(): BelongsToMany
     {
         return $this->belongsToMany(Image::class, 'image_transport');
     }

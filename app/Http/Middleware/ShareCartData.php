@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Http\Resources\TransportResource;
 use App\Repositories\CartRepository;
+use App\Repositories\Contracts\CartRepositoryInterface;
 use Closure;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -11,11 +12,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ShareCartData
 {
-    protected CartRepository $cartRepository;
-
-    public function __construct(CartRepository $cartRepository)
+    public function __construct(private CartRepositoryInterface $cartRepository)
     {
-        $this->cartRepository = $cartRepository;
     }
 
     public function handle(Request $request, Closure $next): Response

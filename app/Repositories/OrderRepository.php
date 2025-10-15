@@ -7,13 +7,13 @@ use App\Models\CartItem;
 use App\Models\Order;
 use App\Models\OrderTransport;
 use App\Repositories\Contracts\OrderRepositoryInterface;
-use App\Services\CacheService;
+use App\Services\Contracts\CacheInterface;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 
 class OrderRepository implements OrderRepositoryInterface
 {
-    public function __construct(protected Order $model)
+    public function __construct(private Order $model, private CacheInterface $cache)
     {
     }
 
@@ -27,7 +27,7 @@ class OrderRepository implements OrderRepositoryInterface
             ->where('user_id', $currentUserId)
             ->get(['id', 'code', 'price', 'created_at']);
 
-        return CacheService::save($item, $this->model::CURRENT_CACHE_KEY . "_$currentUserId", $this->model::CACHE_TIME);
+        return $this->cache->save($item, $this->model::CURRENT_CACHE_KEY . "_$currentUserId", $this->model::CACHE_TIME);
     }
 
     public function storeOrder(OrderRequest $request)
@@ -55,7 +55,7 @@ class OrderRepository implements OrderRepositoryInterface
 
         $currentUserId = auth()->id();
 
-        CacheService::deleteItems([CartItem::CACHE_KEY, $this->model::CURRENT_CACHE_KEY . "_$currentUserId"]);
+        $this->cache->deleteItems([CartItem::CACHE_KEY, $this->model::CURRENT_CACHE_KEY . "_$currentUserId"]);
 
         return $newOrder;
     }

@@ -2,18 +2,12 @@
 
 namespace App\Http\Controllers;
 
-
-use App\Models\Notifications;
-use App\Repositories\NotificationRepository;
-use Illuminate\Support\Facades\Auth;
+use App\Repositories\Contracts\NotificationRepositoryInterface;
 
 class NotificationController extends Controller
 {
-    protected NotificationRepository $notificationRepository;
-
-    public function __construct(NotificationRepository $notificationRepository)
+    public function __construct(private NotificationRepositoryInterface $notificationRepository)
     {
-        $this->notificationRepository = $notificationRepository;
     }
 
     public function update(string $id): void

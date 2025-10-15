@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Comment extends Model
@@ -22,17 +23,17 @@ class Comment extends Model
         'deleted_at',
     ];
 
-    public function review(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function review(): BelongsTo
     {
         return $this->belongsTo(Review::class, 'comment_review');
     }
 
-    public function news(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function news(): BelongsTo
     {
         return $this->belongsTo(News::class, 'comment_news');
     }
 
-    protected function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    protected function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

@@ -9,7 +9,7 @@ use App\Models\News;
 use App\Models\User;
 use App\Notifications\DatabaseNotification;
 use App\Repositories\Contracts\NewsRepositoryInterface;
-use App\Services\CacheService;
+use App\Services\Contracts\CacheInterface;
 use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Storage;
 
 class NewsRepository implements NewsRepositoryInterface
 {
-    public function __construct(protected News $model)
+    public function __construct(private News $model, private CacheInterface $cache)
     {
     }
 
@@ -32,7 +32,7 @@ class NewsRepository implements NewsRepositoryInterface
             ->limit($limit)
             ->get(['id', 'title', 'description', 'published_at']);
 
-        return CacheService::save($item, $this->model::HOME_CACHE_KEY, $this->model::CACHE_TIME);
+        return $this->cache->save($item, $this->model::HOME_CACHE_KEY, $this->model::CACHE_TIME);
     }
 
     public function getAllNews(): Collection
@@ -43,7 +43,7 @@ class NewsRepository implements NewsRepositoryInterface
             ->orderBy('published_at', 'desc')
             ->get(['title', 'id', 'description', 'published_at']);
 
-        return CacheService::save($item, $this->model::CACHE_KEY, $this->model::CACHE_TIME);
+        return $this->cache->save($item, $this->model::CACHE_KEY, $this->model::CACHE_TIME);
     }
 
     public function getAdminAllNews(): Collection
@@ -54,7 +54,7 @@ class NewsRepository implements NewsRepositoryInterface
             ->orderBy('published_at', 'desc')
             ->get(['id', 'active', 'title', 'description', 'user_id', 'published_at']);
 
-        return CacheService::save($item, $this->model::ADMIN_CACHE_KEY, $this->model::CACHE_TIME);
+        return $this->cache->save($item, $this->model::ADMIN_CACHE_KEY, $this->model::CACHE_TIME);
     }
 
     public function getDetailNews(int $id)
@@ -65,14 +65,14 @@ class NewsRepository implements NewsRepositoryInterface
             ->where('id', $id)
             ->first();
 
-        return CacheService::save($item, $this->model::DETAIL_CACHE_KEY . "_$id", $this->model::CACHE_TIME);
+        return $this->cache->save($item, $this->model::DETAIL_CACHE_KEY . "_$id", $this->model::CACHE_TIME);
     }
 
     public function attachCommentForNews(Comment $commentCollection, News $newsCollection, $id): void
     {
         $newsCollection->comments()->attach($commentCollection->id);
 
-        CacheService::deleteItem($this->model::DETAIL_CACHE_KEY . "_$id");
+        $this->cache->deleteItem($this->model::DETAIL_CACHE_KEY . "_$id");
     }
 
     public function paginateNews(Collection $newsCollection, int $perPage = 5): LengthAwarePaginator
@@ -118,7 +118,7 @@ class NewsRepository implements NewsRepositoryInterface
             }
         }
 
-        CacheService::deleteItems([$this->model::CACHE_KEY, $this->model::ADMIN_CACHE_KEY]);
+        $this->cache->deleteItems([$this->model::CACHE_KEY, $this->model::ADMIN_CACHE_KEY]);
 
         return $oneNews;
     }
@@ -141,7 +141,7 @@ class NewsRepository implements NewsRepositoryInterface
             )
         );
 
-        CacheService::deleteItems([$this->model::CACHE_KEY, $this->model::ADMIN_CACHE_KEY]);
+        $this->cache->deleteItems([$this->model::CACHE_KEY, $this->model::ADMIN_CACHE_KEY]);
     }
 
     public function destroyCurrentNews(int $id): void
@@ -163,6 +163,6 @@ class NewsRepository implements NewsRepositoryInterface
             ->where(['id' => $id])
             ->delete();
 
-        CacheService::deleteItems([$this->model::CACHE_KEY, $this->model::ADMIN_CACHE_KEY]);
+        $this->cache->deleteItems([$this->model::CACHE_KEY, $this->model::ADMIN_CACHE_KEY]);
     }
 }

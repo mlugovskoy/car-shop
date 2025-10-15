@@ -4,12 +4,12 @@ namespace App\Repositories;
 
 use App\Models\Favorites;
 use App\Repositories\Contracts\FavoriteRepositoryInterface;
-use App\Services\CacheService;
+use App\Services\Contracts\CacheInterface;
 use Illuminate\Support\Collection;
 
 class FavoriteRepository implements FavoriteRepositoryInterface
 {
-    public function __construct(protected Favorites $model)
+    public function __construct(private Favorites $model, private CacheInterface $cache)
     {
     }
 
@@ -20,7 +20,7 @@ class FavoriteRepository implements FavoriteRepositoryInterface
             ->where('user_id', auth()->id())
             ->get();
 
-        return CacheService::save($item, $this->model::CACHE_KEY, $this->model::CACHE_TIME);
+        return $this->cache->save($item, $this->model::CACHE_KEY, $this->model::CACHE_TIME);
     }
 
     public function getTransportIdsOfFavoritesToArray(?Collection $favorites): ?array
@@ -38,7 +38,7 @@ class FavoriteRepository implements FavoriteRepositoryInterface
 
         $isFavorite = $favorites->count() > 0;
 
-        return CacheService::save($isFavorite, $this->model::DETAIL_CACHE_KEY . "_$id", $this->model::CACHE_TIME);
+        return $this->cache->save($isFavorite, $this->model::DETAIL_CACHE_KEY . "_$id", $this->model::CACHE_TIME);
     }
 
     public function storeFavorite(string $id): void
@@ -50,7 +50,7 @@ class FavoriteRepository implements FavoriteRepositoryInterface
                 'transport_id' => $id,
             ]);
 
-        CacheService::deleteItems([$this->model::CACHE_KEY, $this->model::DETAIL_CACHE_KEY . "_$id"]);
+        $this->cache->deleteItems([$this->model::CACHE_KEY, $this->model::DETAIL_CACHE_KEY . "_$id"]);
     }
 
     public function destroyFavorite(string $id): void
@@ -61,6 +61,6 @@ class FavoriteRepository implements FavoriteRepositoryInterface
             ->where('user_id', auth()->id())
             ->delete();
 
-        CacheService::deleteItems([$this->model::CACHE_KEY, $this->model::DETAIL_CACHE_KEY . "_$id"]);
+        $this->cache->deleteItems([$this->model::CACHE_KEY, $this->model::DETAIL_CACHE_KEY . "_$id"]);
     }
 }
