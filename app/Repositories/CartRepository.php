@@ -5,6 +5,8 @@ namespace App\Repositories;
 use App\Models\CartItem;
 use App\Repositories\Contracts\CartRepositoryInterface;
 use App\Services\Contracts\CacheInterface;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 class CartRepository implements CartRepositoryInterface
@@ -13,7 +15,7 @@ class CartRepository implements CartRepositoryInterface
     {
     }
 
-    public function getCartItems()
+    public function getCartItems(): Collection
     {
         if (!auth()->check()) {
             return collect();
@@ -33,7 +35,7 @@ class CartRepository implements CartRepositoryInterface
         return $this->cache->save($item, $this->model::CACHE_KEY, $this->model::CACHE_TIME);
     }
 
-    public function storeItem($transport)
+    public function storeItem($transport): Model|CartItem
     {
         if (auth()->guest()) {
             abort(401);

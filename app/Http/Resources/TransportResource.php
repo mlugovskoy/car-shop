@@ -38,17 +38,15 @@ class TransportResource extends JsonResource
                 . ', ' . $this->mileage . ' км',
             'user' => $this->user,
             'published_at' => Date::parse($this->published_at)->translatedFormat('d F Y'),
-            'images' => $this->images->map(function ($image) {
-                return [
-                    'id' => $image->id,
-                    'image_title' => $image->image_title,
-                    'alt_title' => $this->maker->name . ' ' . $this->model->name,
-                    'image_path' => asset(Storage::url($image->image_path)),
-                    'image_size' => $image->image_size,
-                    'image_ext' => $image->image_ext,
-                    'image_source' => $image->image_source,
-                ];
-            })
+            'images' => $this->images->map(fn($image) => [
+                'id' => $image->id,
+                'image_title' => $image->image_title,
+                'alt_title' => $this->maker->name . ' ' . $this->model->name,
+                'image_path' => asset(Storage::url($image->image_path)),
+                'image_size' => $image->image_size,
+                'image_ext' => $image->image_ext,
+                'image_source' => $image->image_source,
+            ])
         ];
     }
 }

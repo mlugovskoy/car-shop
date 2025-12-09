@@ -7,6 +7,8 @@ use App\Http\Resources\TopSliderResource;
 use App\Repositories\Contracts\MakerRepositoryInterface;
 use App\Repositories\Contracts\NewsRepositoryInterface;
 use App\Repositories\Contracts\TransportRepositoryInterface;
+use Inertia\Response;
+use Inertia\ResponseFactory;
 
 class HomeController extends Controller
 {
@@ -17,13 +19,12 @@ class HomeController extends Controller
     ) {
     }
 
-    public function index()
+    public function index(): Response|ResponseFactory
     {
         $topSliderTransports = $this->transportRepository->getTopSliderTransports();
 
-        $makers = $this->makerRepository->getMakersAttachedToTransport(
-            $this->transportRepository->getMakerIdsAttachedTransports()
-        );
+        $makers = $this->makerRepository
+            ->getMakersAttachedToTransport($this->transportRepository->getMakerIdsAttachedTransports());
 
         $latestNews = $this->newsRepository->getHomeNews();
 

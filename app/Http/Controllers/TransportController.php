@@ -10,8 +10,10 @@ use App\Http\Resources\TransportResource;
 use App\Repositories\Contracts\FavoriteRepositoryInterface;
 use App\Repositories\Contracts\MakerRepositoryInterface;
 use App\Repositories\Contracts\TransportRepositoryInterface;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class TransportController extends Controller
 {
@@ -23,7 +25,7 @@ class TransportController extends Controller
     ) {
     }
 
-    public function index(TransportsFilters $filters, $section = null)
+    public function index(TransportsFilters $filters, $section = null): Response
     {
         $maker = $this->makerRepository->getMakerId($section);
 
@@ -57,14 +59,14 @@ class TransportController extends Controller
         $this->favoriteRepository->destroyFavorite($id);
     }
 
-    public function store(TransportsCreateRequest $request)
+    public function store(TransportsCreateRequest $request): RedirectResponse
     {
         $this->transportRepository->storeTransport($request);
 
         return Redirect::route('transport.index');
     }
 
-    public function show(string $section, string $id)
+    public function show(string $section, string $id): Response
     {
         $maker = $this->makerRepository->getMakerId($section);
 

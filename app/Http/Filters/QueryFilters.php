@@ -37,7 +37,7 @@ abstract class QueryFilters
         return $this->builder;
     }
 
-    public function filters()
+    public function filters(): array
     {
         return $this->request->all();
     }

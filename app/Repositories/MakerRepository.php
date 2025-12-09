@@ -25,7 +25,7 @@ class MakerRepository implements MakerRepositoryInterface
         return $this->cache->save($item, $this->model::CACHE_KEY, $this->model::CACHE_TIME);
     }
 
-    public function getMakerId(string $section = null)
+    public function getMakerId(string $section = null): ?Maker
     {
         if (empty($section)) {
             return null;

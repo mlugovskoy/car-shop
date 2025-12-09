@@ -21,16 +21,14 @@ class AdminUserResource extends JsonResource
             'city' => $this->city,
             'email' => $this->email,
             'is_admin' => $this->is_admin,
-            'images' => $this->images->map(function ($image) {
-                return [
-                    'id' => $image->id,
-                    'image_title' => $image->image_title,
-                    'image_path' => asset(Storage::url($image->image_path)),
-                    'image_size' => $image->image_size,
-                    'image_ext' => $image->image_ext,
-                    'image_source' => $image->image_source,
-                ];
-            })
+            'images' => $this->images->map(fn($image) => [
+                'id' => $image->id,
+                'image_title' => $image->image_title,
+                'image_path' => asset(Storage::url($image->image_path)),
+                'image_size' => $image->image_size,
+                'image_ext' => $image->image_ext,
+                'image_source' => $image->image_source,
+            ])
         ];
     }
 }

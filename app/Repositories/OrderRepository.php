@@ -9,6 +9,7 @@ use App\Models\OrderTransport;
 use App\Repositories\Contracts\OrderRepositoryInterface;
 use App\Services\Contracts\CacheInterface;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 class OrderRepository implements OrderRepositoryInterface
@@ -30,7 +31,7 @@ class OrderRepository implements OrderRepositoryInterface
         return $this->cache->save($item, $this->model::CURRENT_CACHE_KEY . "_$currentUserId", $this->model::CACHE_TIME);
     }
 
-    public function storeOrder(OrderRequest $request)
+    public function storeOrder(OrderRequest $request): Model|Order
     {
         $newOrder = $this->model
             ->query()

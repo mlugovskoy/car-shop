@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\CartRepository;
 use App\Repositories\Contracts\CartRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -13,7 +12,7 @@ class CartController extends Controller
     {
     }
 
-    public function store(Request $request)
+    public function store(Request $request): void
     {
         $this->cartRepository->storeItem($request->item);
 
@@ -23,13 +22,10 @@ class CartController extends Controller
         );
     }
 
-    public function delete($id)
+    public function delete($id): void
     {
         $this->cartRepository->deleteItem($id);
 
-        Session::flash(
-            'flash',
-            'Товар #' . $id . ' удален из корзины.'
-        );
+        Session::flash('flash', 'Товар #' . $id . ' удален из корзины.');
     }
 }

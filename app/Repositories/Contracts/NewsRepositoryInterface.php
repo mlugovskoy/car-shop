@@ -4,7 +4,6 @@ namespace App\Repositories\Contracts;
 
 use App\Http\Requests\News\NewsRequest;
 use App\Models\News;
-use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
 interface NewsRepositoryInterface

@@ -8,9 +8,11 @@ use App\Http\Resources\CartItemResource;
 use App\Jobs\SendMailJob;
 use App\Repositories\Contracts\CartRepositoryInterface;
 use App\Repositories\Contracts\OrderRepositoryInterface;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class OrderController extends Controller
 {
@@ -20,7 +22,7 @@ class OrderController extends Controller
     ) {
     }
 
-    public function index()
+    public function index(): Response
     {
         $orders = $this->orderRepository->getAllOrdersForCurrentUser();
 
@@ -29,7 +31,7 @@ class OrderController extends Controller
         return Inertia::render('Order/Index', ['items' => OrderResource::collection($orders), 'total' => $total]);
     }
 
-    public function create()
+    public function create(): Response
     {
         $cartItems = $this->cartRepository->getCartItems();
 
@@ -43,7 +45,7 @@ class OrderController extends Controller
         );
     }
 
-    public function store(OrderRequest $request)
+    public function store(OrderRequest $request): RedirectResponse
     {
         $order = $this->orderRepository->storeOrder($request);
         $this->cartRepository->clearCart();

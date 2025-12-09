@@ -6,27 +6,27 @@ use App\Models\Transport;
 
 class TransportsFilters extends QueryFilters
 {
-    protected function color($value)
+    protected function color($value): void
     {
         $this->builder->where('color', $value);
     }
 
-    protected function transmission($value)
+    protected function transmission($value): void
     {
         $this->builder->where('transmission', $value);
     }
 
-    protected function steeringWheel($value)
+    protected function steeringWheel($value): void
     {
         $this->builder->where('steering_wheel', $value);
     }
 
-    protected function drive($value)
+    protected function drive($value): void
     {
         $this->builder->where('drive', $value);
     }
 
-    protected function price(array $value)
+    protected function price(array $value): void
     {
         if (!isset($value[0])) {
             $value[0] = 0;
@@ -38,7 +38,7 @@ class TransportsFilters extends QueryFilters
         $this->builder->where('price', '>=', $value[0])->where('price', '<=', $value[1]);
     }
 
-    protected function year(array $value)
+    protected function year(array $value): void
     {
         if (!isset($value[0])) {
             $value[0] = 0;
@@ -50,28 +50,28 @@ class TransportsFilters extends QueryFilters
         $this->builder->where('year', '>=', $value[0])->where('year', '<=', $value[1]);
     }
 
-    protected function makers($value)
+    protected function makers($value): void
     {
         $this->builder->whereHas('maker', function ($query) use ($value) {
             $query->where('name', 'ilike', $value);
         });
     }
 
-    protected function models($value)
+    protected function models($value): void
     {
         $this->builder->whereHas('model', function ($query) use ($value) {
             $query->where('name', 'ilike', $value);
         });
     }
 
-    protected function fuelType($value)
+    protected function fuelType($value): void
     {
         $this->builder->whereHas('fuelType', function ($query) use ($value) {
             $query->where('name', $value);
         });
     }
 
-    protected function transportType($value)
+    protected function transportType($value): void
     {
         $this->builder->whereHas('transportType', function ($query) use ($value) {
             $query->where('name', $value);

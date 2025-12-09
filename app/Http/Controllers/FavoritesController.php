@@ -7,6 +7,7 @@ use App\Http\Resources\TransportResource;
 use App\Repositories\Contracts\FavoriteRepositoryInterface;
 use App\Repositories\Contracts\TransportRepositoryInterface;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class FavoritesController extends Controller
 {
@@ -17,7 +18,7 @@ class FavoritesController extends Controller
     ) {
     }
 
-    public function index()
+    public function index(): Response
     {
         $favorites = $this->favoriteRepository->getAllFavorites();
 

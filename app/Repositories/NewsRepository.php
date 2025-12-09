@@ -11,6 +11,7 @@ use App\Notifications\DatabaseNotification;
 use App\Repositories\Contracts\NewsRepositoryInterface;
 use App\Services\Contracts\CacheInterface;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -92,7 +93,7 @@ class NewsRepository implements NewsRepositoryInterface
         );
     }
 
-    public function storeOneNews(NewsRequest $request)
+    public function storeOneNews(NewsRequest $request): Model|News
     {
         $oneNews = $this->model
             ->query()

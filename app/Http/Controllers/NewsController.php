@@ -8,9 +8,11 @@ use App\Http\Requests\News\NewsRequest;
 use App\Http\Resources\NewsResource;
 use App\Repositories\Contracts\CommentRepositoryInterface;
 use App\Repositories\Contracts\NewsRepositoryInterface;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class NewsController extends Controller
 {
@@ -21,7 +23,7 @@ class NewsController extends Controller
     ) {
     }
 
-    public function index()
+    public function index(): Response
     {
         $news = $this->newsRepository->paginateNews($this->newsRepository->getAllNews(), 10);
 
@@ -31,7 +33,7 @@ class NewsController extends Controller
         );
     }
 
-    public function store(NewsRequest $request)
+    public function store(NewsRequest $request): RedirectResponse
     {
         $article = $this->newsRepository->storeOneNews($request);
 
@@ -43,7 +45,7 @@ class NewsController extends Controller
         return Redirect::route('news.index');
     }
 
-    public function storeComment(NewsCommentsRequest $request, $id)
+    public function storeComment(NewsCommentsRequest $request, $id): RedirectResponse
     {
         $newComment = $this->commentRepository->storeCommentForNews($request);
 
@@ -54,7 +56,7 @@ class NewsController extends Controller
         return Redirect::back();
     }
 
-    public function show(string $id)
+    public function show(string $id): Response
     {
         $oneNews = $this->newsRepository->getDetailNews($id);
 
