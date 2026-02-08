@@ -9,7 +9,7 @@ class CacheService implements CacheInterface
 {
     public function getItem($key)
     {
-        // TODO: Implement getItem() method.
+        return Cache::get($key);
     }
 
     public function getItems(array $keys = array())
@@ -29,27 +29,20 @@ class CacheService implements CacheInterface
 
     public function deleteItem($key): void
     {
-        if (Cache::has($key)) {
-            Cache::forget($key);
-        }
+        Cache::forget($key);
     }
 
     public function deleteItems(array $keys): void
     {
-        if (!empty($keys)) {
-            foreach ($keys as $key) {
-                if (Cache::has($key)) {
-                    Cache::forget($key);
-                }
-            }
+        foreach ($keys as $key) {
+            Cache::forget($key);
         }
     }
 
     public function save($item, $key, $time)
     {
-        return Cache::remember($key, now()->addMinutes($time), function () use ($item) {
-            return $item;
-        });
+        Cache::put($key, $item, now()->addMinutes($time));
+        return $item;
     }
 
     public function commit()

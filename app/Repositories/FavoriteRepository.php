@@ -15,12 +15,19 @@ class FavoriteRepository implements FavoriteRepositoryInterface
 
     public function getAllFavorites(): Collection
     {
+        $cached = $this->cache->getItem($this->model::CACHE_KEY);
+        if ($cached !== null) {
+            return $cached;
+        }
+
         $item = $this->model
             ->query()
             ->where('user_id', auth()->id())
             ->get();
 
-        return $this->cache->save($item, $this->model::CACHE_KEY, $this->model::CACHE_TIME);
+        $this->cache->save($item, $this->model::CACHE_KEY, $this->model::CACHE_TIME);
+
+        return $item;
     }
 
     public function getTransportIdsOfFavoritesToArray(?Collection $favorites): ?array
@@ -30,15 +37,21 @@ class FavoriteRepository implements FavoriteRepositoryInterface
 
     public function checkItemFavorite(string $id): bool
     {
+        $cached = $this->cache->getItem($this->model::DETAIL_CACHE_KEY . "_$id");
+        if ($cached !== null) {
+            return $cached;
+        }
+
         $favorites = $this->model
             ->query()
             ->where('user_id', auth()->id())
             ->where('transport_id', $id)
-            ->get();
+            ->exists();
 
-        $isFavorite = $favorites->count() > 0;
 
-        return $this->cache->save($isFavorite, $this->model::DETAIL_CACHE_KEY . "_$id", $this->model::CACHE_TIME);
+        $this->cache->save($favorites, $this->model::DETAIL_CACHE_KEY . "_$id", $this->model::CACHE_TIME);
+
+        return $favorites;
     }
 
     public function storeFavorite(string $id): void
