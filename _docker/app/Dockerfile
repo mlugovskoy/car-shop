@@ -35,12 +35,12 @@ RUN curl -sS https://getcomposer.org/installer | php -- \
     --install-dir=/usr/local/bin
 
 # Sendmail
-RUN apt-get update &&\
-    apt-get install --no-install-recommends --assume-yes --quiet ca-certificates curl git &&\
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends ca-certificates curl && \
     rm -rf /var/lib/apt/lists/*
-RUN curl -Lsf 'https://storage.googleapis.com/golang/go1.8.3.linux-amd64.tar.gz' | tar -C '/usr/local' -xvzf -
-ENV PATH /usr/local/go/bin:$PATH
-RUN go get github.com/mailhog/mhsendmail
+RUN curl -Lsf 'https://go.dev/dl/go1.21.10.linux-amd64.tar.gz' | tar -C /usr/local -xzf -
+ENV PATH=/usr/local/go/bin:$PATH
+RUN go install github.com/mailhog/mhsendmail@latest
 RUN cp /root/go/bin/mhsendmail /usr/bin/mhsendmail
 
 RUN usermod -u 1000 www-data

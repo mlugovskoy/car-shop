@@ -42,6 +42,17 @@ services:
       - ./_docker/env/rabbitmq.env
     container_name: app_rabbitmq
 
+  elastic:
+    image: elasticsearch:9.2.2
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    ports:
+      - "9200:9200"
+    volumes:
+      - ./tmp/elastic:/var/lib/elasticsearch/data
+    container_name: app_elastic
+
   worker:
     build:
       context: .
