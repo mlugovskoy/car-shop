@@ -1,5 +1,5 @@
 <script setup>
-import {provide, ref} from 'vue';
+import {onBeforeUnmount, onMounted, provide, ref} from 'vue';
 import Logo from '@/Components/Header/Logo.vue';
 import Dropdown from '@/Components/UI/Form/Dropdown.vue';
 import DropdownLink from '@/Components/UI/Form/DropdownLink.vue';
@@ -11,6 +11,8 @@ import ResponsiveNavLink from "@/Components/UI/ResponsiveNavLink.vue";
 import HeaderNotification from "@/Components/Header/HeaderNotification.vue";
 import Drawer from "@/Components/Drawer/Drawer.vue";
 import FlashMessage from "@/Components/FlashMessage/FlashMessage.vue";
+import Snow from "@/Services/Snow.js";
+import snowImage from '../../images/snow.png';
 
 const showingNavigationDropdown = ref(false);
 const drawerStatus = ref(false);
@@ -20,6 +22,22 @@ const changeDrawerStatus = () => {
 }
 
 const page = usePage();
+
+// SNOW
+onMounted(() => {
+    const snow = new Snow({
+        count: 80,
+        minSize: 2,
+        maxSize: 12,
+        minSpeed: 0.3,
+        maxSpeed: 1.2,
+        image: snowImage
+    });
+    snow.init();
+
+    onBeforeUnmount(() => snow.destroy());
+});
+// SNOW
 
 provide('changeDrawerStatus', changeDrawerStatus);
 </script>
