@@ -20,10 +20,10 @@ class TopSliderResource extends JsonResource
             'id' => $this->id,
             'maker' => $this->maker,
             'model' => $this->model,
-            'title' => $this->maker->name . ' ' . $this->model->name,
+            'title' => $this->title,
             'city' => $this->city,
-            'price' => number_format($this->price, 0, '.', ' ') . ' ₽',
-            'published_at' => Date::parse($this->published_at)->translatedFormat('d F Y'),
+            'price' => $this->price_formatted,
+            'published_at' => $this->published_at_formatted,
             'images' => $this->images->map(fn($image) => [
                 'id' => $image->id,
                 'image_title' => $image->image_title,

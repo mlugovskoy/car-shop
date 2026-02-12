@@ -69,7 +69,7 @@ const deleteCartItemToDb = (id) => {
 </script>
 
 <template>
-    <Head :title="'Объявление - ' + page.props.transport.maker.name + ' ' + page.props.transport.model.name"/>
+    <Head :title="'Объявление - ' + page.props.transport.title"/>
 
     <Main>
         <div class="py-6 sm:py-12">
@@ -78,7 +78,7 @@ const deleteCartItemToDb = (id) => {
             </div>
             <div class="mx-auto max-w-7xl overflow-hidden bg-white shadow-sm mt-4 mb-14 p-6 lg:p-8 sm:rounded-lg">
                 <MainTitle :href="route('transport.show', page.props.transport.id)">
-                    {{ page.props.transport.maker.name + ' ' + page.props.transport.model.name }}
+                    {{ page.props.transport.title }}
                 </MainTitle>
 
                 <div class="flex gap-8 mb-8">

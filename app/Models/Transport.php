@@ -3,11 +3,13 @@
 namespace App\Models;
 
 use App\Http\Filters\HasFilter;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Date;
 use Predis\Response\Status;
 
 class Transport extends EloquentModel
@@ -88,5 +90,55 @@ class Transport extends EloquentModel
     public function model(): BelongsTo
     {
         return $this->belongsTo(Model::class);
+    }
+
+    protected function title(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->maker?->name . ' ' . $this->model?->name
+        );
+    }
+
+    protected function previewText(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->power . ' л.с, '
+                . $this->fuelType?->name ?? '-'
+                . ', ' . $this->fuel_supply_type ?? '-'
+                . ', ' . $this->mileage . ' км'
+        );
+    }
+
+    protected function powerFormatted(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => number_format($this->power, 0, '.', ' ')
+        );
+    }
+
+    protected function mileageFormatted(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => number_format($this->mileage, 0, '.', ' ')
+        );
+    }
+
+    protected function priceFormatted(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => number_format($this->price, 0, '.', ' ') . ' ₽'
+        );
+    }
+    protected function publishedAtFormatted(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => Date::parse($this->published_at)->translatedFormat('d F Y')
+        );
+    }
+    protected function createdAtFormatted(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => Date::parse($this->published_at)->translatedFormat('d F Y')
+        );
     }
 }

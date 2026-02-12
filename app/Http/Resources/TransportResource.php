@@ -4,7 +4,6 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Storage;
 
 class TransportResource extends JsonResource
@@ -25,23 +24,20 @@ class TransportResource extends JsonResource
             'transport_type' => $this->transportType,
             'city' => $this->city,
             'year' => $this->year,
-            'power' => number_format($this->power, 0, '.', ' '),
+            'power' => $this->power_formatted,
             'engine' => $this->engine,
             'fuel_supply_type' => $this->fuel_supply_type,
-            'mileage' => number_format($this->mileage, 0, '.', ' '),
-            'price' => number_format($this->price, 0, '.', ' ') . ' ₽',
+            'mileage' => $this->mileage_formatted,
+            'price' => $this->price_formatted,
             'description' => $this->description,
-            'title' => $this->maker->name . ' ' . $this->model->name,
-            'preview' => $this->power . ' л.с, '
-                . $this->fuelType->name
-                . ', ' . $this->fuel_supply_type
-                . ', ' . $this->mileage . ' км',
+            'title' => $this->title,
+            'preview' => $this->preview_text,
             'user' => $this->user,
-            'published_at' => Date::parse($this->published_at)->translatedFormat('d F Y'),
+            'published_at' => $this->published_at_formatted,
             'images' => $this->images->map(fn($image) => [
                 'id' => $image->id,
                 'image_title' => $image->image_title,
-                'alt_title' => $this->maker->name . ' ' . $this->model->name,
+                'alt_title' => $this->title,
                 'image_path' => asset(Storage::url($image->image_path)),
                 'image_size' => $image->image_size,
                 'image_ext' => $image->image_ext,
