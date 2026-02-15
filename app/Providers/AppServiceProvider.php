@@ -18,6 +18,7 @@ use App\Repositories\Contracts\MakerRepositoryInterface;
 use App\Repositories\Contracts\NewsRepositoryInterface;
 use App\Repositories\Contracts\NotificationRepositoryInterface;
 use App\Repositories\Contracts\OrderRepositoryInterface;
+use App\Repositories\Contracts\SiteSettingsRepositoryInterface;
 use App\Repositories\Contracts\TransportRepositoryInterface;
 use App\Repositories\Contracts\UserRepositoryInterface;
 use App\Repositories\CurrencyRepository;
@@ -26,6 +27,7 @@ use App\Repositories\MakerRepository;
 use App\Repositories\NewsRepository;
 use App\Repositories\NotificationRepository;
 use App\Repositories\OrderRepository;
+use App\Repositories\SiteSettingsRepository;
 use App\Repositories\TransportRepository;
 use App\Repositories\UserRepository;
 use App\Services\CacheService;
@@ -49,6 +51,12 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(OrderRepositoryInterface::class, OrderRepository::class);
         $this->app->bind(TransportRepositoryInterface::class, TransportRepository::class);
         $this->app->bind(BreadcrumbsInterface::class, Breadcrumbs::class);
+        $this->app->bind(SiteSettingsRepositoryInterface::class, SiteSettingsRepository::class);
+        // Facades
+        $this->app->singleton('site.settings', function () {
+            $repository = $this->app->make(SiteSettingsRepositoryInterface::class);
+            return $repository->get();
+        });
     }
 
     public function boot(): void

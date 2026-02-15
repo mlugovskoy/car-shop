@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminNewsController;
 use App\Http\Controllers\AdminTransportController;
 use App\Http\Controllers\AdminUserController;
+use App\Http\Controllers\SiteSettingsController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'admin', 'notifications', 'cart'])->prefix('admin')->name('admin.')->group(function () {
@@ -21,4 +22,7 @@ Route::middleware(['auth', 'admin', 'notifications', 'cart'])->prefix('admin')->
     Route::get('/news', [AdminNewsController::class, 'index'])->name('news');
     Route::post('/news/{id}', [AdminNewsController::class, 'update'])->name('news.update');
     Route::delete('/news/destroy/{id}', [AdminNewsController::class, 'destroy'])->name('news.destroy');
+
+    Route::get('/site-settings', [SiteSettingsController::class, 'index'])->name('site_settings');
+    Route::post('/site-settings', [SiteSettingsController::class, 'update'])->name('site_settings.update');
 });

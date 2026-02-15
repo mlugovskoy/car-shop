@@ -33,6 +33,10 @@ const page = usePage();
                              :active="route().current('admin.news')">
                         Новости
                     </NavLink>
+                    <NavLink class="block" :href="route('admin.site_settings')"
+                             :active="route().current('admin.site_settings')">
+                        Настройки
+                    </NavLink>
                 </nav>
                 <div class="w-full lg:w-5/6 bg-white p-4 shadow sm:rounded-lg sm:p-6">
                     <slot/>
