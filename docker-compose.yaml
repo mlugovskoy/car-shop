@@ -9,6 +9,7 @@ services:
       - db
     ports:
       - "80:80"
+    user: "1000:1000"
     container_name: app
   db:
     image: postgres:16
@@ -67,6 +68,7 @@ services:
     volumes:
       - ./:/var/www/html
     restart: unless-stopped
+    user: "1000:1000"
     container_name: app_worker
 
   mailhog:
