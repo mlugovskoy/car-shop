@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\DynamicFormController;
 use App\Http\Controllers\FavoritesController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsController;
@@ -44,6 +45,9 @@ Route::middleware(['notifications', 'cart'])->group(function () {
 
     Route::post('/cart/add', [CartController::class, 'store'])->name('cart.add');
     Route::post('/cart/delete/{id}', [CartController::class, 'delete'])->name('cart.delete');
+
+    Route::post('/forms/{id}/validate/{step}', [DynamicFormController::class, 'validateStep'])->name('form.validate');
+    Route::post('/forms/{id}/submit', [DynamicFormController::class, 'submit'])->name('form.submit');
 });
 
 require __DIR__ . '/admin.php';

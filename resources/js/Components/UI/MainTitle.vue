@@ -16,7 +16,7 @@ const props = defineProps({
 const sizeMap = {
     h1: 'text-4xl sm:text-4xl',
     h2: 'text-3xl sm:text-4xl',
-    h3: 'text-xl sm:text-lg',
+    h3: 'text-xl sm:text-2xl',
     h4: 'text-lg sm:text-base',
     h5: 'text-base',
     h6: 'text-sm'
@@ -28,7 +28,7 @@ const sizeClass = computed(() => {
 })
 
 const fullClass = computed(() => {
-    return `text-emerald-400 mb-4 sm:mb-8 inline-block border-b-2 border-transparent transition-all hover:border-emerald-400 ${sizeClass.value}`.trim()
+    return `text-emerald-400 mb-4 sm:mb-8 inline-block border-b-2 border-transparent transition-all ${props.href ? 'hover:border-emerald-400' : ''} ${sizeClass.value}`.trim()
 })
 </script>
 

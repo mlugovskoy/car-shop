@@ -5,8 +5,16 @@ import MainSlider from "@/Components/MainSlider/MainSlider.vue";
 import MainFilter from "@/Components/MainFilter/MainFilter.vue";
 import MainNews from "@/Components/MainNews/MainNews.vue";
 import MainTitle from "@/Components/UI/MainTitle.vue";
+import DynamicForm from "@/Pages/DynamicForm/DynamicForm.vue";
+import {defineProps} from "vue";
 
 const page = usePage();
+
+const props = defineProps({
+    formConfig: Object,
+    formId: String,
+    formDebug: Boolean
+})
 </script>
 
 <template>
@@ -27,6 +35,8 @@ const page = usePage();
                 <MainTitle :href="route('news.index')">Новости</MainTitle>
                 <MainNews :news="page.props.latestNews"/>
             </div>
+
+            <DynamicForm class="max-w-7xl mx-auto" :formConfig="formConfig" :formId="formId" :debug="formDebug"></DynamicForm>
         </div>
     </Main>
 </template>

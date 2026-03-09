@@ -46,7 +46,7 @@ provide('changeDrawerStatus', changeDrawerStatus);
     <Drawer :show="drawerStatus"/>
 
     <div>
-        <div class="min-h-screen h-full flex flex-col bg-gray-100">
+        <div class="min-h-screen h-full flex flex-col bg-gray-50">
             <header
                 class="border-b border-gray-100 bg-white"
             >

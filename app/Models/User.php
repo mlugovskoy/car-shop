@@ -36,6 +36,11 @@ class User extends Authenticatable
         ];
     }
 
+    public function isAdmin(): bool
+    {
+        return (bool)$this->is_admin;
+    }
+
     public function news(): HasMany
     {
         return $this->hasMany(News::class);

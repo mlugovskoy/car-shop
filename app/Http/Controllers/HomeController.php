@@ -7,6 +7,7 @@ use App\Http\Resources\TopSliderResource;
 use App\Repositories\Contracts\MakerRepositoryInterface;
 use App\Repositories\Contracts\NewsRepositoryInterface;
 use App\Repositories\Contracts\TransportRepositoryInterface;
+use App\Services\DynamicForm\FormSchema;
 use Inertia\Response;
 use Inertia\ResponseFactory;
 
@@ -28,12 +29,17 @@ class HomeController extends Controller
 
         $latestNews = $this->newsRepository->getHomeNews();
 
+        $schema = FormSchema::fromArray(config('dynamic_form.schemas.contact'));
+
         return inertia(
             'Home',
             [
                 'topSliderTransports' => TopSliderResource::collection($topSliderTransports),
                 'makers' => $makers,
-                'latestNews' => NewsResource::collection($latestNews)
+                'latestNews' => NewsResource::collection($latestNews),
+                'formConfig' => $schema->getConfig(),
+                'formId' => 'contact',
+                'formDebug' => auth()->user()?->isAdmin() ?? false,
             ]
         );
     }
