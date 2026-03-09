@@ -15,6 +15,7 @@ import TextInput from "@/Components/UI/Form/TextInput.vue";
 import PrimaryButton from "@/Components/UI/PrimaryButton.vue";
 import InputError from "@/Components/UI/Form/InputError.vue";
 import DangerButton from "@/Components/UI/DangerButton.vue";
+import Pagination from "@/Components/Pagination.vue";
 
 const page = usePage();
 const processing = ref(false);
@@ -106,8 +107,26 @@ onMounted(() => {
 
 const submit = () => {
     processing.value = true;
-    router.get(route('transport.index'), {...filter}, {
-        preserveState: true, preserveScroll: true, onSuccess: () => {
+
+    const params = {};
+
+    Object.keys(filter).forEach(key => {
+        const value = filter[key];
+
+        if (Array.isArray(value)) {
+            if (value[0] !== '' && value[0] !== null) params[`${key}[0]`] = value[0];
+            if (value[1] !== '' && value[1] !== null) params[`${key}[1]`] = value[1];
+        }
+
+        else if (value !== '' && value !== null && value !== undefined) {
+            params[key] = value;
+        }
+    });
+
+    router.get(route('transport.index'), params, {
+        preserveState: true,
+        preserveScroll: true,
+        onSuccess: () => {
             processing.value = false
         }
     })
@@ -213,6 +232,7 @@ const resetFilter = () => {
 
                 <div class="border-t-2 rounded-md border-t-emerald-400 my-10"></div>
                 <TransportsList/>
+                <Pagination :links="page.props.transports.meta.links"/>
             </div>
         </div>
     </Main>

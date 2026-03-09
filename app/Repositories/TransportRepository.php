@@ -95,14 +95,14 @@ class TransportRepository implements TransportRepositoryInterface
         return $this->cache->save($item, $this->model::ADMIN_CACHE_KEY, $this->model::CACHE_TIME);
     }
 
-    public function paginateTransports(Collection $newsCollection, int $perPage = 5): LengthAwarePaginator
+    public function paginateTransports(Collection $transportCollection, int $perPage = 5): LengthAwarePaginator
     {
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
-        $currentPageItems = $newsCollection->slice(($currentPage - 1) * $perPage, $perPage)->all();
+        $currentPageItems = $transportCollection->slice(($currentPage - 1) * $perPage, $perPage)->all();
 
         return new LengthAwarePaginator(
             $currentPageItems,
-            $newsCollection->count(),
+            $transportCollection->count(),
             $perPage,
             $currentPage,
             [
@@ -112,7 +112,7 @@ class TransportRepository implements TransportRepositoryInterface
         );
     }
 
-    public function getAllTransportsToFilters(TransportsFilters $filters, ?Maker $maker): Collection
+    public function paginateTransportsToFilters(TransportsFilters $filters, ?Maker $maker, int $perPage = 10): LengthAwarePaginator
     {
         return $this->model
             ->query()
@@ -121,7 +121,7 @@ class TransportRepository implements TransportRepositoryInterface
             ->when($maker, fn($query) => $query->where('maker_id', $maker->id))
             ->orderBy('published_at', 'desc')
             ->filter($filters)
-            ->get([
+            ->select([
                 'id',
                 'maker_id',
                 'model_id',
@@ -137,7 +137,9 @@ class TransportRepository implements TransportRepositoryInterface
                 'description',
                 'user_id',
                 'published_at'
-            ]);
+            ])
+            ->paginate($perPage)
+            ->appends(request()->query());
     }
 
     public function getOneTransportToFilters(?Maker $maker, int $id): Transport

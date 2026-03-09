@@ -29,7 +29,7 @@ class TransportController extends Controller
     {
         $maker = $this->makerRepository->getMakerId($section);
 
-        $transports = $this->transportRepository->getAllTransportsToFilters($filters, $maker);
+        $transports = $this->transportRepository->paginateTransportsToFilters($filters, $maker);
 
         $fieldsFilters = $this->transportRepository->getFieldsToFilters();
 
@@ -41,7 +41,7 @@ class TransportController extends Controller
             'Transport/Index',
             [
                 'transports' => TransportResource::collection($transports),
-                'countTransports' => count($transports),
+                'countTransports' => $transports->total(),
                 'favorites' => $favorites->keyBy('transport_id'),
                 'fieldsFilters' => $fieldsFilters,
                 'breadcrumbs' => $breadcrumbs

@@ -4,7 +4,6 @@ namespace App\Repositories\Contracts;
 
 use App\Http\Filters\TransportsFilters;
 use App\Http\Requests\Transports\TransportsCreateRequest;
-use App\Models\Favorites;
 use App\Models\Maker;
 use App\Models\Transport;
 use Illuminate\Support\Collection;
@@ -17,9 +16,9 @@ interface TransportRepositoryInterface
 
     public function getTransportsOfFavorites(?array $favorites);
 
-    public function paginateTransports(Collection $newsCollection, int $perPage);
+    public function paginateTransports(Collection $transportCollection, int $perPage);
 
-    public function getAllTransportsToFilters(TransportsFilters $filters, ?Maker $maker);
+    public function paginateTransportsToFilters(TransportsFilters $filters, ?Maker $maker, int $perPage = 10);
 
     public function getOneTransportToFilters(?Maker $maker, int $id);
 

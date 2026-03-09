@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::create('transports', function (Blueprint $table) {
             $table->id();
             $table->boolean('active');
-            $table->string('city', 100)->nullable();
+            $table->string('city', 100)->nullable()->index();
             $table->string('vin', 255)->nullable();
             $table->string('phone', 45)->nullable();
             $table->string('description', 1000)->nullable();

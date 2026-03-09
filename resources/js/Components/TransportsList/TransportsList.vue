@@ -7,8 +7,8 @@ const page = usePage();
 </script>
 
 <template>
-    <div v-if="page.props.transports.length > 0" class="flex flex-col gap-4">
-        <TransportItem v-for="(transport, index) in page.props.transports"
+    <div v-if="page.props.transports.data.length > 0" class="flex flex-col gap-4">
+        <TransportItem v-for="(transport, index) in page.props.transports.data"
                        :key="index"
                        :transport="transport"/>
     </div>
