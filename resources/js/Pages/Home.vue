@@ -36,7 +36,7 @@ const props = defineProps({
                 <MainNews :news="page.props.latestNews"/>
             </div>
 
-            <DynamicForm class="max-w-7xl mx-auto" :formConfig="formConfig" :formId="formId" :debug="formDebug"></DynamicForm>
+            <DynamicForm class="max-w-7xl mx-auto" :formConfig="formConfig" :formId="formId" :formDebug="formDebug"></DynamicForm>
         </div>
     </Main>
 </template>

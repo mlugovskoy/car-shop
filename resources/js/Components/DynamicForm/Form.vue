@@ -252,7 +252,7 @@ const templates = [
                         : 'text-gray-500 hover:text-gray-700 hover:bg-emerald-50']"
                     @click="builderMode = true"
                 >
-                    Конструктор
+                    Дебаг
                 </button>
             </div>
         </div>
