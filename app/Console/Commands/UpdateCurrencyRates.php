@@ -27,9 +27,7 @@ class UpdateCurrencyRates extends Command
     public function handle(): int
     {
         $codes = $this->argument('codes');
-
         UpdateCurrencyRatesJob::dispatch($codes);
-
         $this->info('Задача обновления курсов валют отправлена в очередь');
 
         return 0;

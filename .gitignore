@@ -3,6 +3,7 @@
 /public/build
 /public/hot
 /public/storage
+google-service-account.json
 /storage/*.key
 /storage/pail
 /vendor

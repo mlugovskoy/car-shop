@@ -5,6 +5,7 @@ use App\Http\Middleware\HandleInertiaRequests;
 use App\Http\Middleware\IsAdmin;
 use App\Http\Middleware\ShareCartData;
 use App\Http\Middleware\ShareNotifications;
+use App\Jobs\CsvReportJob;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -30,6 +31,8 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withSchedule(function (Schedule $schedule) {
         $schedule->command(UpdateCurrencyRates::class, ['USD', 'EUR', 'CNY'])->everyMinute()->runInBackground();
+        $schedule->job(new CsvReportJob('daily_orders'))->everyMinute();
+        $schedule->job(new CsvReportJob('daily_orders_two'))->everyMinute();
         $schedule->command('horizon:snapshot')->everyFiveMinutes();
     })
     ->withExceptions(function (Exceptions $exceptions) {
