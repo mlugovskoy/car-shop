@@ -30,6 +30,7 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withSchedule(function (Schedule $schedule) {
         $schedule->command(UpdateCurrencyRates::class, ['USD', 'EUR', 'CNY'])->everyMinute()->runInBackground();
+        $schedule->command('horizon:snapshot')->everyFiveMinutes();
     })
     ->withExceptions(function (Exceptions $exceptions) {
     })->create();

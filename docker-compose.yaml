@@ -90,3 +90,17 @@ services:
       - redis
     restart: unless-stopped
     container_name: app_scheduler
+
+  horizon:
+    build:
+      context: .
+      dockerfile: _docker/app/Dockerfile
+    command: php /var/www/html/artisan horizon
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      - db
+      - redis
+    restart: unless-stopped
+    user: "1000:1000"
+    container_name: app_horizon
