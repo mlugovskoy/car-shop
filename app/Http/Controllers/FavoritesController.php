@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\Contracts\BreadcrumbsInterface;
+use App\Helpers\Breadcrumbs\Contracts\BreadcrumbsInterface;
 use App\Http\Resources\TransportResource;
 use App\Repositories\Contracts\FavoriteRepositoryInterface;
 use App\Repositories\Contracts\TransportRepositoryInterface;

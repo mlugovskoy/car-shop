@@ -2,12 +2,12 @@
 
 namespace App\Providers;
 
-use App\Helpers\Breadcrumbs;
-use App\Helpers\Contracts\BreadcrumbsInterface;
+use App\Helpers\BreadcrumbsContext;
+use App\Helpers\Breadcrumbs\Contracts\BreadcrumbsInterface;
+use App\Http\Resources\AdminUserResource;
 use App\Http\Resources\NewsResource;
 use App\Http\Resources\TopSliderResource;
 use App\Http\Resources\TransportResource;
-use App\Http\Resources\AdminUserResource;
 use App\Repositories\CartRepository;
 use App\Repositories\CommentRepository;
 use App\Repositories\Contracts\CartRepositoryInterface;
@@ -50,7 +50,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(NotificationRepositoryInterface::class, NotificationRepository::class);
         $this->app->bind(OrderRepositoryInterface::class, OrderRepository::class);
         $this->app->bind(TransportRepositoryInterface::class, TransportRepository::class);
-        $this->app->bind(BreadcrumbsInterface::class, Breadcrumbs::class);
+        $this->app->bind(BreadcrumbsInterface::class, BreadcrumbsContext::class);
         $this->app->bind(SiteSettingsRepositoryInterface::class, SiteSettingsRepository::class);
         // Facades
         $this->app->singleton('site.settings', function () {

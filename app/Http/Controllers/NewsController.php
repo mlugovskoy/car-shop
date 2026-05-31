@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\Contracts\BreadcrumbsInterface;
+use App\Helpers\Breadcrumbs\Contracts\BreadcrumbsInterface;
 use App\Http\Requests\News\NewsCommentsRequest;
 use App\Http\Requests\News\NewsRequest;
 use App\Http\Resources\NewsResource;
