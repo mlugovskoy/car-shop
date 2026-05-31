@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Services\CurrencyService;
+use App\Jobs\UpdateCurrencyRatesJob;
 use Illuminate\Console\Command;
 
 class UpdateCurrencyRates extends Command
@@ -19,22 +19,18 @@ class UpdateCurrencyRates extends Command
      *
      * @var string
      */
-    protected $description = 'Обновление курса валюты';
+    protected $description = 'Обновление курса валют';
 
     /**
      * Execute the console command.
      */
-    public function handle(CurrencyService $currencyService)
+    public function handle(): int
     {
-        $this->info('Началось обновление курса валют...');
-
         $codes = $this->argument('codes');
 
-        if($currencyService->updateCurrency($codes)) {
-            $this->info('Курсы валют успешно обновлены!');
-        } else {
-            $this->error('Не удалось обновить курсы валют');
-        }
+        UpdateCurrencyRatesJob::dispatch($codes);
+
+        $this->info('Задача обновления курсов валют отправлена в очередь');
 
         return 0;
     }

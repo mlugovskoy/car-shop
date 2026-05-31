@@ -21,6 +21,6 @@ class SendMailJob implements ShouldQueue
     public function handle(): void
     {
         Mail::to($this->details['user'])
-            ->queue(new OrderShipped($this->details['order']));
+            ->send(new OrderShipped($this->details['order']));
     }
 }

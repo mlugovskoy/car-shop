@@ -1,8 +1,15 @@
 <?php
 
+use App\Console\Commands\UpdateCurrencyRates;
+use App\Http\Middleware\HandleInertiaRequests;
+use App\Http\Middleware\IsAdmin;
+use App\Http\Middleware\ShareCartData;
+use App\Http\Middleware\ShareNotifications;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -12,14 +19,17 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->web(append: [
-            \App\Http\Middleware\HandleInertiaRequests::class,
-            \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
+            HandleInertiaRequests::class,
+            AddLinkHeadersForPreloadedAssets::class,
         ]);
         $middleware->alias([
-            'admin' => \App\Http\Middleware\IsAdmin::class,
-            'notifications' => \App\Http\Middleware\ShareNotifications::class,
-            'cart' => \App\Http\Middleware\ShareCartData::class
+            'admin' => IsAdmin::class,
+            'notifications' => ShareNotifications::class,
+            'cart' => ShareCartData::class
         ]);
+    })
+    ->withSchedule(function (Schedule $schedule) {
+        $schedule->command(UpdateCurrencyRates::class, ['USD', 'EUR', 'CNY'])->everyMinute()->runInBackground();
     })
     ->withExceptions(function (Exceptions $exceptions) {
     })->create();
