@@ -21,7 +21,7 @@ class NewsFactory extends Factory
             "active" => $this->faker->boolean,
             "title" => $this->faker->sentence(),
             "description" => $this->faker->text(),
-            "user_id" => $this->faker->numberBetween(1, User::query()->count()),
+            "user_id" => User::query()->inRandomOrder()->value('id'),
             "published_at" => $this->faker->dateTimeBetween('-1 year', 'now')
         ];
     }

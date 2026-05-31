@@ -33,8 +33,9 @@ watch(inputValue, (newValue) => {
 });
 
 watch(() => props.value, (newValue) => {
-    inputValue.value = [...newValue];
-});
+    inputValue[0] = newValue[0] ?? '';
+    inputValue[1] = newValue[1] ?? '';
+}, {immediate: true});
 </script>
 
 <template>

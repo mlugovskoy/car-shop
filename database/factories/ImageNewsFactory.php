@@ -19,8 +19,8 @@ class ImageNewsFactory extends Factory
     public function definition(): array
     {
         return [
-            "news_id" => $this->faker->numberBetween(1, News::query()->count()),
-            "image_id" => $this->faker->numberBetween(1, Image::query()->count())
+            "news_id" => News::query()->inRandomOrder()->value('id'),
+            "image_id" => Image::query()->inRandomOrder()->value('id')
         ];
     }
 }

@@ -29,9 +29,9 @@ class ReviewFactory extends Factory
             "mileage" => $this->faker->numberBetween(1000, 99999),
             "tact" => $this->faker->numberBetween(1000, 99999),
             "description" => $this->faker->text(),
-            "user_id" => $this->faker->numberBetween(1, User::query()->count()),
-            "model_id" => $this->faker->numberBetween(1, Model::query()->count()),
-            "maker_id" => $this->faker->numberBetween(1, Maker::query()->count()),
+            "user_id" => User::query()->inRandomOrder()->value('id'),
+            "model_id" => Model::query()->inRandomOrder()->value('id'),
+            "maker_id" => Maker::query()->inRandomOrder()->value('id'),
             "published_at" => $this->faker->dateTimeBetween('-1 year', 'now')
         ];
     }

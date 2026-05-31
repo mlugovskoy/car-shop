@@ -20,8 +20,11 @@ class MakerFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->sentence(),
-            'image_id' => $this->faker->numberBetween(1, Image::query()->count()),
+            'name' => $this->faker->randomElement([
+                'Toyota', 'BMW', 'Mercedes', 'Audi',
+                'Honda', 'Nissan', 'Mazda', 'Kia', 'Lada'
+            ]),
+            'image_id' => Image::query()->inRandomOrder()->value('id'),
         ];
     }
 }

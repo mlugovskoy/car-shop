@@ -18,8 +18,11 @@ class ModelFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->sentence(),
-            'maker_id' => $this->faker->numberBetween(1, Maker::query()->count()),
+            'name' => $this->faker->randomElement([
+                'Camry', 'Corolla', 'X5', 'X6', 'C-Class',
+                'E-Class', 'Rio', 'Qashqai', 'CR-V', 'Mazda6'
+            ]),
+            'maker_id' => Maker::query()->inRandomOrder()->value('id'),
         ];
     }
 }

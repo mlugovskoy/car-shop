@@ -19,8 +19,8 @@ class ImageReviewFactory extends Factory
     public function definition(): array
     {
         return [
-            "review_id" => $this->faker->numberBetween(1, Review::query()->count()),
-            "image_id" => $this->faker->numberBetween(1, Image::query()->count())
+            "review_id" => Review::query()->inRandomOrder()->value('id'),
+            "image_id" => Image::query()->inRandomOrder()->value('id')
         ];
     }
 }

@@ -99,10 +99,18 @@ const filter = reactive({
 });
 
 onMounted(() => {
-    let pathname = (window.location.pathname).split('/');
-    if (pathname.length > 2) {
-        filter.makers = pathname[2]
-    }
+    const params = new URLSearchParams(window.location.search);
+
+    filter.makers = params.get('makers') ?? '';
+    filter.models = params.get('models') ?? '';
+    filter.transmission = params.get('transmission') ?? '';
+    filter.drive = params.get('drive') ?? '';
+    filter.color = params.get('color') ?? '';
+    filter.fuelType = params.get('fuelType') ?? '';
+    filter.transportType = params.get('transportType') ?? '';
+    filter.steeringWheel = params.get('steeringWheel') ?? '';
+    filter.year = [params.get('year[0]') ?? '', params.get('year[1]') ?? ''];
+    filter.price = [params.get('price[0]') ?? '', params.get('price[1]') ?? ''];
 })
 
 const submit = () => {
@@ -116,9 +124,7 @@ const submit = () => {
         if (Array.isArray(value)) {
             if (value[0] !== '' && value[0] !== null) params[`${key}[0]`] = value[0];
             if (value[1] !== '' && value[1] !== null) params[`${key}[1]`] = value[1];
-        }
-
-        else if (value !== '' && value !== null && value !== undefined) {
+        } else if (value !== '' && value !== null && value !== undefined) {
             params[key] = value;
         }
     });

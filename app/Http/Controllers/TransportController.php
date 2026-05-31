@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\Breadcrumbs;
-use App\Helpers\Contracts\BreadcrumbsInterface;
+use App\Helpers\Breadcrumbs\Contracts\BreadcrumbsInterface;
 use App\Http\Filters\TransportsFilters;
 use App\Http\Requests\Transports\TransportsCreateRequest;
 use App\Http\Resources\TransportResource;

@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Date;
-use Predis\Response\Status;
 
 class Transport extends EloquentModel
 {
@@ -26,7 +25,6 @@ class Transport extends EloquentModel
     public const CACHE_TIME = 10;
 
     protected $fillable = [
-        'id',
         'active',
         'city',
         'vin',
@@ -103,8 +101,8 @@ class Transport extends EloquentModel
     {
         return Attribute::make(
             get: fn() => $this->power . ' л.с, '
-                . $this->fuelType?->name ?? '-'
-                . ', ' . $this->fuel_supply_type ?? '-'
+                . ($this->fuelType?->name ?? '-')
+                . ', ' . ($this->fuel_supply_type ?? '-')
                 . ', ' . $this->mileage . ' км'
         );
     }
@@ -129,16 +127,18 @@ class Transport extends EloquentModel
             get: fn() => number_format($this->price, 0, '.', ' ') . ' ₽'
         );
     }
+
     protected function publishedAtFormatted(): Attribute
     {
         return Attribute::make(
             get: fn() => Date::parse($this->published_at)->translatedFormat('d F Y')
         );
     }
+
     protected function createdAtFormatted(): Attribute
     {
         return Attribute::make(
-            get: fn() => Date::parse($this->published_at)->translatedFormat('d F Y')
+            get: fn() => Date::parse($this->created_at)->translatedFormat('d F Y')
         );
     }
 }

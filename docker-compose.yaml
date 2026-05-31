@@ -16,6 +16,7 @@ services:
     restart: always
     volumes:
       - ./tmp/db:/var/lib/postgresql/data
+      - ./_docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
     env_file:
       - ./_docker/env/postgre.env
     ports:
@@ -77,3 +78,15 @@ services:
       - "1025:1025"
       - "8025:8025"
     container_name: app_mailhoog
+
+  scheduler:
+    build:
+      context: .
+      dockerfile: _docker/scheduler/Dockerfile
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      - db
+      - redis
+    restart: unless-stopped
+    container_name: app_scheduler

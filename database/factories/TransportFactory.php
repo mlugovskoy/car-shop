@@ -21,6 +21,9 @@ class TransportFactory extends Factory
      */
     public function definition(): array
     {
+        $maker = Maker::query()->inRandomOrder()->first();
+        $model = Model::query()->where('maker_id', $maker->id)->inRandomOrder()->first();
+
         return [
             "active" => $this->faker->boolean,
             "city" => $this->faker->city,
@@ -41,11 +44,11 @@ class TransportFactory extends Factory
             "seats" => $this->faker->numberBetween(1, 24),
             "price" => $this->faker->numberBetween(100000, 10000000),
             "year" => $this->faker->year,
-            "user_id" => $this->faker->numberBetween(1, User::query()->count()),
-            "model_id" => $this->faker->numberBetween(1, Model::query()->count()),
-            "maker_id" => $this->faker->numberBetween(1, Maker::query()->count()),
-            "fuel_type_id" => $this->faker->numberBetween(1, FuelType::query()->count()),
-            "transport_type_id" => $this->faker->numberBetween(1, TransportType::query()->count()),
+            "user_id" => User::query()->inRandomOrder()->value('id'),
+            'maker_id' => $maker->id,
+            'model_id' => $model->id,
+            'fuel_type_id' => FuelType::query()->inRandomOrder()->value('id'),
+            'transport_type_id' => TransportType::query()->inRandomOrder()->value('id'),
             "published_at" => $this->faker->dateTimeBetween('-3 month', 'now'),
         ];
     }

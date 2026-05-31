@@ -19,8 +19,8 @@ class ImageMakerFactory extends Factory
     public function definition(): array
     {
         return [
-            "maker_id" => $this->faker->numberBetween(1, Maker::query()->count()),
-            "image_id" => $this->faker->numberBetween(1, Image::query()->count())
+            "maker_id" => Maker::query()->inRandomOrder()->value('id'),
+            "image_id" => Image::query()->inRandomOrder()->value('id')
         ];
     }
 }

@@ -19,8 +19,8 @@ class CommentReviewFactory extends Factory
     public function definition(): array
     {
         return [
-            'review_id' => $this->faker->numberBetween(1, Review::query()->count()),
-            'comment_id' => $this->faker->numberBetween(1, Comment::query()->count()),
+            'review_id' => Review::query()->inRandomOrder()->value('id'),
+            'comment_id' => Comment::query()->inRandomOrder()->value('id')
         ];
     }
 }

@@ -25,7 +25,7 @@ class OrderFactory extends Factory
             "phone" => $this->faker->phoneNumber(),
             "email" => $this->faker->email(),
             "price" => $this->faker->randomNumber(),
-            "user_id" => $this->faker->numberBetween(1, User::query()->count()),
+            "user_id" => User::query()->inRandomOrder()->value('id'),
         ];
     }
 }

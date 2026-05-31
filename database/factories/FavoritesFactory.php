@@ -19,8 +19,8 @@ class FavoritesFactory extends Factory
     public function definition(): array
     {
         return [
-            "user_id" => $this->faker->numberBetween(1, User::query()->count()),
-            "transport_id" => $this->faker->numberBetween(1, Transport::query()->count()),
+            "user_id" => User::query()->inRandomOrder()->value('id'),
+            "transport_id" => Transport::query()->inRandomOrder()->value('id')
         ];
     }
 }

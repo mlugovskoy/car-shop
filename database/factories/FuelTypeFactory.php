@@ -17,7 +17,13 @@ class FuelTypeFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->sentence(),
+            'name' => $this->faker->randomElement([
+                'Бензин',
+                'Дизель',
+                'Электро',
+                'Гибрид',
+                'Газ'
+            ])
         ];
     }
 }

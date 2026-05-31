@@ -14,43 +14,63 @@ class ModelSeeder extends Seeder
     public function run(): void
     {
         $models = [
-            'Mazda3',
-            'Mazda6',
-            'CX-5',
-            'Demio',
-            'Axela',
-            'Mazda',
-            'X-Trail',
-            'Note',
-            'Qashqai',
-            'Juke',
-            'Teana',
-            'Fit',
-            'Vezel',
-            'CR-V',
-            'Freed',
-            'Fit Shuttle',
-            '2107',
-            'Гранта',
-            'Terios Kid',
-            'Move',
-            'Rocky',
-            'RX300',
-            'LX570',
-            'X5',
-            'X6',
-            'C-Class',
-            'E-Class',
-            'Rio'
+            'Mazda3' => 'Mazda',
+            'Mazda6' => 'Mazda',
+            'CX-5' => 'Mazda',
+            'Demio' => 'Mazda',
+            'Axela' => 'Mazda',
+            'X-Trail' => 'Nissan',
+            'Note' => 'Nissan',
+            'Qashqai' => 'Nissan',
+            'Juke' => 'Nissan',
+            'Teana' => 'Nissan',
+            'Fit' => 'Honda',
+            'Vezel' => 'Honda',
+            'CR-V' => 'Honda',
+            'Freed' => 'Honda',
+            'Fit Shuttle' => 'Honda',
+            '2107' => 'Лада',
+            'Гранта' => 'Лада',
+            'Terios Kid' => 'Daithatsu',
+            'Move' => 'Daithatsu',
+            'Rocky' => 'Daithatsu',
+            'RX300' => 'Lexus',
+            'LX570' => 'Lexus',
+            'X5' => 'BMW',
+            'X6' => 'BMW',
+            'C-Class' => 'Mercedes-Benz',
+            'E-Class' => 'Mercedes-Benz',
+            'Rio' => 'Kia',
+            'Solaris' => 'Hyundai',
+            'Tucson' => 'Hyundai',
+            'Creta' => 'Hyundai',
+            'CS35' => 'Changan',
+            'CS55' => 'Changan',
+            'Eado' => 'Changan',
+            'Swift' => 'Suzuki',
+            'Vitara' => 'Suzuki',
+            'Jimny' => 'Suzuki',
+            'Camry' => 'Toyota',
+            'Corolla' => 'Toyota',
+            'Land Cruiser' => 'Toyota',
+            'Forester' => 'Subaru',
+            'Outback' => 'Subaru',
+            'Impreza' => 'Subaru',
+            'Focus' => 'Ford',
+            'Explorer' => 'Ford',
+            'Ranger' => 'Ford',
+            'Patriot' => 'УАЗ',
+            'Hunter' => 'УАЗ',
+            'D-Max' => 'Isuzu',
+            'Trooper' => 'Isuzu'
         ];
 
-        foreach ($models as $model) {
-            $makerCount = Maker::query()->count();
-            $maker = Maker::query()->where('id', rand(1, $makerCount))->first();
+        $makers = Maker::query()->pluck('id', 'name');
 
-            Model::factory()->create([
+        foreach ($models as $model => $maker) {
+            Model::query()->create([
                 'name' => $model,
-                'maker_id' => $maker->id
+                'maker_id' => $makers[$maker]
             ]);
         }
     }

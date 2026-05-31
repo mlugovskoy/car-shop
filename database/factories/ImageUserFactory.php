@@ -19,8 +19,8 @@ class ImageUserFactory extends Factory
     public function definition(): array
     {
         return [
-            "user_id" => $this->faker->numberBetween(1, User::query()->count()),
-            "image_id" => $this->faker->numberBetween(1, Image::query()->count())
+            "user_id" => User::query()->inRandomOrder()->value('id'),
+            "image_id" => Image::query()->inRandomOrder()->value('id')
         ];
     }
 }

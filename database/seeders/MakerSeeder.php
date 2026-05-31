@@ -33,20 +33,15 @@ class MakerSeeder extends Seeder
             'Kia'
         ];
 
+        $stub = Image::query()->where('image_title', 'car_stub')->firstOrFail();
+
         foreach ($makers as $maker) {
-            $imageMaker = Image::query()->where('image_title', $maker)->first();
-            if ($imageMaker) {
-                Maker::factory()->create([
-                    'name' => $maker,
-                    'image_id' => $imageMaker->id
-                ]);
-            } else {
-                $imageStub = Image::query()->where('image_title', 'car_stub')->first();
-                Maker::factory()->create([
-                    'name' => $maker,
-                    'image_id' => $imageStub->id
-                ]);
-            }
+            $image = Image::query()->where('image_title', $maker)->first();
+
+            Maker::query()->create([
+                'name'     => $maker,
+                'image_id' => $image?->id ?? $stub->id
+            ]);
         }
     }
 }

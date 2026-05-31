@@ -17,7 +17,9 @@ class TransportTypeFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->sentence(),
+            'name' => $this->faker->randomElement([
+                'Седан', 'Хэтчбек', 'Внедорожник', 'Купе', 'Универсал'
+            ]),
         ];
     }
 }

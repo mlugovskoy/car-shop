@@ -20,8 +20,8 @@ class CommentFactory extends Factory
         return [
             "city" => $this->faker->city(),
             "description" => $this->faker->text(50),
-            "user_id" => $this->faker->numberBetween(1, User::query()->count()),
-            "published_at" => $this->faker->dateTimeBetween('-1 year', 'now')
+            "user_id" => User::query()->inRandomOrder()->value('id'),
+            "published_at" => $this->faker->dateTimeBetween('-1 year')
         ];
     }
 }

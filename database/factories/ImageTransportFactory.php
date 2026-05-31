@@ -19,8 +19,8 @@ class ImageTransportFactory extends Factory
     public function definition(): array
     {
         return [
-            'transport_id' => $this->faker->numberBetween(1, Transport::query()->count()),
-            'image_id' => $this->faker->numberBetween(1, Image::query()->count()),
+            'transport_id' => Transport::query()->inRandomOrder()->value('id'),
+            'image_id' => Image::query()->inRandomOrder()->value('id')
         ];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Transport;
 use App\Repositories\Contracts\CartRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -18,7 +19,7 @@ class CartController extends Controller
 
         Session::flash(
             'flash',
-            'Ваше объявление #' . $request->item['id'] . ' создано ' . $request->item['published_at'] . '! <br> Ожидайте подтверждения администратора.'
+            '<b>' . $request->item['maker']['name'] . ' ' . $request->item['model']['name'] . '</b> добавлен в корзину.'
         );
     }
 
@@ -26,6 +27,11 @@ class CartController extends Controller
     {
         $this->cartRepository->deleteItem($id);
 
-        Session::flash('flash', 'Товар #' . $id . ' удален из корзины.');
+        $transport = Transport::query()->find($id);
+
+        Session::flash(
+            'flash',
+            '<b>' . $transport->maker->name . ' ' . $transport->model->name . '</b> удален из корзины.'
+        );
     }
 }
